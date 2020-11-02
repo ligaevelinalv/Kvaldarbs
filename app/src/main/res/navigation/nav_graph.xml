@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/login">
+
+    <activity
+        android:id="@+id/login"
+        android:name="com.example.kvaldarbs.Login"
+        android:label="Login" />
+    <activity
+        android:id="@+id/register"
+        android:name="com.example.kvaldarbs.auth.Register"
+        android:label="Register" />
+</navigation>
