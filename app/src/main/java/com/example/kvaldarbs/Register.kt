@@ -1,5 +1,6 @@
-package com.example.kvaldarbs.auth
+package com.example.kvaldarbs
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -13,11 +14,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_register.*
 
-data class Ded(
-    var ree: String? = "",
-    var ree2: String? = ""
-)
-
 class Register : AppCompatActivity() {
     //instance declaration
     lateinit var database: DatabaseReference
@@ -27,6 +23,9 @@ class Register : AppCompatActivity() {
     val TAG = "monitor"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        database = Firebase.database.reference
+        auth = Firebase.auth
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -38,7 +37,17 @@ class Register : AppCompatActivity() {
             Log.i(TAG, "new acc listener called")
             createAccount(emailField.text.toString(), passwordField.text.toString())
             Log.i(TAG, "new acc listener executed")
+            val intent = Intent(this, MainScreen::class.java)
+            startActivity(intent)
         }
+
+        val bundle: Bundle? = intent.extras
+        if (bundle != null){
+            val id = bundle.get("id_value")
+            val language = bundle.get("language_value")
+            Toast.makeText(applicationContext,id.toString()+" "+language,Toast.LENGTH_LONG).show()
+        }
+
     }
 
 
@@ -46,8 +55,7 @@ class Register : AppCompatActivity() {
     private fun createAccount(email: String, password: String) {
         Log.i(TAG, "createAccount:$email")
 
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.i(TAG, "createUserWithEmail:success")
@@ -60,5 +68,6 @@ class Register : AppCompatActivity() {
                         Toast.LENGTH_SHORT).show()
                 }
             }
+
     }
 }

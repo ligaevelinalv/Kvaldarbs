@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/furniturebackgroundcut">
@@ -54,10 +53,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="14"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/EmailLabel"
-        app:layout_constraintTop_toBottomOf="@+id/EmailLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/EmailLabel"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/passwordField"
@@ -65,10 +65,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="14"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/PasswordLabel"
-        app:layout_constraintTop_toBottomOf="@+id/PasswordLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/PasswordLabel"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/logInButton"
@@ -118,7 +119,9 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/bgcard"
         app:layout_constraintEnd_toEndOf="@+id/bgcard"
-        app:layout_constraintStart_toStartOf="@+id/bgcard" />
-
+        app:layout_constraintStart_toStartOf="@+id/bgcard"
+        android:onClick="onClick"
+        android:clickable="true"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

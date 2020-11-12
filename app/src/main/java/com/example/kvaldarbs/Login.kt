@@ -1,5 +1,6 @@
 package com.example.kvaldarbs
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -12,10 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.quickstart.database.kotlin.models.User
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -29,6 +32,15 @@ class Login : AppCompatActivity() {
     var valid = true
 
 
+    public override fun onStart() {
+        super.onStart()
+
+        // Check auth on Activity start
+        auth.currentUser?.let {
+            onAuthSuccess(it)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -40,14 +52,39 @@ class Login : AppCompatActivity() {
 
         Log.i(TAG, "init passed:")
 
+
+
         logInButton.setOnClickListener {
             Log.i(TAG, "Login listener called")
             signIn(emailField.text.toString(), passwordField.text.toString())
 
-            if (valid) {
-
-            }
         }
+
+
+    }
+
+    private fun onAuthSuccess(user: FirebaseUser) {
+        val username = usernameFromEmail(user.email!!)
+
+        // Write new user
+        writeNewUser(user.uid, username, user.email)
+
+        // Go to MainActivity
+        val intent = Intent(this, MainScreen::class.java)
+        startActivity(intent)
+    }
+
+    private fun usernameFromEmail(email: String): String {
+        return if (email.contains("@")) {
+            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+        } else {
+            email
+        }
+    }
+
+    private fun writeNewUser(userId: String, name: String, email: String?) {
+        val user = User(name, email)
+        database.child("users").child(userId).setValue(user)
     }
 
     private fun signIn(email: String, password: String) {
@@ -62,6 +99,9 @@ class Login : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.i(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
+                    startActivity(Intent(this@Login, MainScreen::class.java))
+
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.i(TAG, "signIn:failure", task.exception)
@@ -80,7 +120,7 @@ class Login : AppCompatActivity() {
         if (TextUtils.isEmpty(email)) {
             emailField.error = "Required."
             valid = false
-        } else {
+        }else {
             emailField.error = null
         }
 
@@ -94,5 +134,12 @@ class Login : AppCompatActivity() {
 
         return valid
     }
+
+    fun onClick(view: View) {
+        Log.i(TAG, "Login listener called")
+
+        startActivity(Intent(this@Login, Register::class.java))
+    }
+
 }
 
