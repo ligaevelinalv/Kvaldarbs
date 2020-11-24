@@ -1,16 +1,14 @@
-package com.example.kvaldarbs
+package com.example.kvaldarbs.authentication
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
+import com.example.kvaldarbs.R
+import com.example.kvaldarbs.mainpage.MainScreen
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -98,7 +96,7 @@ class Login : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.i(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
+                    //val user = auth.currentUser
                     startActivity(Intent(this@Login, MainScreen::class.java))
 
 
@@ -135,7 +133,7 @@ class Login : AppCompatActivity() {
         return valid
     }
 
-    fun onClick(view: View) {
+    fun onClick() {
         Log.i(TAG, "Login listener called")
 
         startActivity(Intent(this@Login, Register::class.java))

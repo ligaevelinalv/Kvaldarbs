@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/offer_nav_graph"
+    app:startDestination="@id/makeOfferFragment">
+    <fragment
+        android:id="@+id/makeOfferFragment"
+        android:name="com.example.kvaldarbs.offerflow.MakeOfferFragment"
+        android:label="fragment_makeoffer"
+        tools:layout="@layout/fragment_makeoffer" >
+        <action
+            android:id="@+id/action_makeOfferFragment_to_offerConfirmationFragment"
+            app:destination="@id/offerConfirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/offerConfirmationFragment"
+        android:name="com.example.kvaldarbs.offerflow.OfferConfirmationFragment"
+        android:label="OfferConfirmationFragment" />
+</navigation>

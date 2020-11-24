@@ -3,19 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/frontpageFragment">
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.kvaldarbs.Navigation.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        android:id="@+id/frontpageFragment"
+        android:name="com.example.kvaldarbs.mainpage.FrontpageFragment"
+        android:label="fragment_frontpage"
+        tools:layout="@layout/fragment_frontpage">
         <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            android:id="@+id/action_frontpageFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.kvaldarbs.Navigation.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        android:id="@+id/detailFragment"
+        android:name="com.example.kvaldarbs.orderflow.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/action_detailFragment_to_confirmationFragment"
+            app:destination="@id/confirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmationFragment"
+        android:name="com.example.kvaldarbs.orderflow.OrderConfirmationFragment"
+        android:label="fragment_confirmation"
+        tools:layout="@layout/fragment_confirmation">
+        <action
+            android:id="@+id/action_confirmationFragment_to_frontpageFragment"
+            app:destination="@id/frontpageFragment" />
+    </fragment>
 </navigation>

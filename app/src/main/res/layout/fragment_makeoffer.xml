@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:layout_editor_absoluteX="187dp"
+    tools:layout_editor_absoluteY="294dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".orderflow.DetailFragment">
+
+
+        <TextView
+            android:id="@+id/titleLabel"
+            android:layout_width="90dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center"
+            android:text="@string/offer_title"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/typeLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/typeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center"
+            android:text="@string/product_type"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/manufLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/manufLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center"
+            android:text="@string/manufacturer"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/weightLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/weightLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center"
+            android:text="@string/weight"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/deliveryLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/deliveryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center"
+            android:text="@string/delivery"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/wearLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/locationLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center"
+            android:text="@string/location"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/descriptionLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/wearLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center"
+            android:text="@string/wear"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/amountLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/amountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center"
+            android:text="@string/amount"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/locationLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/descriptionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="start|center"
+            android:text="@string/description"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/descriptionField"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/blankGridSupoort"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginBottom="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/descriptionField"
+            app:layout_constraintStart_toStartOf="@+id/openGoogleMapsButton"
+            tools:ignore="DuplicateIds" />
+
+
+        <Button
+            android:id="@+id/offerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/button"
+            android:text="@string/offer"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/titleField"
+            android:layout_width="206dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="@string/white_dinner_table"
+            android:inputType="textPersonName"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/typeDropdown"
+            app:layout_constraintStart_toEndOf="@+id/titleLabel" />
+
+        <EditText
+            android:id="@+id/weightField"
+            android:layout_width="205dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="@string/_15_kg"
+            android:inputType="number"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/deliveryDropdown"
+            app:layout_constraintStart_toStartOf="@+id/manufacturerField" />
+
+        <EditText
+            android:id="@+id/manufacturerField"
+            android:layout_width="205dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="@string/iekurs"
+            android:inputType="textPersonName"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/weightField"
+            app:layout_constraintStart_toStartOf="@+id/typeDropdown" />
+
+        <Spinner
+            android:id="@+id/typeDropdown"
+            android:layout_width="205dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/border"
+            app:layout_constraintBottom_toTopOf="@+id/manufacturerField"
+            app:layout_constraintStart_toStartOf="@+id/titleField" />
+
+        <Spinner
+            android:id="@+id/deliveryDropdown"
+            android:layout_width="205dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/border"
+            app:layout_constraintBottom_toTopOf="@+id/wearDropdown"
+            app:layout_constraintStart_toStartOf="@+id/weightField" />
+
+        <Spinner
+            android:id="@+id/wearDropdown"
+            android:layout_width="205dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/border"
+            app:layout_constraintBottom_toTopOf="@+id/plusButton"
+            app:layout_constraintStart_toStartOf="@+id/deliveryDropdown" />
+
+        <TextView
+            android:id="@+id/amountNumberText"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/border"
+            android:gravity="center|start"
+            android:text="@string/_1"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/openGoogleMapsButton"
+            app:layout_constraintEnd_toStartOf="@+id/plusButton"
+            app:layout_constraintStart_toEndOf="@+id/minusButton" />
+
+        <Button
+            android:id="@+id/openGoogleMapsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button"
+            android:text="@string/open_google_maps"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/blankGridSupoort"
+            app:layout_constraintStart_toStartOf="@+id/minusButton" />
+
+        <EditText
+            android:id="@+id/descriptionField"
+            android:layout_width="343dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/border"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/hint_text_offer_form"
+            android:includeFontPadding="true"
+            android:inputType="textMultiLine"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/view4"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/plusButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/plus"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/openGoogleMapsButton"
+            app:layout_constraintEnd_toEndOf="@+id/wearDropdown" />
+
+        <Button
+            android:id="@+id/minusButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/minus"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/openGoogleMapsButton"
+            app:layout_constraintStart_toStartOf="@+id/wearDropdown" />
+
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="wrap_content"
+            android:layout_height="194dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/offerButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/attachedImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:contentDescription="@string/recently_added_images"
+            app:layout_constraintStart_toStartOf="@+id/view4"
+            app:layout_constraintTop_toTopOf="@+id/view4"
+            tools:src="@tools:sample/avatars" />
+
+        <Button
+            android:id="@+id/browseDeviceButton"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/button"
+            android:text="@string/browse_device"
+            app:layout_constraintStart_toStartOf="@+id/takePictureButton"
+            app:layout_constraintTop_toBottomOf="@+id/takePictureButton" />
+
+        <Button
+            android:id="@+id/takePictureButton"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/button"
+            android:text="@string/take_picture"
+            app:layout_constraintStart_toEndOf="@+id/attachedImage"
+            app:layout_constraintTop_toTopOf="@+id/view4" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/_0_10"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attachedImage" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

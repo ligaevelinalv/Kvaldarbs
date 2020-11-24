@@ -1,12 +1,12 @@
-package com.example.kvaldarbs
+package com.example.kvaldarbs.authentication
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kvaldarbs.R
+import com.example.kvaldarbs.mainpage.MainScreen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -59,7 +59,7 @@ class Register : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.i(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
+                    //val user = auth.currentUser
 
                 } else {
                     // If sign in fails, display a message to the user.

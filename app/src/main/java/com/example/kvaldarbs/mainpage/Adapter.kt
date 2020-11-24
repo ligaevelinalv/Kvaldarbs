@@ -1,4 +1,4 @@
-package com.example.kvaldarbs
+package com.example.kvaldarbs.mainpage
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kvaldarbs.R
 import com.example.kvaldarbs.models.RVData
-import kotlinx.android.synthetic.main.listitem.view.*
 
 class Adapter(private val context: Context,
               private val list: ArrayList<RVData>,
