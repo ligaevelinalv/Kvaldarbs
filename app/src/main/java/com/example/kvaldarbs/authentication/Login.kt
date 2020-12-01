@@ -35,7 +35,7 @@ class Login : AppCompatActivity() {
 
         // Check auth on Activity start
         auth.currentUser?.let {
-            onAuthSuccess(it)
+            onAuthSuccess()
         }
     }
 
@@ -61,11 +61,7 @@ class Login : AppCompatActivity() {
 
     }
 
-    private fun onAuthSuccess(user: FirebaseUser) {
-        val username = usernameFromEmail(user.email!!)
-
-        // Write new user
-        writeNewUser(user.uid, username, user.email)
+    private fun onAuthSuccess() {
 
         // Go to MainActivity
         val intent = Intent(this, MainScreen::class.java)

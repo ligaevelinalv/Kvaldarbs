@@ -9,17 +9,18 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kvaldarbs.R
-import com.example.kvaldarbs.models.RVData
+import com.example.kvaldarbs.models.Product
 
 class Adapter(private val context: Context,
-              private val list: ArrayList<RVData>,
+              private val list: ArrayList<Product>,
               private val cellClickListener: CellClickListener
         ) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val icon: ImageView = view.findViewById(R.id.icon)
-        val title: TextView = view.findViewById(R.id.title)
-        val subtitle: TextView = view.findViewById(R.id.subtitle)
+        //val icon: ImageView = view.findViewById(R.id.icon)
+        val title: TextView = view.findViewById(R.id.titleFieldRW)
+        val manufacturer: TextView = view.findViewById(R.id.manufacturerFieldRW)
+        val delivery: TextView = view.findViewById(R.id.deliveryFieldRW)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,12 +34,16 @@ class Adapter(private val context: Context,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = list[position]
-        holder.icon.setImageDrawable(ContextCompat.getDrawable(context, data.icon))
+//        holder.icon.setImageDrawable(ContextCompat.getDrawable(context, data.icon))
         holder.title.text = data.title
-        holder.subtitle.text = data.subtitle
+        holder.manufacturer.text = data.manufacturer
+        holder.delivery.text = data.delivery
+
 
         holder.itemView.setOnClickListener {
             cellClickListener.onCellClickListener(data)
         }
     }
+
+
 }

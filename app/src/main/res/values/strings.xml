@@ -23,7 +23,6 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="order">ORDER</string>
@@ -61,4 +60,21 @@
     <string name="yes">YES</string>
     <string name="cancel">CANCEL</string>
     <string name="add">Add</string>
+    <string-array name="product_type_array">
+        <item>Book</item>
+        <item>Furniture</item>
+        <item>Decorations</item>
+    </string-array>
+    <string-array name="delivery_array">
+        <item>Pickup From Location</item>
+        <item>Delivery To Orderer</item>
+    </string-array>
+    <string-array name="wear_array">
+        <item>Unused</item>
+        <item>No Signs Of Wear</item>
+        <item>Light Scuff Marks</item>
+        <item>Medium Scuff Marks</item>
+        <item>Heavily Used, Functional</item>
+
+    </string-array>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.kvaldarbs.models
+package com.example.kvaldarbs
 
 data class RVData(
         val icon: Int,
