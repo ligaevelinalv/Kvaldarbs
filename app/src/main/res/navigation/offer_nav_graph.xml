@@ -12,9 +12,17 @@
         <action
             android:id="@+id/action_makeOfferFragment_to_offerConfirmationFragment"
             app:destination="@id/offerConfirmationFragment" />
+        <action
+            android:id="@+id/action_makeOfferFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
     <fragment
         android:id="@+id/offerConfirmationFragment"
         android:name="com.example.kvaldarbs.offerflow.OfferConfirmationFragment"
         android:label="OfferConfirmationFragment" />
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.kvaldarbs.offerflow.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera_old" />
 </navigation>

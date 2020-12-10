@@ -26,7 +26,7 @@ class Login : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
 
     //log tag definition
-    val TAG = "monitor"
+    val TAG = "droidsays"
     var valid = true
 
 

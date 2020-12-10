@@ -60,6 +60,9 @@
     <string name="yes">YES</string>
     <string name="cancel">CANCEL</string>
     <string name="add">Add</string>
+    <string name="select_image">SELECT IMAGE</string>
+    <string name="image_from_the_camera">Image from the camera</string>
+    <string name="take_photo">TAKE PHOTO</string>
     <string-array name="product_type_array">
         <item>Book</item>
         <item>Furniture</item>

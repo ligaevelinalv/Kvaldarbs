@@ -36,7 +36,7 @@ class FrontpageFragment : Fragment(), CellClickListener {
     lateinit var auth: FirebaseAuth
 
     //log tag definition
-    val TAG = "monitor"
+    val TAG = "droidsays"
 
     lateinit var adapter: Adapter
 

@@ -20,7 +20,7 @@ class Register : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
 
     //log tag definition
-    val TAG = "monitor"
+    val TAG = "droidsays"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

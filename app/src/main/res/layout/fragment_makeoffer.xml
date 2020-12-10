@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
 
     tools:layout_editor_absoluteX="187dp"
     tools:layout_editor_absoluteY="294dp">
@@ -151,11 +151,11 @@
             android:id="@+id/offerButton"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/button"
             android:text="@string/offer"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/attachedImage2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -252,7 +252,7 @@
             android:layout_width="343dp"
             android:layout_height="100dp"
             android:layout_marginStart="32dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/border"
             android:ems="10"
             android:gravity="start|top"
@@ -260,7 +260,7 @@
             android:includeFontPadding="true"
             android:inputType="textMultiLine"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/view4"
+            app:layout_constraintBottom_toTopOf="@+id/attachedImage"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -286,58 +286,61 @@
             app:layout_constraintStart_toStartOf="@+id/wearDropdown" />
 
 
-        <View
-            android:id="@+id/view4"
-            android:layout_width="wrap_content"
-            android:layout_height="194dp"
-            android:layout_marginBottom="32dp"
-            app:layout_constraintBottom_toTopOf="@+id/offerButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <ImageView
             android:id="@+id/attachedImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
             android:contentDescription="@string/recently_added_images"
-            app:layout_constraintStart_toStartOf="@+id/view4"
-            app:layout_constraintTop_toTopOf="@+id/view4"
+            app:layout_constraintBottom_toTopOf="@+id/textView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/attachedImage2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:contentDescription="@string/recently_added_images"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
             tools:src="@tools:sample/avatars" />
 
         <Button
             android:id="@+id/browseDeviceButton"
             android:layout_width="150dp"
             android:layout_height="45dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/button"
             android:text="@string/browse_device"
-            app:layout_constraintStart_toStartOf="@+id/takePictureButton"
-            app:layout_constraintTop_toBottomOf="@+id/takePictureButton" />
+            app:layout_constraintBottom_toTopOf="@+id/offerButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/takePictureButton"
             android:layout_width="150dp"
             android:layout_height="45dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/button"
             android:text="@string/take_picture"
-            app:layout_constraintStart_toEndOf="@+id/attachedImage"
-            app:layout_constraintTop_toTopOf="@+id/view4" />
+            app:layout_constraintBottom_toTopOf="@+id/browseDeviceButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/_0_10"
             android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attachedImage" />
-
-
+            app:layout_constraintBottom_toTopOf="@+id/takePictureButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

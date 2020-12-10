@@ -10,7 +10,7 @@ import com.example.kvaldarbs.R
 import com.example.kvaldarbs.offerflow.TAG
 import kotlinx.android.synthetic.main.confirmation_alert_dialog_2_butt.*
 
-var TAG:String = "monitor"
+var TAG:String = "droidsays"
 
 class PopUpDialog2Butt: DialogFragment() {
 

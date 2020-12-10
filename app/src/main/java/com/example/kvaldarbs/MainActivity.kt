@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
 
     //log tag definition
-    val TAG = "monitor"
+    val TAG = "droidsays"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.i(TAG, "createUserWithEmail:success")
-                        val user = auth.currentUser
+                        //val user = auth.currentUser
 
                     } else {
                         // If sign in fails, display a message to the user.
