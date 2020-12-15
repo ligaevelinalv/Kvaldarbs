@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
-import android.nfc.Tag
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -15,17 +14,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kvaldarbs.R
 import com.example.kvaldarbs.dialogs.PopUpDialog2Butt
 import com.example.kvaldarbs.libs.utils.OfferViewModel
+import com.example.kvaldarbs.mainpage.Adapter
 import com.example.kvaldarbs.models.Product
 import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.google.firebase.auth.FirebaseAuth
@@ -34,15 +32,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.android.synthetic.main.fragment_detail.offerButton
 import kotlinx.android.synthetic.main.fragment_makeoffer.*
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.util.*
 import kotlin.collections.HashMap
 
 
@@ -56,6 +50,7 @@ var weardropdownval:String = ""
 var currentuserID:String = ""
 val REQUEST_IMAGE_CAPTURE = 1
 var cameraImgUri: Uri? = null
+var imageList = arrayListOf<Uri?>()
 
 
 
@@ -67,6 +62,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     lateinit var storageRef: StorageReference
     lateinit var currentuserID: String
 
+    lateinit var adapter: ImageAdapter
     private val pickImage = 1
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
@@ -85,10 +81,14 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         storageRef = storage.reference
         currentuserID = auth.currentUser?.uid.toString()
 
+        val fddfs = Observer<List<Uri?>> {
+            Log.i(TAG, model.getList().toString())
+            attachedImage2.setImageURI(model.getLast())
+        }
 
-        model.sharedImgUrl.observe(this, Observer{newsharedImgUrl ->
-            attachedImage2.setImageURI(newsharedImgUrl)
-        })
+        model.sharedImgUri.observe(this, fddfs)
+
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -141,6 +141,13 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
             weardropdown.adapter = adapter
         }
 
+        val recyclerView: RecyclerView = rootview.findViewById(R.id.attachedImagesRV)
+
+
+        recyclerView.layoutManager = LinearLayoutManager(this.requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        adapter = ImageAdapter(this.requireContext(), fetchList())
+        recyclerView.adapter = adapter
+
         return rootview
     }
 
@@ -180,7 +187,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         plusButton.setOnClickListener {
             amountnumber ++
             amountNumberText.text = amountnumber.toString()
-            uploadFileToStorage(model.sharedImgUrl.value)
+            uploadFileToStorage(model.sharedImgUri.value?.get(0))
         }
 
         minusButton.setOnClickListener {
@@ -411,7 +418,35 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         }
     }
 
+    fun fetchList(): ArrayList<Uri?> {
 
+        val temp: MutableList<Uri?>? = model.sharedImgUri.value
+
+        imageList.clear()
+
+        if (temp != null) {
+            for (item in temp) {
+                imageList.add(item)
+            }
+        }
+
+
+        Log.i(TAG, "fetchlist called")
+
+        for (item in imageList) {
+            Log.i(TAG, item.toString())
+        }
+        return imageList
+
+//        val list = arrayListOf<RVData>()
+//
+//
+//        for (i in 0..20) {
+//            val model = RVData(R.drawable.furniturebackground, "Title : $i", "Subtitle : $i")
+//            list.add(model)
+//        }
+//        return list
+    }
 
 }
 

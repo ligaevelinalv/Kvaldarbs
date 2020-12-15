@@ -19,6 +19,7 @@ class SelectImageFragment : DialogFragment() {
     var callback2: () -> Unit = {}
     var setImageInMain: () -> Unit = {}
     var imageUri: Uri? = null
+    lateinit var list: MutableList<Uri?>
 
     private val model: OfferViewModel by activityViewModels()
 
@@ -34,8 +35,9 @@ class SelectImageFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-         imageUri = arguments?.getString("imageUri")?.toUri()
+        imageUri = arguments?.getString("imageUri")?.toUri()
         newImage.setImageURI(imageUri)
+        list = mutableListOf(imageUri)
 
     }
 
@@ -48,7 +50,7 @@ class SelectImageFragment : DialogFragment() {
             dismiss()
             callback2()
             setImageInMain()
-            model.sharedImgUrl.value = imageUri
+            model.setList(list)
             Log.i(TAG, "callback called and finished")
         }
 

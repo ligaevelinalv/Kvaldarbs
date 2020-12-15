@@ -260,7 +260,7 @@
             android:includeFontPadding="true"
             android:inputType="textMultiLine"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/attachedImage"
+            app:layout_constraintBottom_toTopOf="@+id/attachedImagesRV"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -339,6 +339,15 @@
             android:text="@string/_0_10"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/takePictureButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/attachedImagesRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/attachedImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
