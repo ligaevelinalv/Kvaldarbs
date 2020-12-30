@@ -19,7 +19,7 @@
             android:layout_width="90dp"
             android:layout_height="45dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
             android:gravity="start|center"
             android:text="@string/offer_title"
@@ -53,21 +53,10 @@
             android:text="@string/manufacturer"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/weightLabel"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/weightLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="start|center"
-            android:text="@string/weight"
-            android:textColor="@color/darkest_black"
-            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/deliveryLabel"
             app:layout_constraintStart_toStartOf="parent" />
+
+
 
         <TextView
             android:id="@+id/deliveryLabel"
@@ -92,7 +81,7 @@
             android:text="@string/location"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/descriptionLabel"
+            app:layout_constraintBottom_toTopOf="@+id/weightLabel"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -122,11 +111,24 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            android:id="@+id/weightLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center"
+            android:text="@string/weight"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/heightLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
             android:id="@+id/descriptionLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_marginStart="32dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:gravity="start|center"
             android:text="@string/description"
             android:textColor="@color/darkest_black"
@@ -138,12 +140,12 @@
             android:id="@+id/blankGridSupoort"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
 
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/descriptionField"
-            app:layout_constraintStart_toStartOf="@+id/openGoogleMapsButton"
+            app:layout_constraintStart_toStartOf="@+id/sizeDropdown"
             tools:ignore="DuplicateIds" />
 
 
@@ -172,17 +174,7 @@
             app:layout_constraintBottom_toTopOf="@+id/typeDropdown"
             app:layout_constraintStart_toEndOf="@+id/titleLabel" />
 
-        <EditText
-            android:id="@+id/weightField"
-            android:layout_width="205dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
-            android:ems="10"
-            android:hint="@string/_15_kg"
-            android:inputType="number"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/deliveryDropdown"
-            app:layout_constraintStart_toStartOf="@+id/manufacturerField" />
+
 
         <EditText
             android:id="@+id/manufacturerField"
@@ -193,7 +185,7 @@
             android:hint="@string/iekurs"
             android:inputType="textPersonName"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/weightField"
+            app:layout_constraintBottom_toTopOf="@+id/deliveryDropdown"
             app:layout_constraintStart_toStartOf="@+id/typeDropdown" />
 
         <Spinner
@@ -212,7 +204,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/border"
             app:layout_constraintBottom_toTopOf="@+id/wearDropdown"
-            app:layout_constraintStart_toStartOf="@+id/weightField" />
+            app:layout_constraintStart_toStartOf="@+id/manufacturerField" />
 
         <Spinner
             android:id="@+id/wearDropdown"
@@ -229,23 +221,26 @@
             android:layout_height="45dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/border"
-            android:gravity="center|start"
 
+            android:gravity="center|start"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/openGoogleMapsButton"
+            app:layout_constraintBottom_toTopOf="@+id/locationField"
             app:layout_constraintEnd_toStartOf="@+id/plusButton"
             app:layout_constraintStart_toEndOf="@+id/minusButton" />
 
-        <Button
-            android:id="@+id/openGoogleMapsButton"
-            android:layout_width="wrap_content"
+
+
+        <EditText
+            android:id="@+id/weightField"
+            android:layout_width="205dp"
             android:layout_height="45dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/button"
-            android:text="@string/open_google_maps"
+            android:ems="10"
+            android:hint="@string/_15_kg"
+            android:inputType="number"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/blankGridSupoort"
-            app:layout_constraintStart_toStartOf="@+id/minusButton" />
+            app:layout_constraintBottom_toTopOf="@+id/heightField"
+            app:layout_constraintStart_toStartOf="@+id/locationField" />
 
         <EditText
             android:id="@+id/descriptionField"
@@ -271,18 +266,17 @@
             android:layout_marginBottom="16dp"
             android:text="@string/plus"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/openGoogleMapsButton"
+            app:layout_constraintBottom_toTopOf="@+id/locationField"
             app:layout_constraintEnd_toEndOf="@+id/wearDropdown" />
 
         <Button
             android:id="@+id/minusButton"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginStart="24dp"
             android:layout_marginBottom="16dp"
             android:text="@string/minus"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/openGoogleMapsButton"
+            app:layout_constraintBottom_toTopOf="@+id/locationField"
             app:layout_constraintStart_toStartOf="@+id/wearDropdown" />
 
 
@@ -292,7 +286,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/recently_added_images"
-            app:layout_constraintBottom_toTopOf="@+id/textView3"
+            app:layout_constraintBottom_toTopOf="@+id/imageAmountLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:src="@tools:sample/avatars" />
@@ -332,13 +326,12 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/imageAmountLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/_0_10"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/takePictureButton"
+            app:layout_constraintBottom_toTopOf="@+id/errorLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -348,6 +341,244 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@id/attachedImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+
+        <TextView
+            android:id="@+id/heightLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/height_cm"
+            android:gravity="start|center"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/widthLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/heightField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="@string/_30_cm"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/widthField"
+            app:layout_constraintStart_toStartOf="@+id/weightField" />
+
+        <TextView
+            android:id="@+id/widthLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="start|center"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/width_cm"
+            app:layout_constraintBottom_toTopOf="@+id/lengthLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lengthLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="start|center"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/length_cm"
+            app:layout_constraintBottom_toTopOf="@+id/materialLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/materialLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="start|center"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/material"
+            app:layout_constraintBottom_toTopOf="@+id/colorLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/colorLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="start|center"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/color"
+            app:layout_constraintBottom_toTopOf="@+id/authorLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/authorLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="start|center"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/author"
+            app:layout_constraintBottom_toTopOf="@+id/yearLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yearLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="start|center"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/year"
+            app:layout_constraintBottom_toTopOf="@+id/bookTitleLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/bookTitleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="start|center"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/book_title"
+            app:layout_constraintBottom_toTopOf="@+id/sizeLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/sizeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="start|center"
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/size"
+            app:layout_constraintBottom_toTopOf="@+id/descriptionLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/widthField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="@string/_15_cm"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/lengthField"
+            app:layout_constraintStart_toStartOf="@+id/heightField" />
+
+        <EditText
+            android:id="@+id/lengthField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="@string/_10_cm"
+            app:layout_constraintBottom_toTopOf="@+id/materialField"
+            app:layout_constraintStart_toStartOf="@+id/widthField" />
+
+        <EditText
+            android:id="@+id/materialField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/wood"
+            app:layout_constraintBottom_toTopOf="@+id/colorField"
+            app:layout_constraintStart_toStartOf="@+id/lengthField" />
+
+        <EditText
+            android:id="@+id/colorField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/white"
+            app:layout_constraintBottom_toTopOf="@+id/authorField"
+            app:layout_constraintStart_toStartOf="@+id/materialField" />
+
+        <EditText
+            android:id="@+id/authorField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/an_lavs_egl_tis"
+            app:layout_constraintBottom_toTopOf="@+id/yearField"
+            app:layout_constraintStart_toStartOf="@+id/colorField" />
+
+        <EditText
+            android:id="@+id/yearField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="@string/_1992"
+            app:layout_constraintBottom_toTopOf="@+id/bookTitleField"
+            app:layout_constraintStart_toStartOf="@+id/authorField" />
+
+        <EditText
+            android:id="@+id/bookTitleField"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/piecas_dienas"
+            app:layout_constraintBottom_toTopOf="@+id/sizeDropdown"
+            app:layout_constraintStart_toStartOf="@+id/yearField" />
+
+        <Spinner
+            android:id="@+id/sizeDropdown"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/border"
+            app:layout_constraintBottom_toTopOf="@+id/blankGridSupoort"
+            app:layout_constraintStart_toStartOf="@+id/bookTitleField" />
+
+        <EditText
+            android:id="@+id/locationField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/rai_a_bulv_ris_19"
+            app:layout_constraintBottom_toTopOf="@+id/weightField"
+            app:layout_constraintStart_toStartOf="@+id/minusButton" />
+
+        <TextView
+            android:id="@+id/errorLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/takePictureButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

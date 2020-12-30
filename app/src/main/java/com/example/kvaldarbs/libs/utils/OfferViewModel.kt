@@ -13,6 +13,7 @@ class OfferViewModel : ViewModel() {
         MutableLiveData<MutableList<Uri?>>()
     }
 
+
     fun getList(): MutableLiveData<MutableList<Uri?>> {
         return sharedImgUri
     }
@@ -23,13 +24,6 @@ class OfferViewModel : ViewModel() {
             val temp = sharedImgUri.value
             temp?.addAll(list)
             sharedImgUri.value = temp
-
-//            Log.i(TAG, "list length: " + sharedImgUri.value?.size.toString())
-//            if (temp != null) {
-//                for (item in temp) {
-//                    Log.i(TAG, "temp item: " + item.toString())
-//                }
-//            }
         }
         else{
             sharedImgUri.value = list
@@ -47,6 +41,15 @@ class OfferViewModel : ViewModel() {
         else return null
     }
 
+    fun getCount(): String {
+        val temp = sharedImgUri.value
+
+        if(temp != null) {
+            return temp.count().toString()
+        } else {
+            return "0"
+        }
+    }
 
 
 

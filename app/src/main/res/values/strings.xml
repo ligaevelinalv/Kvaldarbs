@@ -63,6 +63,38 @@
     <string name="select_image">SELECT IMAGE</string>
     <string name="image_from_the_camera">Image from the camera</string>
     <string name="take_photo">TAKE PHOTO</string>
+    <string name="navigation_drawer_open">open nav drawer</string>
+    <string name="navigation_drawer_close">close nav drawer</string>
+    <string name="phone">Phone</string>
+    <string name="create_account">create account</string>
+    <string name="product_images">Product images</string>
+    <string name="save_changes">SAVE CHANGES</string>
+    <string name="delete_profile">Delete profile</string>
+    <string name="edit_profile">EDIT PROFILE</string>
+    <string name="pencil_image">Pencil image</string>
+    <string name="confirm_account_deletion">CONFIRM ACCOUNT DELETION</string>
+    <string name="delete_account">Do you wish to delete your account?</string>
+    <string name="height_cm">Height (cm)</string>
+    <string name="_30_cm">30 cm</string>
+    <string name="width_cm">Width (cm)</string>
+    <string name="length_cm">Length (cm)</string>
+    <string name="_15_cm">15 cm</string>
+    <string name="_10_cm">10 cm</string>
+    <string name="wood">Wood</string>
+    <string name="white">White</string>
+    <string name="an_lavs_egl_tis">Anšlavs Eglītis</string>
+    <string name="_1992">1992</string>
+    <string name="piecas_dienas">Piecas Dienas</string>
+    <string name="rai_a_bulv_ris_19">Raiņa Bulvāris 19</string>
+    <string name="height">Height</string>
+    <string name="length">Length</string>
+    <string name="material">Material</string>
+    <string name="color">Color</string>
+    <string name="author">Author</string>
+    <string name="year">Year</string>
+    <string name="book_title">Book Title</string>
+    <string name="size">Size</string>
+    <string name="width">Width</string>
     <string-array name="product_type_array">
         <item>Book</item>
         <item>Furniture</item>
@@ -78,6 +110,10 @@
         <item>Light Scuff Marks</item>
         <item>Medium Scuff Marks</item>
         <item>Heavily Used, Functional</item>
-
+    </string-array>
+    <string-array name="size_array">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
     </string-array>
 </resources>

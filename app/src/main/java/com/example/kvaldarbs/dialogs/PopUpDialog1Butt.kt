@@ -37,6 +37,11 @@ class PopUpDialog1Butt: DialogFragment() {
                 content.text = getString(R.string.offer_confirmed_text)
             }
 
+            3 -> {
+                titleFieldRW.text = getString(R.string.confirm_account_deletion)
+                content.text = getString(R.string.delete_account)
+            }
+
             else -> {
                 titleFieldRW.text = getString(R.string.unassigned)
                 content.text = getString(R.string.unassigned)

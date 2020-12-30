@@ -8,27 +8,5 @@
         android:id="@+id/frontpageFragment"
         android:name="com.example.kvaldarbs.mainpage.FrontpageFragment"
         android:label="fragment_frontpage"
-        tools:layout="@layout/fragment_frontpage">
-        <action
-            android:id="@+id/action_frontpageFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.example.kvaldarbs.orderflow.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail">
-        <action
-            android:id="@+id/action_detailFragment_to_confirmationFragment"
-            app:destination="@id/confirmationFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/confirmationFragment"
-        android:name="com.example.kvaldarbs.orderflow.OrderConfirmationFragment"
-        android:label="fragment_confirmation"
-        tools:layout="@layout/fragment_confirmation">
-        <action
-            android:id="@+id/action_confirmationFragment_to_frontpageFragment"
-            app:destination="@id/frontpageFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_frontpage"/>
 </navigation>

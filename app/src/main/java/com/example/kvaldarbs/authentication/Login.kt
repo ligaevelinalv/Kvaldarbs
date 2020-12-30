@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kvaldarbs.R
@@ -18,6 +19,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.quickstart.database.kotlin.models.User
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.emailField
+import kotlinx.android.synthetic.main.activity_login.passwordField
+import kotlinx.android.synthetic.main.activity_register.*
 
 
 class Login : AppCompatActivity() {
@@ -50,12 +54,9 @@ class Login : AppCompatActivity() {
 
         Log.i(TAG, "init passed:")
 
-
-
         logInButton.setOnClickListener {
             Log.i(TAG, "Login listener called")
             signIn(emailField.text.toString(), passwordField.text.toString())
-
         }
 
 
@@ -68,18 +69,6 @@ class Login : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun usernameFromEmail(email: String): String {
-        return if (email.contains("@")) {
-            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-        } else {
-            email
-        }
-    }
-
-    private fun writeNewUser(userId: String, name: String, email: String?) {
-        val user = User(name, email)
-        database.child("users").child(userId).setValue(user)
-    }
 
     private fun signIn(email: String, password: String) {
         Log.d(TAG, "signIn:$email")
@@ -110,26 +99,26 @@ class Login : AppCompatActivity() {
 
     private fun validateForm(): Boolean {
 
-        val email = emailField.text.toString()
-        if (TextUtils.isEmpty(email)) {
-            emailField.error = "Required."
-            valid = false
-        }else {
-            emailField.error = null
-        }
+        val isValid: Boolean
 
-        val password = passwordField.text.toString()
-        if (TextUtils.isEmpty(password)) {
-            passwordField.error = "Required."
-            valid = false
-        } else {
-            passwordField.error = null
-        }
+        isValid = checkForEmpty(arrayListOf(emailField, passwordField))
 
-        return valid
+        return isValid
     }
 
-    fun onClick() {
+    fun checkForEmpty(fields: ArrayList<EditText>): Boolean{
+        var isValid = true
+        for (item in fields) {
+            if (item.text.toString() == "") {
+                item.error = "Required."
+                isValid = false
+            }
+        }
+
+        return isValid
+    }
+
+    fun onClick(view: View) {
         Log.i(TAG, "Login listener called")
 
         startActivity(Intent(this@Login, Register::class.java))

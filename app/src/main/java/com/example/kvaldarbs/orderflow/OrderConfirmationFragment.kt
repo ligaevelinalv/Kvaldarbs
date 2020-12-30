@@ -1,5 +1,6 @@
 package com.example.kvaldarbs.orderflow
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.kvaldarbs.R
 import com.example.kvaldarbs.dialogs.PopUpDialog1Butt
+import com.example.kvaldarbs.mainpage.MainScreen
 
 class OrderConfirmationFragment : Fragment() {
 
@@ -38,9 +40,11 @@ class OrderConfirmationFragment : Fragment() {
     }
 
     fun navigateToConfirm(){
-        findNavController().navigate(R.id.action_confirmationFragment_to_frontpageFragment)
+        startActivity(Intent(requireContext(), MainScreen::class.java))
 
     }
+
+
 
 
 }

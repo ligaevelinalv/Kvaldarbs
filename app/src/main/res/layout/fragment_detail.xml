@@ -12,8 +12,6 @@
     android:layout_height="wrap_content"
     tools:context=".orderflow.DetailFragment">
 
-
-
     <Button
         android:id="@+id/offerButton"
         android:layout_width="wrap_content"
@@ -26,249 +24,436 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="376dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="16dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/detailImagesRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/images_of_the_items_being_offered" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="357dp"
-        android:layout_height="382dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        android:background="@drawable/border"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/offerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/placeholder_title"
         android:textColor="@color/darkest_black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
-
-    <TextView
-        android:id="@+id/typeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/product_type"
-        android:textColor="@color/light_text_2"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/manufLabel"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailImagesRV" />
 
     <TextView
         android:id="@+id/typeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="8dp"
 
         android:textColor="@color/darkest_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/manufText"
-        app:layout_constraintStart_toEndOf="@+id/typeLabel" />
+        app:layout_constraintStart_toEndOf="@+id/typeLabel"
+        app:layout_constraintTop_toTopOf="@+id/typeLabel" />
 
     <TextView
-        android:id="@+id/manufLabel"
+        android:id="@+id/typeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/manufacturer"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/product_type"
         android:textColor="@color/light_text_2"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/weightLabel"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offerTitle" />
 
     <TextView
         android:id="@+id/manufText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
 
         android:textColor="@color/darkest_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/weightText"
-        app:layout_constraintStart_toStartOf="@+id/typeText" />
+        app:layout_constraintStart_toStartOf="@+id/typeText"
+        app:layout_constraintTop_toBottomOf="@+id/typeText" />
+
+    <TextView
+        android:id="@+id/manufLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/manufacturer"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/typeLabel" />
 
     <TextView
         android:id="@+id/weightLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/weight"
         android:textColor="@color/light_text_2"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/deliveryLabel"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationLabel" />
 
     <TextView
         android:id="@+id/weightText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
 
         android:textColor="@color/darkest_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/deliveryText"
-        app:layout_constraintStart_toStartOf="@+id/manufText" />
-
-    <TextView
-        android:id="@+id/deliveryLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/delivery"
-        android:textColor="@color/light_text_2"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/locationLabel"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="@+id/locationText"
+        app:layout_constraintTop_toBottomOf="@+id/locationText" />
 
     <TextView
         android:id="@+id/deliveryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
 
         android:textColor="@color/darkest_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/locationText"
-        app:layout_constraintStart_toStartOf="@+id/weightText" />
+        app:layout_constraintStart_toStartOf="@+id/manufText"
+        app:layout_constraintTop_toBottomOf="@+id/manufText" />
 
     <TextView
-        android:id="@+id/locationLabel"
+        android:id="@+id/deliveryLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/location"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/delivery"
         android:textColor="@color/light_text_2"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/wearLabel"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/manufLabel" />
 
     <TextView
         android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
 
         android:textColor="@color/darkest_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/wearText"
-        app:layout_constraintStart_toStartOf="@+id/deliveryText" />
+        app:layout_constraintStart_toStartOf="@+id/amountText"
+        app:layout_constraintTop_toBottomOf="@+id/amountText" />
 
     <TextView
-        android:id="@+id/wearLabel"
+        android:id="@+id/locationLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/wear"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/location"
         android:textColor="@color/light_text_2"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/amountLabel"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
 
     <TextView
         android:id="@+id/wearText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
 
         android:textColor="@color/darkest_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/amountText"
-        app:layout_constraintStart_toStartOf="@+id/locationText" />
+        app:layout_constraintStart_toStartOf="@+id/deliveryText"
+        app:layout_constraintTop_toBottomOf="@+id/deliveryText" />
 
     <TextView
-        android:id="@+id/amountLabel"
+        android:id="@+id/wearLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/amount"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/wear"
         android:textColor="@color/light_text_2"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/descriptionLabel"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deliveryLabel" />
 
     <TextView
         android:id="@+id/descriptionLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/description"
         android:textColor="@color/light_text_2"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/descriptionText"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sizeDetailLAbel" />
 
     <TextView
         android:id="@+id/amountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
 
         android:textColor="@color/darkest_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/placeholderText"
         app:layout_constraintStart_toStartOf="@+id/wearText"
+        app:layout_constraintTop_toBottomOf="@+id/wearText"
         tools:ignore="DuplicateIds" />
+
+    <TextView
+        android:id="@+id/amountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/amount"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wearLabel" />
 
     <TextView
         android:id="@+id/placeholderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
 
         android:textColor="@color/darkest_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/descriptionText"
-        app:layout_constraintStart_toStartOf="@+id/amountText"
+        app:layout_constraintStart_toStartOf="@+id/sizeText"
+        app:layout_constraintTop_toBottomOf="@+id/sizeText"
         tools:ignore="DuplicateIds" />
-
 
     <TextView
         android:id="@+id/descriptionText"
-        android:layout_width="337dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/border"
         android:textAlignment="viewStart"
         android:textColor="@color/light_text_2"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionLabel" />
 
+    <TextView
+        android:id="@+id/heightDetailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/height"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weightLabel" />
 
+    <TextView
+        android:id="@+id/lengthDetailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/length"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/widthDetailLabel" />
 
+    <TextView
+        android:id="@+id/materialDetailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/material"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lengthDetailLabel" />
 
+    <TextView
+        android:id="@+id/colorDetailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/color"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialDetailLabel" />
 
+    <TextView
+        android:id="@+id/authorDetailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/author"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorDetailLabel" />
 
+    <TextView
+        android:id="@+id/yearDetailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/year"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/authorDetailLabel" />
+
+    <TextView
+        android:id="@+id/bookTitleDetailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/book_title"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yearDetailLabel" />
+
+    <TextView
+        android:id="@+id/sizeDetailLAbel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/size"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bookTitleDetailLabel" />
+
+    <TextView
+        android:id="@+id/heightText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/weightText"
+        app:layout_constraintTop_toBottomOf="@+id/weightText" />
+
+    <TextView
+        android:id="@+id/widthText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/heightText"
+        app:layout_constraintTop_toBottomOf="@+id/heightText" />
+
+    <TextView
+        android:id="@+id/lengthText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/widthText"
+        app:layout_constraintTop_toBottomOf="@+id/widthText" />
+
+    <TextView
+        android:id="@+id/materialText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/lengthText"
+        app:layout_constraintTop_toBottomOf="@+id/lengthText" />
+
+    <TextView
+        android:id="@+id/colorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/materialText"
+        app:layout_constraintTop_toBottomOf="@+id/materialText" />
+
+    <TextView
+        android:id="@+id/authorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/colorText"
+        app:layout_constraintTop_toBottomOf="@+id/colorText" />
+
+    <TextView
+        android:id="@+id/yearText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/authorText"
+        app:layout_constraintTop_toBottomOf="@+id/authorText" />
+
+    <TextView
+        android:id="@+id/bookTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/yearText"
+        app:layout_constraintTop_toBottomOf="@+id/yearText" />
+
+    <TextView
+        android:id="@+id/sizeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/bookTitleText"
+        app:layout_constraintTop_toBottomOf="@+id/bookTitleText" />
+
+    <TextView
+        android:id="@+id/widthDetailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/width"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heightDetailLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

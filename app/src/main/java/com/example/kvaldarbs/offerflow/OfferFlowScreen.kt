@@ -1,5 +1,6 @@
 package com.example.kvaldarbs.offerflow
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -10,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.kvaldarbs.R
+import com.example.kvaldarbs.mainpage.MainScreen
 
 class OfferFlowScreen : AppCompatActivity() {
 
@@ -32,9 +34,9 @@ class OfferFlowScreen : AppCompatActivity() {
     }
 
 
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = this.findNavController(R.id.offerNavHostFragment)
-//        return navController.navigateUp()
-//    }
+    override fun onSupportNavigateUp(): Boolean {
+        startActivity(Intent(this, MainScreen::class.java))
+        return true
+    }
 
 }

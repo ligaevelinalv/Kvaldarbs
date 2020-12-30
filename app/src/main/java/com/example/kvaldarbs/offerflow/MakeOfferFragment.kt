@@ -3,6 +3,7 @@ package com.example.kvaldarbs.offerflow
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,9 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -23,13 +22,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kvaldarbs.R
 import com.example.kvaldarbs.dialogs.PopUpDialog2Butt
 import com.example.kvaldarbs.libs.utils.OfferViewModel
-import com.example.kvaldarbs.mainpage.Adapter
 import com.example.kvaldarbs.models.Product
 import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -37,23 +37,33 @@ import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.android.synthetic.main.fragment_detail.offerButton
 import kotlinx.android.synthetic.main.fragment_makeoffer.*
+import java.time.Year
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-
 val TAG: String = "droidsays"
-var valid = true
-var amountnumber:Int = 1
 var id: Int = 0
-var typedropdownval:String = ""
-var deliverydropdownval:String = ""
+
+var typedropdownval: String = ""
+var deliverydropdownval: String = ""
 var weardropdownval:String = ""
+var amountnumber:Int = 1
+var weightval: Int? = null
+var heightval: Int? = null
+var widthval: Int? = null
+var lengthval: Int? = null
+var materialval: String? = null
+var colorval: String? = null
+var authorval: String? = null
+var yearval: Int? = null
+var booktitleval: String? = null
+var sizedropdownval: String? = null
+
+
 var currentuserID:String = ""
-val REQUEST_IMAGE_CAPTURE = 1
-var cameraImgUri: Uri? = null
 var imageList = arrayListOf<Uri?>()
-
-
-
+var productID: String? = ""
 
 class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     lateinit var database: DatabaseReference
@@ -61,13 +71,11 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     lateinit var storage: FirebaseStorage
     lateinit var storageRef: StorageReference
     lateinit var currentuserID: String
+    lateinit var firestore: FirebaseFirestore
 
     lateinit var adapter: ImageAdapter
     private val pickImage = 1
-    private val PERMISSION_CODE = 1000
-    private val IMAGE_CAPTURE_CODE = 1001
-    var image_uri: Uri? = null
-    val imgShow = SelectImageFragment()
+    private var image_uri: Uri? = null
 
     private val model: OfferViewModel by activityViewModels()
 
@@ -80,15 +88,22 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         storage = Firebase.storage
         storageRef = storage.reference
         currentuserID = auth.currentUser?.uid.toString()
+        firestore = Firebase.firestore
 
         val fddfs = Observer<List<Uri?>> {
-            Log.i(TAG, model.getList().toString())
+            //Log.i(TAG, model.getList().toString())
             attachedImage2.setImageURI(model.getLast())
+            val imgAmount = model.getCount()
+            val imgCount = imgAmount + "/10"
+            imageAmountLabel.text = imgCount
+            imageAmountLabel.visibility = View.VISIBLE
+
+            if ((imgAmount.toInt() > 0) and (imgAmount.toInt() < 11)) {
+                errorLabel.visibility = View.GONE
+            }
         }
 
         model.sharedImgUri.observe(this, fddfs)
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -141,6 +156,21 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
             weardropdown.adapter = adapter
         }
 
+        val sizedropdown: Spinner = rootview.findViewById(R.id.sizeDropdown)
+        sizedropdown.onItemSelectedListener = this
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.size_array,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            sizedropdown.adapter = adapter
+        }
+
         val recyclerView: RecyclerView = rootview.findViewById(R.id.attachedImagesRV)
 
 
@@ -154,6 +184,9 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        hideModuleFields()
+
+
         amountNumberText.text = amountnumber.toString()
 
         val ree = PopUpDialog2Butt()
@@ -161,33 +194,50 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         ree.aaa = {
             Log.i(TAG, "ree.aaa closure called")
 
-            if (validateForm()) {
+                parseForm()
 
                 newOffer(titleField.text.toString(),
                         typedropdownval,
                         manufacturerField.text.toString(),
-                        weightField.text.toString().toInt(),
                         deliverydropdownval,
                         weardropdownval,
                         amountnumber,
-                        descriptionField.text.toString()
+                        locationField.text.toString(),
+                        descriptionField.text.toString(),
+
+                        weightval,
+                        heightval,
+                        widthval,
+                        lengthval,
+                        materialval,
+                        colorval,
+                        authorval,
+                        yearval,
+                        booktitleval,
+                        sizedropdownval
                 )
+
+                val temp = model.sharedImgUri.value
+                uploadFileToStorage(temp as ArrayList<Uri?>)
+
                 navigateToConfirm()
-            }
         }
 
         offerButton.setOnClickListener {
             //onAlertDialog(view)
 
-            bundle.putInt("dialogtype", 2)
-            ree.arguments = bundle
-            ree.show(parentFragmentManager, "")
+            if (validateForm()) {
+                bundle.putInt("dialogtype", 2)
+                ree.arguments = bundle
+                ree.show(parentFragmentManager, "")
+            }
         }
 
         plusButton.setOnClickListener {
-            amountnumber ++
-            amountNumberText.text = amountnumber.toString()
-            uploadFileToStorage(model.sharedImgUri.value?.get(0))
+            if (amountnumber < 11){
+                amountnumber ++
+                amountNumberText.text = amountnumber.toString()
+            }
         }
 
         minusButton.setOnClickListener {
@@ -274,9 +324,6 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                 }
             }
         }
-
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -293,21 +340,28 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
 
     }
 
-    fun newOffer(title: String, type: String, manufacturer: String, weight: Int, delivery: String, wear: String, amount: Int, description: String) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
+    fun newOffer(title: String, type: String, manufacturer: String,
+                 delivery: String, wear: String, amount: Int, location: String,
+                 description: String, weight: Int?, height: Int?, width: Int?, length: Int?,
+                 material: String?, color: String?, author: String?, year: Int?,
+                 book_title: String?, size: String?
+    ) {
 
         val key = database.child("products").push().key
+        productID = key
         if (key == null) {
             Log.i(TAG, "Couldn't get push key for posts")
             return
         }
 
-        val product = Product(title, type, manufacturer, weight, delivery, wear, amount, description, false)
+        val product = Product(title, type, manufacturer, delivery,
+                wear, amount, location, description,
+                false, null,
+                weight, height, width, length,
+                material, color, author, year,
+                book_title, size
+        )
         val productValues = product.toMap()
-
-//        val offerIDInUsers = Offer(key)
-//        val offer = offerIDInUsers.toMap()
 
         val childUpdates = hashMapOf<String, Any>(
                 "/products/$key" to productValues
@@ -317,53 +371,69 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
 
         val values: HashMap<String, Any> = HashMap()
         values["$key"] = true
-        database.child("users").child(currentuserID).child("offers").updateChildren(values)
+        database.child("users").child(currentuserID)
+                .child("offers").updateChildren(values)
+
+        database.child("products").child(key).child("offerer").setValue(currentuserID)
     }
 
     private fun validateForm(): Boolean {
 
-        val title = titleField.text.toString()
-        if (TextUtils.isEmpty(title)) {
-            titleField.error = "Required."
-            valid = false
-        }else {
-            titleField.error = null
+        var isValid: Boolean
+
+        isValid = checkForEmpty(arrayListOf(titleField, manufacturerField, locationField, descriptionField))
+
+        val year = yearField.text.toString()
+
+        if(year == "") {
+            yearField.error = "Required."
+            isValid = false
+        } else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
+            yearField.error = "Year has to be between 1700 and current year."
+            isValid = false
         }
 
-        val manuf = manufacturerField.text.toString()
-        if (TextUtils.isEmpty(manuf)) {
-            manufacturerField.error = "Required."
-            valid = false
-        } else {
-            manufacturerField.error = null
+        when (typedropdownval) {
+
+            "Furniture" -> {
+                isValid = checkForEmpty(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
+            }
+
+            "Book" -> {
+                isValid = checkForEmpty(arrayListOf(authorField, yearField, bookTitleField))
+            }
+
+            "Decorations" -> {
+                isValid = checkForEmpty(arrayListOf(materialField, colorField))
+            }
+        }
+        checkImageCount()
+
+        return isValid
+    }
+
+    fun checkForEmpty(fields: ArrayList<EditText>): Boolean{
+        var isValid = true
+
+        for (item in fields) {
+            if (item.text.toString() == "") {
+                item.error = "Required."
+                isValid = false
+            }
         }
 
-        val weight = weightField.text.toString()
-        if (TextUtils.isEmpty(weight)) {
-            weightField.error = "Required."
-            valid = false
-        }else {
-            weightField.error = null
+        return isValid
+    }
+
+    fun checkImageCount(){
+        val count = model.getCount().toInt()
+        if ((count > 10) or (count == 0)){
+            errorLabel.text = "There should be 1 to 10 attached images"
+            errorLabel.visibility = View.VISIBLE
         }
-
-        //some kind of limiter or something, maybe based on the product type
-//        val amount = amountnumber
-//        if (TextUtils.isEmpty(weight)) {
-//            weightField.error = "Required."
-//            valid = false
-//        }else {
-//            weightField.error = null
-//        }
-
-        val desc = descriptionField.text.toString()
-        if (TextUtils.isEmpty(desc)) {
-            descriptionField.error = "Required."
-            valid = false
-        } else {
-            descriptionField.error = null
+        else {
+            errorLabel.visibility = View.GONE
         }
-
-        return valid
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -375,7 +445,51 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         when (sub) {
             "type" -> {
                 typedropdownval = itematpos.toString()
-                Log.i(TAG, typedropdownval + " ffs")
+                Log.i(TAG, typedropdownval)
+                if (typedropdownval == "Furniture") {
+                    setVisibility(weightLabel, weightField)
+                    setVisibility(heightLabel, heightField)
+                    setVisibility(widthLabel, widthField)
+                    setVisibility(lengthLabel, lengthField)
+                    setVisibility(materialLabel, materialField)
+                    setVisibility(colorLabel, colorField)
+
+                    setInvisibility(authorLabel, authorField)
+                    setInvisibility(yearLabel, yearField)
+                    setInvisibility(bookTitleLabel, bookTitleField)
+                    sizeLabel.visibility = View.GONE
+                    sizeDropdown.visibility = View.GONE
+                }
+
+                if (typedropdownval == "Book") {
+                    setVisibility(authorLabel, authorField)
+                    setVisibility(yearLabel, yearField)
+                    setVisibility(bookTitleLabel, bookTitleField)
+
+                    setInvisibility(weightLabel, weightField)
+                    setInvisibility(heightLabel, heightField)
+                    setInvisibility(widthLabel, widthField)
+                    setInvisibility(lengthLabel, lengthField)
+                    setInvisibility(materialLabel, materialField)
+                    setInvisibility(colorLabel, colorField)
+                    sizeLabel.visibility = View.GONE
+                    sizeDropdown.visibility = View.GONE
+                }
+
+                if (typedropdownval == "Decorations") {
+                    setVisibility(materialLabel, materialField)
+                    setVisibility(colorLabel, colorField)
+                    sizeLabel.visibility = View.VISIBLE
+                    sizeDropdown.visibility = View.VISIBLE
+
+                    setInvisibility(weightLabel, weightField)
+                    setInvisibility(heightLabel, heightField)
+                    setInvisibility(widthLabel, widthField)
+                    setInvisibility(lengthLabel, lengthField)
+                    setInvisibility(authorLabel, authorField)
+                    setInvisibility(yearLabel, yearField)
+                    setInvisibility(bookTitleLabel, bookTitleField)
+                }
             }
             "delivery" -> {
                 deliverydropdownval = itematpos.toString()
@@ -385,36 +499,58 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                 weardropdownval = itematpos.toString()
                 Log.i(TAG, weardropdownval)
             }
+
+            "size" -> {
+                sizedropdownval = itematpos.toString()
+                Log.i(TAG, sizedropdownval!!)
+            }
+
             else -> {
                 Log.i(TAG, "owo who dis spinner")
                 Log.i(TAG, parent.toString())
             }
         }
-//            Log.i(TAG, position.toString() +" "+ aa + " " + parent.toString())
-//            Log.i(TAG, "sub is " + sub)
-
-
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         Log.i(TAG, "aaaaaaaaaaaaaaa")
     }
 
-    fun uploadFileToStorage(uri: Uri?){
-        val file = uri
+    fun uploadFileToStorage(uri: ArrayList<Uri?>){
+        //val file = uri
         val metadata = storageMetadata {
             contentType = "image/jpg"
         }
 
-        val riversRef = storageRef.child("userproductimages/$currentuserID/${file?.lastPathSegment}")
-        val uploadTask = file?.let { riversRef.putFile(it, metadata) }
+        var count = 0
 
-        // Register observers to listen for when the download is done or if it fails
-        uploadTask?.addOnFailureListener {
-            Log.i(TAG, "File upload unsuccessful")
-        }?.addOnSuccessListener { taskSnapshot ->
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+        for (file in uri) {
+            val uploadRef = storageRef.child("userproductimages/$currentuserID/${file?.lastPathSegment}")
+            val uploadTask = file?.let { uploadRef.putFile(it, metadata) }
 
+            // Register observers to listen for when the download is done or if it fails
+            uploadTask?.addOnFailureListener {
+                Log.i(TAG, "File upload unsuccessful, $it")
+            }?.addOnSuccessListener { taskSnapshot ->
+
+                uploadRef.downloadUrl.addOnSuccessListener {
+                    Log.i(TAG, "downloadurl: ${it} ")
+
+                    val values: HashMap<String, Any> = HashMap()
+
+                    values[count.toString()] = it.toString()
+
+                    productID?.let { it1 ->
+                        database.child("products").child(it1)
+                                .child("images").updateChildren(values)
+                        count++
+                    }
+
+                }.addOnFailureListener{
+                    Log.i(TAG, "URL retrieval unsuccessful, $it")
+                }
+
+        }
         }
     }
 
@@ -430,46 +566,63 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
             }
         }
 
-
         Log.i(TAG, "fetchlist called")
 
         for (item in imageList) {
             Log.i(TAG, item.toString())
         }
         return imageList
-
-//        val list = arrayListOf<RVData>()
-//
-//
-//        for (i in 0..20) {
-//            val model = RVData(R.drawable.furniturebackground, "Title : $i", "Subtitle : $i")
-//            list.add(model)
-//        }
-//        return list
     }
+
+fun parseForm(){
+
+    weightval = textToString(weightField)?.toInt()
+    heightval = textToString(heightField)?.toInt()
+    widthval = textToString(widthField)?.toInt()
+    lengthval = textToString(lengthField)?.toInt()
+    materialval = textToString(materialField)
+    colorval = textToString(colorField)
+    authorval = textToString(authorField)
+    yearval = textToString(yearField)?.toInt()
+    booktitleval = textToString(bookTitleField)
 
 }
 
+fun textToString(toparse: EditText): String? {
+    if (!toparse.text.isNullOrBlank()){
+        return toparse.text.toString()
+    }
+    else return null
+}
 
+fun hideModuleFields() {
+    setInvisibility(weightLabel, weightField)
+    setInvisibility(heightLabel, heightField)
+    setInvisibility(widthLabel, widthField)
+    setInvisibility(lengthLabel, lengthField)
+    setInvisibility(materialLabel, materialField)
+    setInvisibility(colorLabel, colorField)
+    setInvisibility(authorLabel, authorField)
+    setInvisibility(yearLabel, yearField)
+    setInvisibility(bookTitleLabel, bookTitleField)
+    sizeLabel.visibility = View.GONE
+    sizeDropdown.visibility = View.GONE
 
+    //not module field but requires the same functionality
+    imageAmountLabel.visibility = View.GONE
+    errorLabel.visibility = View.GONE
+}
 
+fun setInvisibility(label: TextView, text: EditText){
+    label.visibility = View.GONE
+    text.visibility = View.GONE
+}
 
+fun setVisibility(label: TextView, text: EditText){
+    label.visibility = View.VISIBLE
+    text.visibility = View.VISIBLE
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 

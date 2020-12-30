@@ -23,7 +23,6 @@ class ImageAdapter (private val context: Context,
 
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        //val icon: ImageView = view.findViewById(R.id.icon)
         val image: ImageView = view.findViewById(R.id.finishedImageRV)
     }
 
@@ -46,7 +45,6 @@ class ImageAdapter (private val context: Context,
             .override(400, 400)
             .into(holder.image)
 
-        //holder.image.setImageURI(data)
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.kvaldarbs.mainpage
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,13 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kvaldarbs.R
-import com.example.kvaldarbs.RVData
+import com.example.kvaldarbs.libs.utils.OfferViewModel
 import com.example.kvaldarbs.models.Product
+import com.example.kvaldarbs.orderflow.OrderHostActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -39,6 +42,7 @@ class FrontpageFragment : Fragment(), CellClickListener {
     val TAG = "droidsays"
 
     lateinit var adapter: Adapter
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -72,10 +76,10 @@ class FrontpageFragment : Fragment(), CellClickListener {
 
    fun fetchList(): ArrayList<Product> {
 
-        for (item in productList){
-            Log.i(TAG, "fetchlist called")
-            Log.i(TAG, item.title)
-        }
+//        for (item in productList){
+//            Log.i(TAG, "fetchlist called")
+//            Log.i(TAG, item.title)
+//        }
         return productList
 
 //        val list = arrayListOf<RVData>()
@@ -90,14 +94,21 @@ class FrontpageFragment : Fragment(), CellClickListener {
 
     fun makeDummyList(): ArrayList<Product> {
         productList.clear()
-        productList.add(Product("aaa", "aaa", "aaa", 1 , "aaa", "aaa", 1, "aaa", false))
+        productList.add(Product(
+                "aaa", "aaa", "aaa", "aaa", "aaa",
+                1 , "aaa", "aaa", false,
+                "aaa", 1, 1, 1, 1,"aaa",
+                "aaa", "aaa", 1, "aaa", "aaa"))
         return productList
     }
 
     override fun onCellClickListener(data: Product) {
 //        Toast.makeText(this.requireContext(),data.title + " " + data.subtitle, Toast.LENGTH_SHORT).show()
-        val bundle = bundleOf("entrytext" to data.key)
-        findNavController().navigate(R.id.action_frontpageFragment_to_detailFragment, bundle)
+        //val bundle = bundleOf("entrytext" to data.key)
+
+        val intent = Intent(requireContext(), OrderHostActivity::class.java)
+        intent.putExtra("key", data.key)
+        startActivity(intent)
     }
 
     fun queryValueListener() {
@@ -111,15 +122,25 @@ class FrontpageFragment : Fragment(), CellClickListener {
                     if (productSnapshot.child("isordered").value.toString() == "false"){
                         productList.add(Product(
                                 productSnapshot.child("title").value.toString(),
-                                null ,
+                                productSnapshot.child("type").value.toString() ,
                                 productSnapshot.child("manufacturer").value.toString(),
-                                null,
                                 productSnapshot.child("delivery").value.toString(),
+                                "",
+                                0,
+                                "",
+                                "",
+                                false,
+                                productSnapshot.key.toString(),
                                 null,
                                 null,
                                 null,
                                 null,
-                                productSnapshot.key.toString()
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null
                         )
                         )
                         //Log.i(TAG, productList.toString())
