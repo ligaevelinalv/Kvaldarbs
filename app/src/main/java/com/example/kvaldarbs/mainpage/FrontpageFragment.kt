@@ -7,14 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kvaldarbs.R
-import com.example.kvaldarbs.libs.utils.OfferViewModel
 import com.example.kvaldarbs.models.Product
 import com.example.kvaldarbs.orderflow.OrderHostActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -56,12 +51,9 @@ class FrontpageFragment : Fragment(), CellClickListener {
         val rootview = inflater.inflate(R.layout.fragment_frontpage, container, false)
         val recyclerView: RecyclerView = rootview.findViewById(R.id.recyclerview)
 
-
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
         adapter = Adapter(this.requireContext(), fetchList(), this)
         recyclerView.adapter = adapter
-
-
 
         // Inflate the layout for this fragment
         return rootview
@@ -74,22 +66,22 @@ class FrontpageFragment : Fragment(), CellClickListener {
 //
 //    }
 
-   fun fetchList(): ArrayList<Product> {
+    fun fetchList(): ArrayList<Product> {
 
-//        for (item in productList){
-//            Log.i(TAG, "fetchlist called")
-//            Log.i(TAG, item.title)
-//        }
+    //        for (item in productList){
+    //            Log.i(TAG, "fetchlist called")
+    //            Log.i(TAG, item.title)
+    //        }
         return productList
 
-//        val list = arrayListOf<RVData>()
-//
-//
-//        for (i in 0..20) {
-//            val model = RVData(R.drawable.furniturebackground, "Title : $i", "Subtitle : $i")
-//            list.add(model)
-//        }
-//        return list
+    //        val list = arrayListOf<RVData>()
+    //
+    //
+    //        for (i in 0..20) {
+    //            val model = RVData(R.drawable.furniturebackground, "Title : $i", "Subtitle : $i")
+    //            list.add(model)
+    //        }
+    //        return list
     }
 
     fun makeDummyList(): ArrayList<Product> {
@@ -103,7 +95,7 @@ class FrontpageFragment : Fragment(), CellClickListener {
     }
 
     override fun onCellClickListener(data: Product) {
-//        Toast.makeText(this.requireContext(),data.title + " " + data.subtitle, Toast.LENGTH_SHORT).show()
+    //        Toast.makeText(this.requireContext(),data.title + " " + data.subtitle, Toast.LENGTH_SHORT).show()
         //val bundle = bundleOf("entrytext" to data.key)
 
         val intent = Intent(requireContext(), OrderHostActivity::class.java)

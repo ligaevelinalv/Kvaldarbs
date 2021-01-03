@@ -1,20 +1,27 @@
 package com.example.kvaldarbs.profile
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.kvaldarbs.R
+import com.example.kvaldarbs.authentication.Register
 import com.example.kvaldarbs.mainpage.MainScreen
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class ProfileHostActivity : AppCompatActivity() {
+    lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_host)
         setSupportActionBar(findViewById(R.id.profile_toolbar))
 
+        auth = Firebase.auth
         val navController = this.findNavController(R.id.profileNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
@@ -30,4 +37,5 @@ class ProfileHostActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.profile_toolbar, menu)
         return true
     }
+
 }

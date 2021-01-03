@@ -66,7 +66,7 @@ class Register : AppCompatActivity() {
 
                     database.child("users").child(currentuserID).setValue(true)
 
-                    val user = User(email, phone, "user")
+                    val user = User(email, phone, "User")
                     val userValues = user.toMap()
                     val childUpdates = hashMapOf<String, Any>(
                             "/users/$currentuserID" to userValues
@@ -95,14 +95,9 @@ class Register : AppCompatActivity() {
             isValid = false
         }
 
-        if (!checkForEmpty(arrayListOf(emailField))){
+        if (!checkForEmpty(arrayListOf(emailField))) {
             isValid = false
         }
-        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailField.toString()).matches()){
-            emailField.error = "Incorrect email"
-            isValid = false
-        }
-
 
         if (!checkForLength(arrayListOf(phoneField, passwordField))){
             isValid = false

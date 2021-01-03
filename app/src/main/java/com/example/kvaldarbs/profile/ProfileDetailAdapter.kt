@@ -1,4 +1,4 @@
-package com.example.kvaldarbs.orderflow
+package com.example.kvaldarbs.profile
 
 import android.content.Context
 import android.net.Uri
@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.kvaldarbs.R
 
-class DetailAdapter  (private val context: Context,
-                      private val list: ArrayList<Uri?>) :
-        RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
+class ProfileDetailAdapter (private val context: Context,
+                            private val list: ArrayList<Uri?>) :
+    RecyclerView.Adapter<ProfileDetailAdapter.ViewHolder>() {
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.detailImageRV)
@@ -27,10 +27,10 @@ class DetailAdapter  (private val context: Context,
         val data = list[position]
 
         Glide.with(holder.itemView.context)
-                .load(data)
-                .centerCrop()
-                .override(1200, 1200)
-                .into(holder.image)
+            .load(data)
+            .centerCrop()
+            .override(1200, 1200)
+            .into(holder.image)
     }
 
     override fun getItemCount(): Int {

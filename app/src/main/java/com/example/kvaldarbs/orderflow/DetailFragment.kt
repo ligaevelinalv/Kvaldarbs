@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -23,6 +25,7 @@ import com.example.kvaldarbs.mainpage.productList
 import com.example.kvaldarbs.models.Product
 import com.example.kvaldarbs.offerflow.ImageAdapter
 import com.example.kvaldarbs.offerflow.currentuserID
+import com.example.kvaldarbs.offerflow.typedropdownval
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -34,6 +37,8 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
 import kotlinx.android.synthetic.main.fragment_detail.*
+import kotlinx.android.synthetic.main.fragment_detail.offerButton
+import kotlinx.android.synthetic.main.fragment_makeoffer.*
 
 var imageList = arrayListOf<Uri?>()
 
@@ -42,15 +47,11 @@ class DetailFragment : Fragment() {
     lateinit var database: DatabaseReference
     lateinit var auth: FirebaseAuth
     lateinit var keyref: DatabaseReference
+    //var isordered: Boolean? = false
 
     lateinit var adapter: DetailAdapter
     private val model: OrderViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -71,13 +72,6 @@ class DetailFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext(), LinearLayoutManager.HORIZONTAL, false)
         adapter = DetailAdapter(this.requireContext(), imageList)
         recyclerView.adapter = adapter
-
-        // Inflate the layout for this fragment
-        return rootview
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         val imageQuery = keyref.child("images")
         val temp = ArrayList<Uri?>()
@@ -110,6 +104,7 @@ class DetailFragment : Fragment() {
                 val product = dataSnapshot.getValue<Product>()
 
                 product?.let {
+                    hideFields(it.type)
                     offerTitle.text = it.title
                     typeText.text = it.type
                     manufText.text = it.manufacturer
@@ -128,6 +123,7 @@ class DetailFragment : Fragment() {
                     yearText.text = it.year.toString()
                     bookTitleText.text = it.book_title
                     sizeText.text = it.size
+                    //isordered = it.isordered
 
                     Log.i(TAG, product.toString())
                 }
@@ -142,10 +138,8 @@ class DetailFragment : Fragment() {
 
         keyref.addValueEventListener(valueEventListener)
 
-
-
-//        // Keep copy of post listener so we can remove it when app stops
-//        this.postListener = postListener
+        // Inflate the layout for this fragment
+        return rootview
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -153,6 +147,8 @@ class DetailFragment : Fragment() {
 
 //        val message = passedval
 //        data.text = message
+
+
 
         val ree = PopUpDialog2Butt()
         val bundle = Bundle()
@@ -186,9 +182,35 @@ class DetailFragment : Fragment() {
 
     }
 
+    fun hideFields(type: String) {
+        when (type) {
 
+            "Furniture" -> {
+                hideLabelBasedOnType(arrayListOf(authorText, yearText, bookTitleText, sizeText,
+                        authorDetailLabel, yearDetailLabel, bookTitleDetailLabel, sizeDetailLAbel))
+            }
 
+            "Book" -> {
+                hideLabelBasedOnType(arrayListOf(weightText, heightText, widthText, lengthText,
+                        materialText, colorText, sizeText, weightDetailLabel, heightDetailLabel,
+                        widthDetailLabel, lengthDetailLabel, materialDetailLabel, colorDetailLabel,
+                        sizeDetailLAbel ))
+            }
 
+            "Decorations" -> {
+                hideLabelBasedOnType(arrayListOf(weightText, heightText, widthText, lengthText,
+                        authorText, yearText, bookTitleText, weightDetailLabel, heightDetailLabel,
+                        widthDetailLabel, lengthDetailLabel,  authorDetailLabel, yearDetailLabel,
+                        bookTitleDetailLabel))
+            }
+        }
+    }
+
+    fun hideLabelBasedOnType(type: ArrayList<TextView>) {
+        for (item in type) {
+            item.visibility = View.GONE
+        }
+    }
 
 
 //    fun onAlertDialog(view: View) {

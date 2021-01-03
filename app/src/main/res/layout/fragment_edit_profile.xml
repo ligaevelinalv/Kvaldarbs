@@ -7,7 +7,7 @@
     tools:context=".profile.EditProfileFragment">
 
     <Button
-        android:id="@+id/deleteProfileButton"
+        android:id="@+id/editProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -17,5 +17,58 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/emailEditField"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditLabel"
+        android:autofillHints="email" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/emailEditLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/email"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/emailEditField"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar5" />
+
+    <TextView
+        android:id="@+id/phoneEditLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/phone"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/phoneEditField"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditField" />
+
+    <EditText
+        android:id="@+id/phoneEditField"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneEditLabel"
+        android:autofillHints="password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

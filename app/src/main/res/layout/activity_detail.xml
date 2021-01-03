@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="187dp"
+    tools:layout_editor_absoluteY="294dp"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".orderflow.DetailFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/detailImagesrv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_toolbar" />
+
+        <TextView
+            android:id="@+id/offerDetailTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/placeholder_title"
+            android:textColor="@color/darkest_black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailImagesrv" />
+
+        <TextView
+            android:id="@+id/typeDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/typeDetailLabel"
+            app:layout_constraintTop_toTopOf="@+id/typeDetailLabel" />
+
+        <TextView
+            android:id="@+id/typeDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/product_type"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offerDetailTitle" />
+
+        <TextView
+            android:id="@+id/manufDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/typeDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/typeDetailText" />
+
+        <TextView
+            android:id="@+id/manufDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/manufacturer"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/typeDetailLabel" />
+
+        <TextView
+            android:id="@+id/weightActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/weight"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/locationDetailLabel" />
+
+        <TextView
+            android:id="@+id/weightDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/locationDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/locationDetailText" />
+
+        <TextView
+            android:id="@+id/deliveryDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/manufDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/manufDetailText" />
+
+        <TextView
+            android:id="@+id/deliveryDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/delivery"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/manufDetailLabel" />
+
+        <TextView
+            android:id="@+id/locationDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/amountDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/amountDetailText" />
+
+        <TextView
+            android:id="@+id/locationDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/location"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amountDetailLabel" />
+
+        <TextView
+            android:id="@+id/wearDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/deliveryDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryDetailText" />
+
+        <TextView
+            android:id="@+id/wearDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/wear"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryDetailLabel" />
+
+        <TextView
+            android:id="@+id/descriptionDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/description"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sizeActivityDetailLabel" />
+
+        <TextView
+            android:id="@+id/amountDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/wearDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/wearDetailText"
+            tools:ignore="DuplicateIds" />
+
+        <TextView
+            android:id="@+id/amountDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/amount"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wearDetailLabel" />
+
+        <TextView
+            android:id="@+id/placeholderDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/sizeDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/sizeDetailText"
+            tools:ignore="DuplicateIds" />
+
+        <TextView
+            android:id="@+id/descriptionActivityDetailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/border"
+            android:textAlignment="viewStart"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="@id/detailActivityButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionDetailLabel" />
+
+        <TextView
+            android:id="@+id/heightActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/height"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/weightActivityDetailLabel" />
+
+        <TextView
+            android:id="@+id/lengthActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/length"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/widthActivityDetailLabel" />
+
+        <TextView
+            android:id="@+id/materialActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/material"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lengthActivityDetailLabel" />
+
+        <TextView
+            android:id="@+id/colorActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/color"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialActivityDetailLabel" />
+
+        <TextView
+            android:id="@+id/authorActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/author"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/colorActivityDetailLabel" />
+
+        <TextView
+            android:id="@+id/yearActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/year"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/authorActivityDetailLabel" />
+
+        <TextView
+            android:id="@+id/bookTitleActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/book_title"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/yearActivityDetailLabel" />
+
+        <TextView
+            android:id="@+id/sizeActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/size"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bookTitleActivityDetailLabel" />
+
+        <TextView
+            android:id="@+id/heightDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/weightDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/weightDetailText" />
+
+        <TextView
+            android:id="@+id/widthDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/heightDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/heightDetailText" />
+
+        <TextView
+            android:id="@+id/lengthDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/widthDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/widthDetailText" />
+
+        <TextView
+            android:id="@+id/materialDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/lengthDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/lengthDetailText" />
+
+        <TextView
+            android:id="@+id/colorDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/materialDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/materialDetailText" />
+
+        <TextView
+            android:id="@+id/authorDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/colorDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/colorDetailText" />
+
+        <TextView
+            android:id="@+id/yearDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/authorDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/authorDetailText" />
+
+        <TextView
+            android:id="@+id/bookTitleDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/yearDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/yearDetailText" />
+
+        <TextView
+            android:id="@+id/sizeDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:textColor="@color/darkest_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/bookTitleDetailText"
+            app:layout_constraintTop_toBottomOf="@+id/bookTitleDetailText" />
+
+        <TextView
+            android:id="@+id/widthActivityDetailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/width"
+            android:textColor="@color/light_text_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/heightActivityDetailLabel" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/detail_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/detailActivityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/confirm_order_delivery"
+            android:background="@drawable/button"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -39,7 +39,6 @@
     <string name="_15_kg">15 kg</string>
     <string name="iekurs">Čiekurs</string>
     <string name="_1">1</string>
-    <string name="open_google_maps">   OPEN GOOGLE MAPS  </string>
     <string name="hint_text_offer_form">White dinner table, minimalist style. The table has been used before but has no visible scuff marks. Easy to assemble and set up.</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
@@ -58,7 +57,7 @@
     <string name="offer">OFFER</string>
     <string name="ok">OK</string>
     <string name="yes">YES</string>
-    <string name="cancel">CANCEL</string>
+    <string name="cancel">Cancel</string>
     <string name="add">Add</string>
     <string name="select_image">SELECT IMAGE</string>
     <string name="image_from_the_camera">Image from the camera</string>
@@ -95,6 +94,12 @@
     <string name="book_title">Book Title</string>
     <string name="size">Size</string>
     <string name="width">Width</string>
+    <string name="reauth">USER RE-AUTHENTICATION</string>
+    <string name="auccount_delete">Please re-authenticate to delete user account.</string>
+    <string name="account_edit">Please re-authenticate to change user settings.</string>
+    <string name="confirm_order_delivery">Confirm order delivery</string>
+    <string name="profile_icon">profile icon</string>
+    <string name="image_error">There should be 1 to 10 attached images</string>
     <string-array name="product_type_array">
         <item>Book</item>
         <item>Furniture</item>

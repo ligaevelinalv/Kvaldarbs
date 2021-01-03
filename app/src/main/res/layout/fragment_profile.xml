@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".profile.ProfileFragment">
 
-
     <Button
         android:id="@+id/deleteProfileButton"
         android:layout_width="wrap_content"
@@ -19,26 +18,78 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-
-
     <TextView
         android:id="@+id/editProfileLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="@string/edit_profile"
-        android:textSize="20sp"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/profileicon" />
 
     <ImageView
         android:id="@+id/editProfileImage"
-        android:layout_width="26dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="22dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="12dp"
+        android:contentDescription="@string/pencil_image"
         android:src="@drawable/pencil"
         app:layout_constraintStart_toEndOf="@+id/editProfileLabel"
-        app:layout_constraintTop_toTopOf="@+id/editProfileLabel"
-        android:contentDescription="@string/pencil_image" />
+        app:layout_constraintTop_toTopOf="@+id/editProfileLabel" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/profEmailField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/darkest_black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/profileicon"
+        app:layout_constraintTop_toTopOf="@+id/profileicon" />
+
+    <TextView
+        android:id="@+id/profPhoneField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/profEmailField"
+        app:layout_constraintTop_toBottomOf="@+id/profEmailField" />
+
+    <TextView
+        android:id="@+id/profRoleField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/light_text_2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/profPhoneField"
+        app:layout_constraintTop_toBottomOf="@+id/profPhoneField" />
+
+    <ImageView
+        android:id="@+id/profileicon"
+        android:layout_width="147dp"
+        android:layout_height="139dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        android:contentDescription="@string/profile_icon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

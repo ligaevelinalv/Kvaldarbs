@@ -42,6 +42,7 @@ data class Product(
                 "delivery" to delivery,
                 "wear" to wear,
                 "amount" to amount,
+                "location" to location,
                 "description" to description,
                 "key" to key,
                 "isordered" to isordered,

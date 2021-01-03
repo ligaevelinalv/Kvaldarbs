@@ -9,6 +9,7 @@ import com.example.kvaldarbs.R
 import kotlinx.android.synthetic.main.confirmation_alert_dialog_1_butt.content
 import kotlinx.android.synthetic.main.confirmation_alert_dialog_1_butt.titleFieldRW
 import kotlinx.android.synthetic.main.confirmation_alert_dialog_1_butt.yesButt
+import kotlinx.android.synthetic.main.dialog_reauthenticate.*
 
 class PopUpDialog1Butt: DialogFragment() {
 
@@ -57,8 +58,6 @@ class PopUpDialog1Butt: DialogFragment() {
 //            val bundle = bundleOf("entrytext" to enterNameField.text.toString())
             dismiss()
                 aaa()
-
-
         }
     }
 }

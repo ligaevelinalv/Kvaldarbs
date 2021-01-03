@@ -40,7 +40,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_makeoffer.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -23,6 +23,5 @@
     <fragment
         android:id="@+id/cameraFragment"
         android:name="com.example.kvaldarbs.offerflow.CameraFragment"
-        android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera_old" />
+        android:label="fragment_camera" />
 </navigation>

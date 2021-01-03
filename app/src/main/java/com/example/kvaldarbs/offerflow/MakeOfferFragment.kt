@@ -3,11 +3,9 @@ package com.example.kvaldarbs.offerflow
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +37,6 @@ import kotlinx.android.synthetic.main.fragment_detail.offerButton
 import kotlinx.android.synthetic.main.fragment_makeoffer.*
 import java.time.Year
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 val TAG: String = "droidsays"
@@ -185,6 +182,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         super.onViewCreated(view, savedInstanceState)
 
         hideModuleFields()
+
 
 
         amountNumberText.text = amountnumber.toString()
@@ -388,7 +386,8 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         if(year == "") {
             yearField.error = "Required."
             isValid = false
-        } else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
+        }
+        else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
             yearField.error = "Year has to be between 1700 and current year."
             isValid = false
         }
@@ -428,7 +427,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     fun checkImageCount(){
         val count = model.getCount().toInt()
         if ((count > 10) or (count == 0)){
-            errorLabel.text = "There should be 1 to 10 attached images"
+            errorLabel.text = getString(R.string.image_error)
             errorLabel.visibility = View.VISIBLE
         }
         else {
