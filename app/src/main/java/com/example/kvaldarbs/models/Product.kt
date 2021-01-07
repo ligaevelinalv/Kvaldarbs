@@ -28,7 +28,10 @@ data class Product(
     var year: Int? = 0,
     var book_title: String? = "",
     //dekori
-    var size: String? = ""
+    var size: String? = "",
+    //admin
+    var visible: Boolean? = false,
+    var admincritic: String? = ""
 
 ) {
 
@@ -59,7 +62,10 @@ data class Product(
                 "year" to year,
                 "book_title" to book_title,
                 //dekori
-                "size" to size
+                "size" to size,
+                //admin
+                "visible" to visible,
+                "admincritic" to admincritic,
         )
     }
 

@@ -31,10 +31,6 @@ class EditProfileFragment : Fragment() {
     var emailValue: String = ""
     var phoneValue: Int = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -137,20 +133,6 @@ class EditProfileFragment : Fragment() {
         bundle.putString("newemail", emailEditField.text.toString())
         ree.arguments = bundle
         ree.show(parentFragmentManager, "")
-    }
-
-    fun changeEmail(email: String){
-        val user = Firebase.auth.currentUser
-
-        user!!.updateEmail(email)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.i(TAG, "User email address updated.")
-                } else {
-                    Log.i(TAG, task.exception.toString())
-                }
-            }
-
     }
 
 }

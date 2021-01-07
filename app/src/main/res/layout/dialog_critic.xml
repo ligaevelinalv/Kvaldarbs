@@ -3,9 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
     <TextView
-        android:id="@+id/titleFieldRW"
+        android:id="@+id/adminTitleField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -13,12 +12,11 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/adminContentField"
         android:layout_width="wrap_content"
         android:layout_height="106dp"
         android:layout_marginTop="32dp"
@@ -27,26 +25,25 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleFieldRW" />
+        app:layout_constraintTop_toBottomOf="@+id/adminTitleField" />
 
     <Button
-        android:id="@+id/yesButt"
-        android:layout_width="0dp"
+        android:id="@+id/okButt"
+        android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/button"
-        android:text="@string/yes"
+        android:text="@string/ok"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content" />
+        app:layout_constraintTop_toBottomOf="@+id/adminCriticField" />
 
     <Button
-        android:id="@+id/noButt"
+        android:id="@+id/cancelButt"
         android:layout_width="0dp"
         android:layout_height="36dp"
         android:layout_marginStart="32dp"
@@ -57,7 +54,26 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content" />
+        app:layout_constraintTop_toBottomOf="@+id/adminCriticField" />
+
+
+    <EditText
+        android:id="@+id/adminCriticField"
+        android:layout_width="343dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/border"
+        android:padding="10dp"
+        android:gravity="start|top"
+        android:hint="@string/admin_critic_hint"
+        android:includeFontPadding="true"
+        android:inputType="textMultiLine"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adminContentField"
+        android:autofillHints="text" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

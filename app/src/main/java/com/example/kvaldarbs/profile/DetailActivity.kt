@@ -10,10 +10,9 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.net.toUri
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kvaldarbs.R
-import com.example.kvaldarbs.mainpage.MainScreen
+import com.example.kvaldarbs.dialogs.PopUpDialog2Butt
 import com.example.kvaldarbs.models.Product
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -26,9 +25,8 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.activity_orders.*
-import kotlinx.android.synthetic.main.activity_orders.orderRV
+import kotlinx.android.synthetic.main.dialog_critic.*
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.fragment_detail.widthDetailLabel
 
 class DetailActivity : AppCompatActivity() {
     var images = arrayListOf<Uri?>()
@@ -45,6 +43,9 @@ class DetailActivity : AppCompatActivity() {
     lateinit var productKey: String
     lateinit var adapter: ProfileDetailAdapter
     lateinit var parentActivity: String
+    lateinit var orderStatus: String
+    lateinit var visibility: String
+    var admincritic: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,10 @@ class DetailActivity : AppCompatActivity() {
 
         productKey = intent.getStringExtra("key").toString()
         parentActivity = intent.getStringExtra("type").toString()
+        orderStatus = intent.getStringExtra("orderstatus").toString()
+        visibility = intent.getStringExtra("visibility").toString()
+        admincritic = intent.getStringExtra("admincritic").toString()
+
         database = Firebase.database.reference
         auth = Firebase.auth
         currentuserID = auth.currentUser?.uid.toString()
@@ -68,8 +73,73 @@ class DetailActivity : AppCompatActivity() {
 
         if(parentActivity == "offer") {
             detailActivityButton.visibility = View.GONE
+
+            if (orderStatus == "false") {
+
+                val dialog = PopUpDialog2Butt()
+                val bundle = Bundle()
+                dialog.aaa = {
+
+                    navigateToConfirm()
+                }
+
+                deleteOfferButton.setOnClickListener {
+                    bundle.putInt("dialogtype", 3)
+//                    bundle.putString("key", passedval)
+                    dialog.arguments = bundle
+                    dialog.show(supportFragmentManager, "")
+                }
+
+                val visibilityDialog = PopUpDialog2Butt()
+                val visBundle = Bundle()
+                visibilityDialog.aaa = {
+                    changeVisibility()
+                }
+
+                visibilityButton.setOnClickListener {
+                    visBundle.putInt("dialogtype", 4)
+                    visBundle.putString("key", productKey)
+                    visBundle.putBoolean("visibility", visibility.toBoolean())
+                    visibilityDialog.arguments = visBundle
+                    visibilityDialog.show(supportFragmentManager, "")
+                }
+
+                if ((admincritic == "null") || (admincritic == "")){
+                    adminEditField.visibility = View.GONE
+                    editAdminProductButton.visibility = View.GONE
+                    visibilityChangeLabel.visibility = View.GONE
+                } else {
+                    visibilityButton.visibility = View.GONE
+                    editProductButton.visibility = View.GONE
+                    adminEditField.text = admincritic
+
+
+                    editAdminProductButton.setOnClickListener {
+                        val intent = Intent(this@DetailActivity, EditProductActivity::class.java)
+                        intent.putExtra("key", productKey)
+                        intent.putExtra("type", "editadmin")
+                        startActivity(intent)
+                    }
+                }
+
+                editProductButton.setOnClickListener {
+                    val intent = Intent(this@DetailActivity, EditProductActivity::class.java)
+                    intent.putExtra("key", productKey)
+                    intent.putExtra("type", "edit")
+                    startActivity(intent)
+                }
+            }
+            else {
+                editProductButton.visibility = View.GONE
+                deleteOfferButton.visibility = View.GONE
+                visibilityButton.visibility = View.GONE
+                adminEditField.visibility = View.GONE
+                editAdminProductButton.visibility = View.GONE
+                visibilityChangeLabel.visibility = View.GONE
+            }
         }
         else {
+
             detailActivityButton.setOnClickListener {
                 Log.i(com.example.kvaldarbs.dialogs.TAG, "deleting offer")
 
@@ -78,9 +148,23 @@ class DetailActivity : AppCompatActivity() {
                     finish()
                 }.addOnFailureListener {
                     Log.i(TAG, it.toString())
-                    Toast.makeText(this@DetailActivity, "Delivery confirmation failed, check internet connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@DetailActivity, "Delivery confirmation failed, please check internet connection", Toast.LENGTH_LONG).show()
                 }
             }
+        }
+    }
+
+    fun changeVisibility() {
+        finish()
+    }
+
+    fun navigateToConfirm(){
+        database.child("products").child(productKey).removeValue().addOnSuccessListener {
+            database.child("users").child(currentuserID).child("offers").child(productKey).removeValue()
+            finish()
+        }.addOnFailureListener {
+            Log.i(TAG, it.toString())
+            Toast.makeText(this@DetailActivity, "Offer deletion failed, check internet connection", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -103,7 +187,7 @@ class DetailActivity : AppCompatActivity() {
         val temp = ArrayList<Uri?>()
 
 
-        imageQuery.addValueEventListener(object : ValueEventListener {
+        imageQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 for (productSnapshot in dataSnapshot.children) {
@@ -167,7 +251,7 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
-        keyref.addValueEventListener(valueEventListener)
+        keyref.addListenerForSingleValueEvent(valueEventListener)
     }
 
 //    fun makeDummyList(): ArrayList<Product> {
@@ -208,8 +292,7 @@ class DetailActivity : AppCompatActivity() {
                     arrayListOf(
                         weightDetailText, heightDetailText, widthDetailText, lengthDetailText,
                         authorDetailText, yearDetailText, bookTitleDetailText, weightActivityDetailLabel, heightActivityDetailLabel,
-                        widthActivityDetailLabel, lengthActivityDetailLabel, materialActivityDetailLabel, colorActivityDetailLabel,
-                        sizeActivityDetailLabel
+                        widthActivityDetailLabel, lengthActivityDetailLabel, materialActivityDetailLabel, colorActivityDetailLabel
                     )
                 )
             }

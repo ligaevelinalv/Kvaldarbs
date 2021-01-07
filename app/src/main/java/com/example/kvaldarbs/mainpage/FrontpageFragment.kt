@@ -110,8 +110,8 @@ class FrontpageFragment : Fragment(), CellClickListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 productList.clear()
                 for (productSnapshot in dataSnapshot.children) {
-//                    Log.i(TAG, productSnapshot.toString())
-                    if (productSnapshot.child("isordered").value.toString() == "false"){
+                    Log.i(TAG, productSnapshot.toString())
+                    if ((productSnapshot.child("isordered").value.toString() == "false") && (productSnapshot.child("visible").value.toString() == "true")){
                         productList.add(Product(
                                 productSnapshot.child("title").value.toString(),
                                 productSnapshot.child("type").value.toString() ,
@@ -132,6 +132,8 @@ class FrontpageFragment : Fragment(), CellClickListener {
                                 null,
                                 null,
                                 null,
+                                null,
+                                true,
                                 null
                         )
                         )

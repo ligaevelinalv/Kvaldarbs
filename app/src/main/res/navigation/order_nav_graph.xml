@@ -12,10 +12,14 @@
         <action
             android:id="@+id/action_detailFragment_to_orderConfirmationFragment"
             app:destination="@id/orderConfirmationFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_nav_graph"
+            app:destination="@id/nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/orderConfirmationFragment"
         android:name="com.example.kvaldarbs.orderflow.OrderConfirmationFragment"
         android:label="fragment_confirmation"
         tools:layout="@layout/fragment_confirmation" />
+    <include app:graph="@navigation/nav_graph" />
 </navigation>

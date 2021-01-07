@@ -19,543 +19,456 @@
             android:layout_width="90dp"
             android:layout_height="45dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="32dp"
             android:gravity="start|center"
             android:text="@string/offer_title"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/typeLabel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/typeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="start|center"
-            android:text="@string/product_type"
-            android:textColor="@color/darkest_black"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/manufLabel"
-            app:layout_constraintStart_toStartOf="@+id/titleLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_toolbar" />
 
 
         <TextView
             android:id="@+id/manufLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/manufacturer"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/deliveryLabel"
-            app:layout_constraintStart_toStartOf="@+id/typeLabel" />
+            app:layout_constraintStart_toStartOf="@+id/titleLabel"
+            app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
 
 
         <TextView
             android:id="@+id/deliveryLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/delivery"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/wearLabel"
-            app:layout_constraintStart_toStartOf="@+id/manufLabel" />
+            app:layout_constraintStart_toStartOf="@+id/manufLabel"
+            app:layout_constraintTop_toBottomOf="@+id/manufLabel" />
 
         <TextView
             android:id="@+id/locationLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/location"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/weightLabel"
-            app:layout_constraintStart_toStartOf="@+id/amountLabel" />
-
-        <TextView
-            android:id="@+id/wearLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="start|center"
-            android:text="@string/wear"
-            android:textColor="@color/darkest_black"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/amountLabel"
-            app:layout_constraintStart_toStartOf="@+id/deliveryLabel" />
+            app:layout_constraintStart_toStartOf="@+id/amountLabel"
+            app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
 
         <TextView
             android:id="@+id/amountLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/amount"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/locationLabel"
-            app:layout_constraintStart_toStartOf="@+id/wearLabel" />
+            app:layout_constraintStart_toStartOf="@+id/deliveryLabel"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryLabel" />
 
         <TextView
             android:id="@+id/weightLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/weight"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/heightLabel"
-            app:layout_constraintStart_toStartOf="@+id/locationLabel" />
+            app:layout_constraintStart_toStartOf="@+id/locationLabel"
+            app:layout_constraintTop_toBottomOf="@+id/locationLabel" />
 
         <TextView
             android:id="@+id/descriptionLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/description"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/descriptionField"
-            app:layout_constraintStart_toStartOf="@+id/sizeLabel" />
+            app:layout_constraintStart_toStartOf="@+id/sizeLabel"
+            app:layout_constraintTop_toBottomOf="@+id/sizeLabel" />
 
         <TextView
             android:id="@+id/blankGridSupoort"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
 
+            android:layout_marginTop="16dp"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/descriptionField"
             app:layout_constraintStart_toStartOf="@+id/sizeDropdown"
+            app:layout_constraintTop_toBottomOf="@+id/sizeDropdown"
             tools:ignore="DuplicateIds" />
 
-
-        <Button
-            android:id="@+id/offerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/button"
-            android:text="@string/offer"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/titleField"
             android:layout_width="206dp"
             android:layout_height="45dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
             android:ems="10"
             android:hint="@string/white_dinner_table"
             android:inputType="textPersonName"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/typeDropdown"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.516"
             app:layout_constraintStart_toEndOf="@+id/titleLabel"
+            app:layout_constraintTop_toBottomOf="@+id/profile_toolbar"
             android:autofillHints="title" />
-
-
 
         <EditText
             android:id="@+id/manufacturerField"
             android:layout_width="205dp"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/iekurs"
             android:inputType="textPersonName"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/deliveryDropdown"
-            app:layout_constraintStart_toStartOf="@+id/typeDropdown"
+            app:layout_constraintStart_toStartOf="@+id/titleField"
+            app:layout_constraintTop_toBottomOf="@+id/titleField"
             android:autofillHints="manufacturer" />
-
-        <Spinner
-            android:id="@+id/typeDropdown"
-            android:layout_width="205dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/border"
-            app:layout_constraintBottom_toTopOf="@+id/manufacturerField"
-            app:layout_constraintStart_toStartOf="@+id/titleField" />
 
         <Spinner
             android:id="@+id/deliveryDropdown"
             android:layout_width="205dp"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/border"
-            app:layout_constraintBottom_toTopOf="@+id/wearDropdown"
-            app:layout_constraintStart_toStartOf="@+id/manufacturerField" />
-
-        <Spinner
-            android:id="@+id/wearDropdown"
-            android:layout_width="205dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/border"
-            app:layout_constraintBottom_toTopOf="@+id/plusButton"
-            app:layout_constraintStart_toStartOf="@+id/deliveryDropdown" />
+            app:layout_constraintStart_toStartOf="@+id/manufacturerField"
+            app:layout_constraintTop_toBottomOf="@+id/manufacturerField" />
 
         <TextView
             android:id="@+id/amountNumberText"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/border"
+            android:layout_marginTop="16dp"
 
+            android:background="@drawable/border"
             android:gravity="center|start"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/locationField"
-            app:layout_constraintEnd_toStartOf="@+id/plusButton"
-            app:layout_constraintStart_toEndOf="@+id/minusButton" />
-
+            app:layout_constraintEnd_toStartOf="@+id/editPlusButton"
+            app:layout_constraintStart_toEndOf="@+id/editMinusButton"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryDropdown" />
 
 
         <EditText
             android:id="@+id/weightField"
             android:layout_width="205dp"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/_15_kg"
             android:inputType="number"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/heightField"
             app:layout_constraintStart_toStartOf="@+id/locationField"
+            app:layout_constraintTop_toBottomOf="@+id/locationField"
             android:autofillHints="number" />
 
         <EditText
             android:id="@+id/descriptionField"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:background="@drawable/border"
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/hint_text_offer_form"
             android:includeFontPadding="true"
             android:inputType="textMultiLine"
-            android:textSize="16sp"
             android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/attachedImagesRV"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/descriptionLabel"
+            app:layout_constraintTop_toBottomOf="@+id/blankGridSupoort"
             android:autofillHints="description" />
 
         <Button
-            android:id="@+id/plusButton"
+            android:id="@+id/editPlusButton"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:text="@string/plus"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/locationField"
-            app:layout_constraintEnd_toEndOf="@+id/wearDropdown" />
+            app:layout_constraintEnd_toEndOf="@+id/deliveryDropdown"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryDropdown" />
 
         <Button
-            android:id="@+id/minusButton"
+            android:id="@+id/editMinusButton"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:text="@string/minus"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/locationField"
-            app:layout_constraintStart_toStartOf="@+id/wearDropdown" />
-
-        <Button
-            android:id="@+id/browseDeviceButton"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/button"
-            android:text="@string/browse_device"
-            app:layout_constraintBottom_toTopOf="@+id/offerButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/takePictureButton"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/button"
-            android:text="@string/take_picture"
-            app:layout_constraintBottom_toTopOf="@+id/browseDeviceButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/imageAmountLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/errorLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/attachedImagesRV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@id/imageAmountLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/deliveryDropdown"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryDropdown" />
 
 
         <TextView
             android:id="@+id/heightLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/height_cm"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/widthLabel"
-            app:layout_constraintStart_toStartOf="@+id/weightLabel" />
+            app:layout_constraintStart_toStartOf="@+id/weightLabel"
+            app:layout_constraintTop_toBottomOf="@+id/weightLabel" />
 
         <EditText
             android:id="@+id/heightField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/_30_cm"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/widthField"
             app:layout_constraintStart_toStartOf="@+id/weightField"
+            app:layout_constraintTop_toBottomOf="@+id/weightField"
             android:autofillHints="number" />
 
         <TextView
             android:id="@+id/widthLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/width_cm"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/lengthLabel"
-            app:layout_constraintStart_toStartOf="@+id/heightLabel" />
+            app:layout_constraintStart_toStartOf="@+id/heightLabel"
+            app:layout_constraintTop_toBottomOf="@+id/heightLabel" />
 
         <TextView
             android:id="@+id/lengthLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/length_cm"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/materialLabel"
-            app:layout_constraintStart_toStartOf="@+id/widthLabel" />
+            app:layout_constraintStart_toStartOf="@+id/widthLabel"
+            app:layout_constraintTop_toBottomOf="@+id/widthLabel" />
 
         <TextView
             android:id="@+id/materialLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/material"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/colorLabel"
-            app:layout_constraintStart_toStartOf="@+id/lengthLabel" />
+            app:layout_constraintStart_toStartOf="@+id/lengthLabel"
+            app:layout_constraintTop_toBottomOf="@+id/lengthLabel" />
 
         <TextView
             android:id="@+id/colorLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/color"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/authorLabel"
-            app:layout_constraintStart_toStartOf="@+id/materialLabel" />
+            app:layout_constraintStart_toStartOf="@+id/materialLabel"
+            app:layout_constraintTop_toBottomOf="@+id/materialLabel" />
 
         <TextView
             android:id="@+id/authorLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/author"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/yearLabel"
-            app:layout_constraintStart_toStartOf="@+id/colorLabel" />
+            app:layout_constraintStart_toStartOf="@+id/colorLabel"
+            app:layout_constraintTop_toBottomOf="@+id/colorLabel" />
 
         <TextView
             android:id="@+id/yearLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/year"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/bookTitleLabel"
-            app:layout_constraintStart_toStartOf="@+id/authorLabel" />
+            app:layout_constraintStart_toStartOf="@+id/authorLabel"
+            app:layout_constraintTop_toBottomOf="@+id/authorLabel" />
 
         <TextView
             android:id="@+id/bookTitleLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/book_title"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/sizeLabel"
-            app:layout_constraintStart_toStartOf="@+id/yearLabel" />
+            app:layout_constraintStart_toStartOf="@+id/yearLabel"
+            app:layout_constraintTop_toBottomOf="@+id/yearLabel" />
 
         <TextView
             android:id="@+id/sizeLabel"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="start|center"
             android:text="@string/size"
             android:textColor="@color/darkest_black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/descriptionLabel"
-            app:layout_constraintStart_toStartOf="@+id/bookTitleLabel" />
+            app:layout_constraintStart_toStartOf="@+id/bookTitleLabel"
+            app:layout_constraintTop_toBottomOf="@+id/bookTitleLabel" />
 
         <EditText
             android:id="@+id/widthField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/_15_cm"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/lengthField"
             app:layout_constraintStart_toStartOf="@+id/heightField"
+            app:layout_constraintTop_toBottomOf="@+id/heightField"
             android:autofillHints="number" />
 
         <EditText
             android:id="@+id/lengthField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
-            android:inputType="number"
             android:hint="@string/_10_cm"
-            app:layout_constraintBottom_toTopOf="@+id/materialField"
+            android:inputType="number"
             app:layout_constraintStart_toStartOf="@+id/widthField"
+            app:layout_constraintTop_toBottomOf="@+id/widthField"
             android:autofillHints="number" />
 
         <EditText
             android:id="@+id/materialField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/wood"
-            app:layout_constraintBottom_toTopOf="@+id/colorField"
+            android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/lengthField"
+            app:layout_constraintTop_toBottomOf="@+id/lengthField"
             android:autofillHints="material" />
 
         <EditText
             android:id="@+id/colorField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/white"
-            app:layout_constraintBottom_toTopOf="@+id/authorField"
+            android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/materialField"
+            app:layout_constraintTop_toBottomOf="@+id/materialField"
             android:autofillHints="color" />
 
         <EditText
             android:id="@+id/authorField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/an_lavs_egl_tis"
-            app:layout_constraintBottom_toTopOf="@+id/yearField"
+            android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/colorField"
+            app:layout_constraintTop_toBottomOf="@+id/colorField"
             android:autofillHints="author" />
 
         <EditText
             android:id="@+id/yearField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
-            android:inputType="number"
             android:hint="@string/_1992"
-            app:layout_constraintBottom_toTopOf="@+id/bookTitleField"
+            android:inputType="number"
             app:layout_constraintStart_toStartOf="@+id/authorField"
+            app:layout_constraintTop_toBottomOf="@+id/authorField"
             android:autofillHints="year" />
 
         <EditText
             android:id="@+id/bookTitleField"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/piecas_dienas"
-            app:layout_constraintBottom_toTopOf="@+id/sizeDropdown"
+            android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/yearField"
+            app:layout_constraintTop_toBottomOf="@+id/yearField"
             android:autofillHints="title" />
 
         <Spinner
             android:id="@+id/sizeDropdown"
             android:layout_width="200dp"
             android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/border"
-            app:layout_constraintBottom_toTopOf="@+id/blankGridSupoort"
-            app:layout_constraintStart_toStartOf="@+id/bookTitleField" />
+            app:layout_constraintStart_toStartOf="@+id/bookTitleField"
+            app:layout_constraintTop_toBottomOf="@+id/bookTitleField" />
 
         <EditText
             android:id="@+id/locationField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/rai_a_bulv_ris_19"
-            app:layout_constraintBottom_toTopOf="@+id/weightField"
-            app:layout_constraintStart_toStartOf="@+id/minusButton"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/editMinusButton"
+            app:layout_constraintTop_toBottomOf="@+id/amountNumberText"
             android:autofillHints="location" />
 
-        <TextView
-            android:id="@+id/errorLabel"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/profile_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <Button
+            android:id="@+id/finishEditingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textColor="@android:color/holo_red_dark"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/edit_button"
+            android:text="@string/finish_editing"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/takePictureButton"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionField" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

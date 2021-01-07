@@ -59,9 +59,9 @@ class ProfileFragment : Fragment() {
 
         profileQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val product = dataSnapshot.getValue<User>()
+                val usersnapshot = dataSnapshot.getValue<User>()
 
-                product?.let {
+                usersnapshot?.let {
                     email = it.email
                     role = it.phone.toString()
                     phone = it.role

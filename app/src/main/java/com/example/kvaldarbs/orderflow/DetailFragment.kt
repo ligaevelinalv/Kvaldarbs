@@ -1,5 +1,6 @@
 package com.example.kvaldarbs.orderflow
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,15 +18,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kvaldarbs.R
+import com.example.kvaldarbs.authentication.SplashscreenActivity
+import com.example.kvaldarbs.dialogs.CriticDialog
 import com.example.kvaldarbs.dialogs.PopUpDialog2Butt
 import com.example.kvaldarbs.dialogs.TAG
 import com.example.kvaldarbs.libs.utils.OfferViewModel
 import com.example.kvaldarbs.libs.utils.OrderViewModel
+import com.example.kvaldarbs.mainpage.MainScreen
 import com.example.kvaldarbs.mainpage.productList
 import com.example.kvaldarbs.models.Product
 import com.example.kvaldarbs.offerflow.ImageAdapter
 import com.example.kvaldarbs.offerflow.currentuserID
 import com.example.kvaldarbs.offerflow.typedropdownval
+import com.example.kvaldarbs.profile.DetailActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -35,9 +40,9 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_detail.*
 
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.fragment_detail.offerButton
 import kotlinx.android.synthetic.main.fragment_makeoffer.*
 
 var imageList = arrayListOf<Uri?>()
@@ -47,11 +52,12 @@ class DetailFragment : Fragment() {
     lateinit var database: DatabaseReference
     lateinit var auth: FirebaseAuth
     lateinit var keyref: DatabaseReference
+    lateinit var roleref: DatabaseReference
     //var isordered: Boolean? = false
 
     lateinit var adapter: DetailAdapter
     private val model: OrderViewModel by activityViewModels()
-
+    lateinit var role: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -63,6 +69,30 @@ class DetailFragment : Fragment() {
         auth = Firebase.auth
         currentuserID = auth.currentUser?.uid.toString()
         keyref = database.child("products").child(passedval)
+
+        roleref = database.child("users").child(currentuserID).child("role")
+
+
+
+        val roleQuery = roleref
+        roleQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                role = dataSnapshot.value.toString()
+                if (role == "Administrator"){
+                    orderButton.visibility = View.GONE
+
+                } else {
+                    changeVisibilityButton.visibility = View.GONE
+                    deleteAdminButton.visibility = View.GONE
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+                Log.i(com.example.kvaldarbs.mainpage.TAG, "role loading failed "+ databaseError.toException())
+            }
+        })
 
         val recyclerView: RecyclerView = rootview.findViewById(R.id.detailImagesRV)
 
@@ -77,7 +107,7 @@ class DetailFragment : Fragment() {
         val temp = ArrayList<Uri?>()
 
 
-        imageQuery.addValueEventListener(object : ValueEventListener {
+        imageQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 for (productSnapshot in dataSnapshot.children) {
@@ -126,6 +156,7 @@ class DetailFragment : Fragment() {
                     //isordered = it.isordered
 
                     Log.i(TAG, product.toString())
+
                 }
             }
 
@@ -136,7 +167,7 @@ class DetailFragment : Fragment() {
             }
         }
 
-        keyref.addValueEventListener(valueEventListener)
+        keyref.addListenerForSingleValueEvent(valueEventListener)
 
         // Inflate the layout for this fragment
         return rootview
@@ -148,41 +179,79 @@ class DetailFragment : Fragment() {
 //        val message = passedval
 //        data.text = message
 
-
-
         val ree = PopUpDialog2Butt()
         val bundle = Bundle()
         ree.aaa = {
 
-
             navigateToConfirm()
         }
 
-        offerButton.setOnClickListener {
+        val criticdialog = CriticDialog()
+        val criticbundle = Bundle()
+        criticdialog.callbackToParent = {
+
+            criticNavigateToConfirm()
+        }
+
+        val deleteDialog = PopUpDialog2Butt()
+        val deleteBundle = Bundle()
+        deleteDialog.aaa = {
+            deleteNavigateToConfirm()
+        }
+
+        orderButton.setOnClickListener {
             //onAlertDialog(view)
-
-            database.child("products").child(passedval).child("isordered").setValue(true)
-
-            val values: HashMap<String, Any> = HashMap()
-            values[passedval] = true
-            database.child("users").child(currentuserID).child("orders").updateChildren(values)
-
-            database.child("products").child(passedval).child("orderer").setValue(currentuserID)
 
             bundle.putInt("dialogtype", 1)
             ree.arguments = bundle
             ree.show(parentFragmentManager, "")
+        }
 
+        changeVisibilityButton.setOnClickListener {
+            criticbundle.putInt("dialogtype", 1)
+            criticbundle.putString("key", passedval)
+            criticdialog.arguments = criticbundle
+            criticdialog.show(parentFragmentManager, "")
+        }
+
+        deleteAdminButton.setOnClickListener {
+            deleteBundle.putInt("dialogtype", 3)
+//                    bundle.putString("key", passedval)
+            deleteDialog.arguments = deleteBundle
+            deleteDialog.show(parentFragmentManager, "")
         }
     }
 
     fun navigateToConfirm(){
 
         findNavController().navigate(R.id.action_detailFragment_to_orderConfirmationFragment)
+        database.child("products").child(passedval).child("isordered").setValue(true)
 
+        val values: HashMap<String, Any> = HashMap()
+        values[passedval] = true
+        database.child("users").child(currentuserID).child("orders").updateChildren(values)
+
+        database.child("products").child(passedval).child("orderer").setValue(currentuserID)
     }
 
-    fun hideFields(type: String) {
+    fun criticNavigateToConfirm() {
+
+        val intent = Intent(requireContext(), MainScreen::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+    }
+
+    fun deleteNavigateToConfirm() {
+        findNavController().navigate(R.id.action_detailFragment_to_nav_graph)
+        database.child("products").child(passedval).removeValue().addOnSuccessListener {
+            database.child("users").child(currentuserID).child("offers").child(passedval).removeValue()
+        }.addOnFailureListener {
+            Log.i(TAG, it.toString())
+            Toast.makeText(requireContext(), "Offer deletion failed, check internet connection", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun hideFields(type: String?) {
         when (type) {
 
             "Furniture" -> {
@@ -203,12 +272,19 @@ class DetailFragment : Fragment() {
                         widthDetailLabel, lengthDetailLabel,  authorDetailLabel, yearDetailLabel,
                         bookTitleDetailLabel))
             }
+
+            else -> {
+                Log.i(TAG, "else in hideFields called")
+            }
         }
+
     }
 
-    fun hideLabelBasedOnType(type: ArrayList<TextView>) {
-        for (item in type) {
-            item.visibility = View.GONE
+    fun hideLabelBasedOnType(type: ArrayList<TextView>?) {
+        if (type != null) {
+            for (item in type) {
+                item.visibility = View.GONE
+            }
         }
     }
 

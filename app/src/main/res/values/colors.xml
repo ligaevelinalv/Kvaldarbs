@@ -13,8 +13,10 @@
     <color name="light_text_2">#706F6F</color>
     <color name="light_mustard_bg">#fff5d9</color>
     <color name="red">#F11808</color>
+    <color name="light_blue">#3cc0de</color>
     <color name="border_light">#E1E1E1</color>
     <color name="icActive">#FFFFFFFF</color>
     <color name="icFocused">#DDFFFFFF</color>
     <color name="icPressed">#AAFFFFFF</color>
+    <color name="warning_red">#e88b8b</color>
 </resources>

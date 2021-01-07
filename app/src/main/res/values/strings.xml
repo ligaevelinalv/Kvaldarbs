@@ -100,6 +100,18 @@
     <string name="confirm_order_delivery">Confirm order delivery</string>
     <string name="profile_icon">profile icon</string>
     <string name="image_error">There should be 1 to 10 attached images</string>
+    <string name="admin_critic_hint">The title should clearly display what item is being sold. Instead of \'Book about 1940s\', title the offer using the name and author.</string>
+    <string name="visibility_change">VISIBILITY CHANGE</string>
+    <string name="visibility_change_content">Please provide the reason for changing the visibility of this offer.</string>
+    <string name="delete_offer">DELETE OFFER</string>
+    <string name="delete_offer_content">Are you sure you want to delete this offer?</string>
+    <string name="images_of_the_product">images of the product</string>
+    <string name="visibility_change_invis">Are you sure you want to make the offer invisible?</string>
+    <string name="visibility_change_vis">Are you sure you want to make the offer visible?</string>
+    <string name="finish_editing">Finish editing</string>
+    <string name="change_visibility">Change visibility</string>
+    <string name="edit_product">Edit product</string>
+    <string name="the_visibility_of_your_product_has_been_changed_by_an_administrator">THE VISIBILITY OF YOUR PRODUCT HAS BEEN CHANGED BY AN ADMINISTRATOR:</string>
     <string-array name="product_type_array">
         <item>Book</item>
         <item>Furniture</item>

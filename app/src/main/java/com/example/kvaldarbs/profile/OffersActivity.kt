@@ -30,6 +30,7 @@ class OffersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
     lateinit var adapter: ProductAdapter
     lateinit var currentuserID: String
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offers)
@@ -61,10 +62,16 @@ class OffersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
     override fun onCellClickListener(data: Product) {
 
         val passkey =  data.key
+        val isordered = data.isordered.toString()
+        val visibility = data.visible.toString()
+        val admincritic = data.admincritic
 
         val intent = Intent(this@OffersActivity, DetailActivity::class.java)
         intent.putExtra("key", passkey)
         intent.putExtra("type", "offer")
+        intent.putExtra("orderstatus", isordered)
+        intent.putExtra("visibility", visibility)
+        intent.putExtra("admincritic", admincritic)
         startActivity(intent)
     }
 
@@ -93,39 +100,41 @@ class OffersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
     }
 
     fun queryValueListener() {
-        productList.clear()
 
         val allItemsQuery = database.child("products")
 
         allItemsQuery.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                productList.clear()
                 for (productSnapshot in dataSnapshot.children) {
                     if (userorders.contains(productSnapshot.key) ) {
                         Log.i(TAG, "filtered: $productSnapshot")
                         productList.add(Product(
-                                productSnapshot.child("title").value.toString(),
-                                productSnapshot.child("type").value.toString() ,
-                                productSnapshot.child("manufacturer").value.toString(),
-                                productSnapshot.child("delivery").value.toString(),
-                                "",
-                                0,
-                                "",
-                                "",
-                                false,
-                                productSnapshot.key.toString(),
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null
+                            productSnapshot.child("title").value.toString(),
+                            productSnapshot.child("type").value.toString() ,
+                            productSnapshot.child("manufacturer").value.toString(),
+                            productSnapshot.child("delivery").value.toString(),
+                            "",
+                            0,
+                            "",
+                            "",
+                            productSnapshot.child("isordered").value.toString().toBoolean(),
+                            productSnapshot.key.toString(),
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            productSnapshot.child("visible").value.toString().toBoolean(),
+                            productSnapshot.child("admincritic").value.toString()
                         ))
-                    }
 
+                    }
                 }
                 adapter.notifyDataSetChanged()
                 //Log.i(TAG, userorders.toString())
@@ -135,6 +144,7 @@ class OffersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
                 Log.i(TAG, "query fetching error: " + error.toException().toString())
             }
         })
+
 
     }
 

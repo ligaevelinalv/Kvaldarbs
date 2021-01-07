@@ -24,7 +24,10 @@ import com.example.kvaldarbs.models.Product
 import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -33,7 +36,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
-import kotlinx.android.synthetic.main.fragment_detail.offerButton
 import kotlinx.android.synthetic.main.fragment_makeoffer.*
 import java.time.Year
 import java.util.*
@@ -69,10 +71,12 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     lateinit var storageRef: StorageReference
     lateinit var currentuserID: String
     lateinit var firestore: FirebaseFirestore
+    lateinit var keyref: DatabaseReference
 
     lateinit var adapter: ImageAdapter
     private val pickImage = 1
     private var image_uri: Uri? = null
+    lateinit var role: String
 
     private val model: OfferViewModel by activityViewModels()
 
@@ -84,12 +88,28 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         currentuserID = auth.currentUser?.uid.toString()
         storage = Firebase.storage
         storageRef = storage.reference
-        currentuserID = auth.currentUser?.uid.toString()
         firestore = Firebase.firestore
+        keyref = database.child("users").child(com.example.kvaldarbs.offerflow.currentuserID).child("role")
+
+        val roleQuery = keyref
+        roleQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                role = dataSnapshot.value.toString()
+//                if (role == "Administrator"){
+//
+//                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+                Log.i(com.example.kvaldarbs.mainpage.TAG, "role loading failed "+ databaseError.toException())
+            }
+        })
 
         val fddfs = Observer<List<Uri?>> {
             //Log.i(TAG, model.getList().toString())
-            attachedImage2.setImageURI(model.getLast())
+            //attachedImage2.setImageURI(model.getLast())
             val imgAmount = model.getCount()
             val imgCount = imgAmount + "/10"
             imageAmountLabel.text = imgCount
@@ -182,8 +202,6 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         super.onViewCreated(view, savedInstanceState)
 
         hideModuleFields()
-
-
 
         amountNumberText.text = amountnumber.toString()
 
@@ -328,7 +346,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         //called when image was captured from camera intent
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             image_uri = data?.data
-            attachedImage.setImageURI(image_uri)
+            //attachedImage.setImageURI(image_uri)
         }
     }
 
@@ -357,7 +375,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                 false, null,
                 weight, height, width, length,
                 material, color, author, year,
-                book_title, size
+                book_title, size, true, ""
         )
         val productValues = product.toMap()
 
@@ -377,36 +395,56 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
 
     private fun validateForm(): Boolean {
 
-        var isValid: Boolean
+        var isValid = true
 
-        isValid = checkForEmpty(arrayListOf(titleField, manufacturerField, locationField, descriptionField))
+        if (checkForEmpty(arrayListOf(titleField, manufacturerField, locationField, descriptionField))) {
+            when (typedropdownval) {
 
-        val year = yearField.text.toString()
+                "Furniture" -> {
+                    isValid = checkForEmpty(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
+                }
 
-        if(year == "") {
-            yearField.error = "Required."
+                "Book" -> {
+                    val year = yearField.text.toString()
+
+                    if(year == "") {
+                        yearField.error = "Required."
+                        isValid = false
+                    }
+                    else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
+                        yearField.error = "Year has to be between 1700 and current year."
+                        isValid = false
+                    }
+                    isValid = checkForEmpty(arrayListOf(authorField, yearField, bookTitleField))
+                }
+
+                "Decorations" -> {
+                    isValid = checkForEmpty(arrayListOf(materialField, colorField))
+                }
+            }
+            checkImageCount()
+        } else {
             isValid = false
-        }
-        else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
-            yearField.error = "Year has to be between 1700 and current year."
-            isValid = false
-        }
-
-        when (typedropdownval) {
-
-            "Furniture" -> {
-                isValid = checkForEmpty(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
+            when (typedropdownval) {
+                "Furniture" -> {
+                    checkForEmpty(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
+                }
+                "Book" -> {
+                    val year = yearField.text.toString()
+                    if(year == "") {
+                        yearField.error = "Required."
+                    }
+                    else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
+                        yearField.error = "Year has to be between 1700 and current year."
+                    }
+                    checkForEmpty(arrayListOf(authorField, yearField, bookTitleField))
+                }
+                "Decorations" -> {
+                    checkForEmpty(arrayListOf(materialField, colorField))
+                }
             }
-
-            "Book" -> {
-                isValid = checkForEmpty(arrayListOf(authorField, yearField, bookTitleField))
-            }
-
-            "Decorations" -> {
-                isValid = checkForEmpty(arrayListOf(materialField, colorField))
-            }
+            checkImageCount()
         }
-        checkImageCount()
 
         return isValid
     }
