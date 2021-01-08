@@ -26,6 +26,7 @@ class PopUpDialog1Butt: DialogFragment() {
         dialog!!.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
 
         val dialogtype = arguments?.getInt("dialogtype")
+        val resetEmail = arguments?.getString("reset")
 
         when(dialogtype){
             1 -> {
@@ -41,6 +42,11 @@ class PopUpDialog1Butt: DialogFragment() {
             3 -> {
                 titleFieldRW.text = getString(R.string.confirm_account_deletion)
                 content.text = getString(R.string.delete_account)
+            }
+
+            4 -> {
+                titleFieldRW.text = "PASSWORD RESET"
+                content.text = "A password reset link has been sent to $resetEmail"
             }
 
             else -> {

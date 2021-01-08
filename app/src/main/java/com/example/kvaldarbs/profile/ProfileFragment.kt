@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.kvaldarbs.R
 import com.example.kvaldarbs.authentication.SplashscreenActivity
+import com.example.kvaldarbs.dialogs.PopUpDialog1Butt
 import com.example.kvaldarbs.dialogs.ReauthenticateDialog
 import com.example.kvaldarbs.dialogs.TAG
 import com.google.firebase.auth.FirebaseAuth
@@ -37,6 +39,7 @@ class ProfileFragment : Fragment() {
     lateinit var storage: FirebaseStorage
     lateinit var storageRef: StorageReference
     lateinit var profileQuery: DatabaseReference
+    lateinit var connectivityref:DatabaseReference
 
     var email: String = ""
     var role: String = ""
@@ -54,25 +57,50 @@ class ProfileFragment : Fragment() {
         storageRef = storage.reference
         currentuserID = auth.currentUser?.uid.toString()
         keyref = database.child("users").child(currentuserID)
+        user = auth.currentUser!!
 
         profileQuery= keyref
 
-        profileQuery.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val usersnapshot = dataSnapshot.getValue<User>()
+        connectivityref = Firebase.database.getReference(".info/connected")
 
-                usersnapshot?.let {
-                    email = it.email
-                    role = it.phone.toString()
-                    phone = it.role
+        connectivityref.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val connected = dataSnapshot.getValue(Boolean::class.java) ?: false
+                if (connected) {
+                    profileQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                            val usersnapshot = dataSnapshot.getValue<User>()
+
+                            usersnapshot?.let {
+                                email = it.email
+                                role = it.phone.toString()
+                                phone = it.role
+                            }
+                            refreshUI()
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.i(TAG, "query fetching error: " + error.toException().toString())
+                        }
+                    })
+                } else {
+                    Log.i(TAG, "not connected")
+                    Toast.makeText(requireContext(), "Couldn't load fresh profile data, please check your internet connection.", Toast.LENGTH_LONG).show()
                 }
-                refreshUI()
+
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.i(TAG, "query fetching error: " + error.toException().toString())
+                //Toast.makeText(requireContext(), "Couldn't load profile data, please check your internet connection.", Toast.LENGTH_LONG).show()
             }
         })
+
+
+
 
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
@@ -103,6 +131,32 @@ class ProfileFragment : Fragment() {
             ree.arguments = bundle
             ree.show(parentFragmentManager, "")
         }
+
+        changePasswordButton.setOnClickListener {
+            user.email?.let { it1 ->
+                Firebase.auth.sendPasswordResetEmail(it1).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.i(TAG, "Email sent.")
+                        val ree = PopUpDialog1Butt()
+                        val passbundle = Bundle()
+                        ree.aaa = {
+                            onChangeSuccess()
+                        }
+
+                        passbundle.putInt("dialogtype", 4)
+                        passbundle.putString("reset", user.email)
+                        ree.arguments = passbundle
+                        ree.show(parentFragmentManager, "")
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(requireContext(), "Action failed, please check your internet connection.", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    fun onChangeSuccess() {
+        Log.i(TAG, "Password reset successful")
     }
 
     fun navigateToConfirm(){

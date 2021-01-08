@@ -239,16 +239,16 @@ class DetailFragment : Fragment() {
         val intent = Intent(requireContext(), MainScreen::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+        Toast.makeText(requireContext(), "Visibility changed successfully.", Toast.LENGTH_LONG).show()
     }
 
     fun deleteNavigateToConfirm() {
         findNavController().navigate(R.id.action_detailFragment_to_nav_graph)
-        database.child("products").child(passedval).removeValue().addOnSuccessListener {
+        database.child("products").child(passedval).removeValue()
             database.child("users").child(currentuserID).child("offers").child(passedval).removeValue()
-        }.addOnFailureListener {
-            Log.i(TAG, it.toString())
-            Toast.makeText(requireContext(), "Offer deletion failed, check internet connection", Toast.LENGTH_LONG).show()
-        }
+
+            Toast.makeText(requireContext(), "Offer deletion successful.", Toast.LENGTH_LONG).show()
+
     }
 
     fun hideFields(type: String?) {

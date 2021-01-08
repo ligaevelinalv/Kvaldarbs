@@ -250,7 +250,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         }
 
         plusButton.setOnClickListener {
-            if (amountnumber < 11){
+            if (amountnumber <= 10){
                 amountnumber ++
                 amountNumberText.text = amountnumber.toString()
             }
@@ -366,6 +366,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         val key = database.child("products").push().key
         productID = key
         if (key == null) {
+
             Log.i(TAG, "Couldn't get push key for posts")
             return
         }
@@ -395,7 +396,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
 
     private fun validateForm(): Boolean {
 
-        var isValid = true
+        var isValid: Boolean
 
         if (checkForEmpty(arrayListOf(titleField, manufacturerField, locationField, descriptionField))) {
             when (typedropdownval) {
@@ -408,7 +409,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                     val year = yearField.text.toString()
 
                     if(year == "") {
-                        yearField.error = "Required."
+                        yearField.error = "Field cannot be empty."
                         isValid = false
                     }
                     else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
@@ -422,7 +423,8 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                     isValid = checkForEmpty(arrayListOf(materialField, colorField))
                 }
             }
-            checkImageCount()
+            isValid = checkImageCount()
+
         } else {
             isValid = false
             when (typedropdownval) {
@@ -432,7 +434,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                 "Book" -> {
                     val year = yearField.text.toString()
                     if(year == "") {
-                        yearField.error = "Required."
+                        yearField.error = "Field cannot be empty."
                     }
                     else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
                         yearField.error = "Year has to be between 1700 and current year."
@@ -454,7 +456,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
 
         for (item in fields) {
             if (item.text.toString() == "") {
-                item.error = "Required."
+                item.error = "Field cannot be empty."
                 isValid = false
             }
         }
@@ -462,14 +464,17 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         return isValid
     }
 
-    fun checkImageCount(){
+    fun checkImageCount(): Boolean{
         val count = model.getCount().toInt()
         if ((count > 10) or (count == 0)){
             errorLabel.text = getString(R.string.image_error)
             errorLabel.visibility = View.VISIBLE
+
+            return false
         }
         else {
             errorLabel.visibility = View.GONE
+            return true
         }
     }
 

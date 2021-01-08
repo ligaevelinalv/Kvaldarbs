@@ -31,17 +31,6 @@ class Login : AppCompatActivity() {
 
     //log tag definition
     val TAG = "droidsays"
-    var valid = true
-
-
-    public override fun onStart() {
-        super.onStart()
-
-        // Check auth on Activity start
-        auth.currentUser?.let {
-            onAuthSuccess()
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -51,6 +40,10 @@ class Login : AppCompatActivity() {
         //init
         database = Firebase.database.reference
         auth = Firebase.auth
+
+        auth.currentUser?.let {
+            onAuthSuccess()
+        }
 
         Log.i(TAG, "init passed:")
 
@@ -84,16 +77,26 @@ class Login : AppCompatActivity() {
                     //val user = auth.currentUser
                     startActivity(Intent(this@Login, MainScreen::class.java))
 
-
                 } else {
-                    // If sign in fails, display a message to the user.
                     Log.i(TAG, "signIn:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+                    val exe = task.exception?.message
+
+                    when (task.exception?.message) {
+                        "The email address is badly formatted." -> {
+                            emailField.error = task.exception?.message
+                        }
+                        "The password is invalid or the user does not have a password."-> {
+                            passwordField.error = task.exception?.message
+                        }
+                        "There is no user record corresponding to this identifier. The user may have been deleted."-> {
+                            emailField.error = "There is no user record corresponding to this identifier."
+                        }
+                        else -> {
+                            Toast.makeText(baseContext, "Action failed, please check your internet connection.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
                 }
-//                if (!task.isSuccessful) {
-//                    //binding.status.setText(R.string.auth_failed)
-//                }
             }
     }
 
@@ -110,7 +113,7 @@ class Login : AppCompatActivity() {
         var isValid = true
         for (item in fields) {
             if (item.text.toString() == "") {
-                item.error = "Required."
+                item.error = "Field cannot be empty."
                 isValid = false
             }
         }

@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kvaldarbs.R
 import com.example.kvaldarbs.mainpage.MainScreen
@@ -80,8 +81,34 @@ class Register : AppCompatActivity() {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.i(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+
+                    when (task.exception?.message) {
+                        "The email address is badly formatted." -> {
+                            emailField.error = task.exception?.message
+                        }
+                        "The email address is already in use by another account."-> {
+                            emailField.error = task.exception?.message
+                        }
+                        "The given password is invalid. [ Password should be at least 6 characters ]"-> {
+                            passwordField.error = "Password should be at least 6 characters long."
+                        }
+                        else -> {
+                            Toast.makeText(baseContext, "Action failed, please check your internet connection.", LENGTH_LONG).show()
+                        }
+                    }
+
+//                    if (task.exception?.message == "The email address is badly formatted.") {
+//                        emailField.error = task.exception?.message
+//                    }
+//                    if (task.exception?.message == "The email address is already in use by another account.") {
+//                        emailField.error = task.exception?.message
+//                    }
+//                    if (task.exception?.message == "The given password is invalid. [ Password should be at least 6 characters ]") {
+//                        passwordField.error = "Password should be at least 6 characters long."
+//                    }
+//                    else {
+//                        Toast.makeText(baseContext, "Action failed, please check internet connection.", Toast.LENGTH_LONG).show()
+//                    }
                 }
             }
 
@@ -91,15 +118,10 @@ class Register : AppCompatActivity() {
 
         var isValid = true
 
-        if (!checkForEmpty(arrayListOf(phoneField, passwordField))){
+        if (!checkForEmpty(arrayListOf(phoneField, passwordField, emailField))){
             isValid = false
         }
-
-        if (!checkForEmpty(arrayListOf(emailField))) {
-            isValid = false
-        }
-
-        if (!checkForLength(arrayListOf(phoneField, passwordField))){
+        if (!checkForLength(arrayListOf(phoneField))){
             isValid = false
         }
 
@@ -111,23 +133,24 @@ class Register : AppCompatActivity() {
         var isValid = true
         for (item in fields) {
             if (item.text.toString() == "") {
-                item.error = "Required."
+                item.error = "Field cannot be empty."
                 isValid = false
             }
         }
         return isValid
     }
 
-    fun checkForLength(fields: ArrayList<EditText>): Boolean{
+    fun checkForLength(fields: ArrayList<EditText>): Boolean {
         var isValid = true
         for (item in fields) {
-            if (item.text.toString().length != 8){
-                item.error = "Length has to be exactly 8 characters"
+            if (item.text.toString().length != 8) {
+                item.error = "Length has to be exactly 8 characters."
                 isValid = false
             }
         }
         return isValid
     }
+
 }
 
 

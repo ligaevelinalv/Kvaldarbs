@@ -219,6 +219,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 val intent = Intent(this, OffersActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
+                Toast.makeText(baseContext, "Product edited successfully.", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -355,7 +356,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                     isValid = checkForEmpty(arrayListOf(authorField, yearField, bookTitleField))
                     val year = yearField.text.toString()
                     if(year == "") {
-                        yearField.error = "Required."
+                        yearField.error = "Field cannot be empty."
                         isValid = false
                     }
                     else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
@@ -377,7 +378,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                     checkForEmpty(arrayListOf(authorField, yearField, bookTitleField))
                     val year = yearField.text.toString()
                     if(year == "") {
-                        yearField.error = "Required."
+                        yearField.error = "Field cannot be empty."
                     }
                     else if ((year.toInt() > Year.now().value) or (year.toInt() <= 1700)) {
                         yearField.error = "Year has to be between 1700 and current year."
@@ -397,7 +398,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         for (item in fields) {
             if (item.text.toString() == "") {
-                item.error = "Required."
+                item.error = "Field cannot be empty."
                 isValid = false
             }
         }

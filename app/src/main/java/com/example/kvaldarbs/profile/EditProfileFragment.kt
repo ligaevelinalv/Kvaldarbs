@@ -101,7 +101,7 @@ class EditProfileFragment : Fragment() {
         var isValid = true
         for (item in fields) {
             if (item.text.toString() == "") {
-                item.error = "Required."
+                item.error = "Field cannot be empty."
                 isValid = false
             }
         }
@@ -112,7 +112,7 @@ class EditProfileFragment : Fragment() {
         var isValid = true
         for (item in fields) {
             if (item.text.toString().length != 8){
-                item.error = "Length has to be exactly 8 characters"
+                item.error = "Length has to be exactly 8 characters."
                 isValid = false
             }
         }

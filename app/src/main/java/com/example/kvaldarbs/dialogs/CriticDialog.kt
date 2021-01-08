@@ -59,10 +59,8 @@ class CriticDialog : DialogFragment() {
         okButt.setOnClickListener {
             critic = adminCriticField.text.toString()
 
-            dismiss()
-            changeVisibility(key, critic)
-            callbackToParent()
 
+            changeVisibility(key, critic)
         }
 
         cancelButt.setOnClickListener {
@@ -72,13 +70,15 @@ class CriticDialog : DialogFragment() {
 
     fun changeVisibility(key: String?, critic: String){
             if (key != null) {
-                database.child("products").child(key).child("visible").setValue(false).addOnSuccessListener {
+                if (critic != "")  {
+                    dismiss()
+                    database.child("products").child(key).child("visible").setValue(false)
                     database.child("products").child(key).child("admincritic").setValue(critic)
-
-                }.addOnFailureListener {
-                    Toast.makeText(requireContext(), "Something went wrong, check your internet connection.",
-                        Toast.LENGTH_LONG).show()
+                    callbackToParent()
+                } else {
+                    adminCriticField.error = "Please provide a reason for changing the visibility!"
                 }
+
             }
     }
 

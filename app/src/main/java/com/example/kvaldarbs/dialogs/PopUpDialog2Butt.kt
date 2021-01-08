@@ -94,11 +94,10 @@ class PopUpDialog2Butt: DialogFragment() {
 
     fun changeVisibility(key: String?, visibility: Boolean){
         if (key != null) {
-            database.child("products").child(key).child("visible").setValue(!visibility).addOnSuccessListener {
-                Log.i(com.example.kvaldarbs.dialogs.TAG, "successfully changed visibility")
-            }.addOnFailureListener {
-                Toast.makeText(requireContext(), "Something went wrong, check your internet connection.",
-                        Toast.LENGTH_LONG).show()
+            database.child("products").child(key).child("visible").setValue(!visibility).addOnCompleteListener{
+                    Log.i(com.example.kvaldarbs.dialogs.TAG, "successfully changed visibility")
+
+
             }
         }
     }

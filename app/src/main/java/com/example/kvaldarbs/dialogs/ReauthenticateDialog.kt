@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.fragment.app.DialogFragment
@@ -32,6 +33,7 @@ import kotlinx.android.synthetic.main.dialog_reauthenticate.*
 import kotlin.properties.Delegates
 import com.google.firebase.storage.ktx.component1
 import com.google.firebase.storage.ktx.component2
+import kotlinx.android.synthetic.main.activity_login.*
 
 
 class ReauthenticateDialog: DialogFragment() {
@@ -62,17 +64,7 @@ class ReauthenticateDialog: DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        yesButt.setOnClickListener {
-            actBasedOnType(dialogtype)
-        }
 
-        noButt.setOnClickListener{
-            dismiss()
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
         val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
         dialog!!.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
 
@@ -94,6 +86,18 @@ class ReauthenticateDialog: DialogFragment() {
                 content.text = getString(R.string.unassigned)
             }
         }
+
+        yesButt.setOnClickListener {
+
+            if (validateForm()) {
+                actBasedOnType(dialogtype)
+            }
+
+        }
+
+        noButt.setOnClickListener{
+            dismiss()
+        }
     }
 
     override fun onResume() {
@@ -110,9 +114,29 @@ class ReauthenticateDialog: DialogFragment() {
         user.reauthenticate(credential).addOnCompleteListener {
             Log.i(TAG, "User re-authenticated.")
             if(!it.isSuccessful) {
-                Log.i(TAG, it.exception.toString())
-                Log.i(TAG, it.toString())
-                Toast.makeText(requireContext(), "Reauthentication failed, check internet connection", LENGTH_LONG).show()
+//                Log.i(TAG, it.exception.toString())
+//                Log.i(TAG, it.toString())
+//                Toast.makeText(requireContext(), "Reauthentication failed, check internet connection", LENGTH_LONG).show()
+                val exe = it.exception?.message
+                when(it.exception?.message) {
+                    "The email address is badly formatted." -> {
+                        emailReauthField.error = it.exception?.message
+                    }
+                    "The password is invalid or the user does not have a password."-> {
+                        passwordReauthField.error = it.exception?.message
+                    }
+                    "The supplied credentials do not correspond to the previously signed in user." -> {
+                        emailReauthField.error = it.exception?.message
+                    }
+                    "There is no user record corresponding to this identifier. The user may have been deleted." -> {
+                        emailReauthField.error = "There is no user record corresponding to this identifier."
+                    }
+                    else -> {
+                        Toast.makeText(requireContext(), "Action failed, please check your internet connection.", Toast.LENGTH_LONG).show()
+                    }
+
+                }
+
                 return@addOnCompleteListener
             }
             when(type) {
@@ -124,8 +148,6 @@ class ReauthenticateDialog: DialogFragment() {
                     if (newemail != null) {
                         changeEmail(newemail)
                     }
-                    dismiss()
-                    aaa()
                 }
                 else -> {
                     Toast.makeText(requireContext(), "Something went wrong, try again later.",
@@ -187,7 +209,7 @@ class ReauthenticateDialog: DialogFragment() {
         when(value) {
             true-> {
                 dismiss()
-                Toast.makeText(requireContext(), "Cannot delete profile if it has offers.",
+                Toast.makeText(requireContext(), "Cannot delete profile if it has offers that have been accepted.",
                         LENGTH_LONG).show()
             }
             false -> {
@@ -260,9 +282,44 @@ class ReauthenticateDialog: DialogFragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.i(TAG, "User email address updated.")
+                    dismiss()
+                    aaa()
+                }
+                else {
+                    val exe = task.exception?.message
+                    if (task.exception?.message == "The email address is badly formatted.") {
+                        Toast.makeText(requireContext(), "The email address is badly formatted.", Toast.LENGTH_LONG).show()
+                    }
+                    if (task.exception?.message == "The email address is already in use by another account.") {
+                        Toast.makeText(requireContext(), "The email address is badly formatted.", Toast.LENGTH_LONG).show()
+                    }
+                    else {
+                        Toast.makeText(requireContext(), "Action failed, please check internet connection.", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
 
+    }
+
+    private fun validateForm(): Boolean {
+
+        val isValid: Boolean
+
+        isValid = checkForEmpty(arrayListOf(emailReauthField, passwordReauthField))
+
+        return isValid
+    }
+
+    fun checkForEmpty(fields: ArrayList<EditText>): Boolean{
+        var isValid = true
+        for (item in fields) {
+            if (item.text.toString() == "") {
+                item.error = "Field cannot be empty."
+                isValid = false
+            }
+        }
+
+        return isValid
     }
 }
 

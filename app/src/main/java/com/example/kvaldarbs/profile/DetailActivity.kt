@@ -71,6 +71,7 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.detail_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
         if(parentActivity == "offer") {
             detailActivityButton.visibility = View.GONE
 
@@ -143,29 +144,24 @@ class DetailActivity : AppCompatActivity() {
             detailActivityButton.setOnClickListener {
                 Log.i(com.example.kvaldarbs.dialogs.TAG, "deleting offer")
 
-                database.child("products").child(productKey).removeValue().addOnSuccessListener {
-                    database.child("users").child(currentuserID).child("orders").child(productKey).removeValue()
-                    finish()
-                }.addOnFailureListener {
-                    Log.i(TAG, it.toString())
-                    Toast.makeText(this@DetailActivity, "Delivery confirmation failed, please check internet connection", Toast.LENGTH_LONG).show()
-                }
+                database.child("products").child(productKey).removeValue()
+                database.child("users").child(currentuserID).child("orders").child(productKey).removeValue()
+                finish()
             }
         }
     }
 
     fun changeVisibility() {
         finish()
+        Toast.makeText(this@DetailActivity, "Visibility changed successfully.", Toast.LENGTH_LONG).show()
     }
 
     fun navigateToConfirm(){
-        database.child("products").child(productKey).removeValue().addOnSuccessListener {
-            database.child("users").child(currentuserID).child("offers").child(productKey).removeValue()
-            finish()
-        }.addOnFailureListener {
-            Log.i(TAG, it.toString())
-            Toast.makeText(this@DetailActivity, "Offer deletion failed, check internet connection", Toast.LENGTH_LONG).show()
-        }
+        database.child("products").child(productKey).removeValue()
+        database.child("users").child(currentuserID).child("offers").child(productKey).removeValue()
+        finish()
+        Toast.makeText(baseContext, "Offer deletion successful.", Toast.LENGTH_LONG).show()
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
