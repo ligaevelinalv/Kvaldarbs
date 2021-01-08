@@ -86,7 +86,6 @@ class DetailActivity : AppCompatActivity() {
 
                 deleteOfferButton.setOnClickListener {
                     bundle.putInt("dialogtype", 3)
-//                    bundle.putString("key", passedval)
                     dialog.arguments = bundle
                     dialog.show(supportFragmentManager, "")
                 }
