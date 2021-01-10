@@ -41,30 +41,34 @@ import java.time.Year
 import java.util.*
 import kotlin.collections.HashMap
 
-val TAG: String = "droidsays"
 var id: Int = 0
-
-var typedropdownval: String = ""
-var deliverydropdownval: String = ""
-var weardropdownval:String = ""
-var amountnumber:Int = 1
-var weightval: Int? = null
-var heightval: Int? = null
-var widthval: Int? = null
-var lengthval: Int? = null
-var materialval: String? = null
-var colorval: String? = null
-var authorval: String? = null
-var yearval: Int? = null
-var booktitleval: String? = null
-var sizedropdownval: String? = null
-
-
-var currentuserID:String = ""
-var imageList = arrayListOf<Uri?>()
-var productID: String? = ""
+var currentuserID: String = ""
 
 class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
+    //log tag definition
+    val TAG: String = "droidsays"
+
+    //variables for product input fields
+    var typedropdownval: String = ""
+    var deliverydropdownval: String = ""
+    var weardropdownval:String = ""
+    var amountnumber:Int = 1
+    var weightval: Int? = null
+    var heightval: Int? = null
+    var widthval: Int? = null
+    var lengthval: Int? = null
+    var materialval: String? = null
+    var colorval: String? = null
+    var authorval: String? = null
+    var yearval: Int? = null
+    var booktitleval: String? = null
+    var sizedropdownval: String? = null
+
+    //list of Uris that is passed to the recyclerview adapter
+    var imageList = arrayListOf<Uri?>()
+    var productID: String? = ""
+
+    //database variable declaration
     lateinit var database: DatabaseReference
     lateinit var auth: FirebaseAuth
     lateinit var storage: FirebaseStorage
@@ -78,11 +82,13 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     private var image_uri: Uri? = null
     lateinit var role: String
 
+    //offerview model declaration
     private val model: OfferViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //database variable initialising
         database = Firebase.database.reference
         auth = Firebase.auth
         currentuserID = auth.currentUser?.uid.toString()
@@ -91,109 +97,91 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         firestore = Firebase.firestore
         keyref = database.child("users").child(com.example.kvaldarbs.offerflow.currentuserID).child("role")
 
+        //query to find what role the user has
         val roleQuery = keyref
         roleQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 role = dataSnapshot.value.toString()
-//                if (role == "Administrator"){
-//
-//                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-
-                Log.i(com.example.kvaldarbs.mainpage.TAG, "role loading failed "+ databaseError.toException())
+                Log.i(TAG, "role loading failed "+ databaseError.toException())
             }
         })
 
-        val fddfs = Observer<List<Uri?>> {
-            //Log.i(TAG, model.getList().toString())
-            //attachedImage2.setImageURI(model.getLast())
+        //uri list with oserver that monitors the image count
+        val imageCountObserver = Observer<List<Uri?>> {
             val imgAmount = model.getCount()
             val imgCount = imgAmount + "/10"
             imageAmountLabel.text = imgCount
             imageAmountLabel.visibility = View.VISIBLE
 
+            //error text shown if too few or too many images have been attached
             if ((imgAmount.toInt() > 0) and (imgAmount.toInt() < 11)) {
                 errorLabel.visibility = View.GONE
             }
         }
 
-        model.sharedImgUri.observe(this, fddfs)
+        model.sharedImgUri.observe(this, imageCountObserver)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
 
+        //inflate the layout for this fragment
         val rootview = inflater.inflate(R.layout.fragment_makeoffer, container, false)
 
+        //dropdown field setup
         val typedropdown: Spinner = rootview.findViewById(R.id.typeDropdown)
         typedropdown.onItemSelectedListener = this
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.product_type_array,
                 android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             typedropdown.adapter = adapter
         }
 
         val deliverydropdown: Spinner = rootview.findViewById(R.id.deliveryDropdown)
         deliverydropdown.onItemSelectedListener = this
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.delivery_array,
                 android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             deliverydropdown.adapter = adapter
         }
 
         val weardropdown: Spinner = rootview.findViewById(R.id.wearDropdown)
         weardropdown.onItemSelectedListener = this
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.wear_array,
                 android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             weardropdown.adapter = adapter
         }
 
         val sizedropdown: Spinner = rootview.findViewById(R.id.sizeDropdown)
         sizedropdown.onItemSelectedListener = this
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.size_array,
                 android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             sizedropdown.adapter = adapter
         }
 
+        //recyclerview setup
         val recyclerView: RecyclerView = rootview.findViewById(R.id.attachedImagesRV)
-
-
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext(), LinearLayoutManager.HORIZONTAL, false)
         adapter = ImageAdapter(this.requireContext(), fetchList())
         recyclerView.adapter = adapter
+
+        (activity as OfferFlowScreen).supportActionBar?.title = "Make offer"
 
         return rootview
     }
@@ -201,14 +189,14 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        hideModuleFields()
+        hideTypeFields()
 
+        //initialising default product amount
         amountNumberText.text = amountnumber.toString()
 
-        val ree = PopUpDialog2Butt()
+        val confirmationdialog = PopUpDialog2Butt()
         val bundle = Bundle()
-        ree.aaa = {
-            Log.i(TAG, "ree.aaa closure called")
+        confirmationdialog.callback2butt = {
 
                 parseForm()
 
@@ -233,19 +221,20 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                         sizedropdownval
                 )
 
-                val temp = model.sharedImgUri.value
-                uploadFileToStorage(temp as ArrayList<Uri?>)
+                //upload final list of images to Firebase torage
+                val finalList = model.sharedImgUri.value
+                uploadFileToStorage(finalList as ArrayList<Uri?>)
 
                 navigateToConfirm()
         }
 
+        //button onclicklistener declaration
         offerButton.setOnClickListener {
-            //onAlertDialog(view)
 
             if (validateForm()) {
                 bundle.putInt("dialogtype", 2)
-                ree.arguments = bundle
-                ree.show(parentFragmentManager, "")
+                confirmationdialog.arguments = bundle
+                confirmationdialog.show(parentFragmentManager, "")
             }
         }
 
@@ -264,82 +253,17 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         }
 
         browseDeviceButton.setOnClickListener {
-            askPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE){
-                //all of your permissions have been accepted by the user
-                val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-                startActivityForResult(gallery, pickImage)
-            }.onDeclined { e ->
-
-                if (e.hasDenied()) {
-                    Log.i(TAG, "Denied: ")
-                    //the list of denied permissions
-                    e.denied.forEach {
-                        Log.i(TAG, e.toString())
-                    }
-
-                    AlertDialog.Builder(requireContext())
-                        .setMessage("Please accept our permissions")
-                        .setPositiveButton("yes") { dialog, which ->
-                            e.askAgain()
-                        } //ask again
-                        .setNegativeButton("no") { dialog, which ->
-                            dialog.dismiss()
-                        }
-                        .show()
-                }
-
-                if(e.hasForeverDenied()) {
-                    Log.i(TAG, "ForeverDenied : ")
-                    //the list of forever denied permissions, user has check 'never ask again'
-                    e.foreverDenied.forEach {
-                        Log.i(TAG, e.toString())
-                    }
-                    // you need to open setting manually if you really need it
-                    //e.goToSettings();
-                }
-
-            }
+            extStoragePerms()
         }
 
         takePictureButton.setOnClickListener {
-            askPermission(android.Manifest.permission.CAMERA){
-                //all of your permissions have been accepted by the user
-
-                Log.i(TAG, "navcontroller to camera called")
-                findNavController().navigate(R.id.action_makeOfferFragment_to_cameraFragment)
-
-
-            }.onDeclined { e ->
-
-                if (e.hasDenied()) {
-                    Log.i(TAG, "Denied: ")
-                    //the list of denied permissions
-                    e.denied.forEach {
-                        Log.i(TAG, e.toString())
-                    }
-
-                    AlertDialog.Builder(requireContext())
-                            .setMessage("Please accept our permissions")
-                            .setPositiveButton("yes") { dialog, which ->
-                                e.askAgain()
-                            } //ask again
-                            .setNegativeButton("no") { dialog, which ->
-                                dialog.dismiss()
-                            }
-                            .show()
-                }
-
-                if(e.hasForeverDenied()) {
-                    Log.i(TAG, "ForeverDenied : ")
-                    //the list of forever denied permissions, user has check 'never ask again'
-                    e.foreverDenied.forEach {
-                        Log.i(TAG, e.toString())
-                    }
-                    // you need to open setting manually if you really need it
-                    //e.goToSettings();
-                }
-            }
+            cameraPerms()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as OfferFlowScreen).supportActionBar?.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -351,11 +275,11 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     }
 
     fun navigateToConfirm(){
-        Log.i(TAG, "navcontroller to confirmation called")
         findNavController().navigate(R.id.action_makeOfferFragment_to_offerConfirmationFragment)
 
     }
 
+    //method for creating a new product object
     fun newOffer(title: String, type: String, manufacturer: String,
                  delivery: String, wear: String, amount: Int, location: String,
                  description: String, weight: Int?, height: Int?, width: Int?, length: Int?,
@@ -363,11 +287,11 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                  book_title: String?, size: String?
     ) {
 
+        //new key value creation, product data will be pushed as the value to this key
         val key = database.child("products").push().key
         productID = key
-        if (key == null) {
 
-            Log.i(TAG, "Couldn't get push key for posts")
+        if (key == null) {
             return
         }
 
@@ -378,14 +302,19 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                 material, color, author, year,
                 book_title, size, true, ""
         )
+
+        //creating hash map with user input data
         val productValues = product.toMap()
 
+        //defining a path in the nosql structure that the data will be stored in
         val childUpdates = hashMapOf<String, Any>(
                 "/products/$key" to productValues
         )
 
+        //pushing hasmap to the database
         database.updateChildren(childUpdates)
 
+        //adding newly created product key value the user's list
         val values: HashMap<String, Any> = HashMap()
         values["$key"] = true
         database.child("users").child(currentuserID)
@@ -394,13 +323,14 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         database.child("products").child(key).child("offerer").setValue(currentuserID)
     }
 
+    //form validation, checks required fields and shows error messages in case criteria is not met
     private fun validateForm(): Boolean {
-
         var isValid: Boolean
 
+        //first checks if required fields for all types pass validation
         if (checkForEmpty(arrayListOf(titleField, manufacturerField, locationField, descriptionField))) {
             when (typedropdownval) {
-
+                //checks type specific fields and shows error messages if any of them do not pass validation
                 "Furniture" -> {
                     isValid = checkForEmpty(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
                 }
@@ -428,6 +358,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         } else {
             isValid = false
             when (typedropdownval) {
+                //only shows validation error messages
                 "Furniture" -> {
                     checkForEmpty(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
                 }
@@ -464,6 +395,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         return isValid
     }
 
+    //shows error message text if there are no images attached or too many images attached
     fun checkImageCount(): Boolean{
         val count = model.getCount().toInt()
         if ((count > 10) or (count == 0)){
@@ -478,105 +410,97 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         }
     }
 
+    //method is called when the user selects a value in one of the dropdowns
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
+        //string operation to determine which dropdown was selected
         val itematpos = parent?.getItemAtPosition(position)
         val sub = parent.toString().substringAfter("/").substringBefore("Dropdown")
 
 
         when (sub) {
+
             "type" -> {
+                //controlling visibility based on the value selected and setting the type value that will be
+                //pushed to newOffer()
                 typedropdownval = itematpos.toString()
                 Log.i(TAG, typedropdownval)
                 if (typedropdownval == "Furniture") {
-                    setVisibility(weightLabel, weightField)
-                    setVisibility(heightLabel, heightField)
-                    setVisibility(widthLabel, widthField)
-                    setVisibility(lengthLabel, lengthField)
-                    setVisibility(materialLabel, materialField)
-                    setVisibility(colorLabel, colorField)
+                    setVisibilityLabel(arrayListOf(weightLabel, heightLabel, widthLabel, lengthLabel, materialLabel, colorLabel))
+                    setVisibilityText(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
 
-                    setInvisibility(authorLabel, authorField)
-                    setInvisibility(yearLabel, yearField)
-                    setInvisibility(bookTitleLabel, bookTitleField)
+                    setInvisibilityLabel(arrayListOf(authorLabel, yearLabel, bookTitleLabel))
+                    setInvisibilityText(arrayListOf(authorField, yearField, bookTitleField))
+
                     sizeLabel.visibility = View.GONE
                     sizeDropdown.visibility = View.GONE
                 }
 
                 if (typedropdownval == "Book") {
-                    setVisibility(authorLabel, authorField)
-                    setVisibility(yearLabel, yearField)
-                    setVisibility(bookTitleLabel, bookTitleField)
+                    setVisibilityLabel(arrayListOf(authorLabel, yearLabel, bookTitleLabel))
+                    setVisibilityText(arrayListOf(authorField, yearField, bookTitleField))
 
-                    setInvisibility(weightLabel, weightField)
-                    setInvisibility(heightLabel, heightField)
-                    setInvisibility(widthLabel, widthField)
-                    setInvisibility(lengthLabel, lengthField)
-                    setInvisibility(materialLabel, materialField)
-                    setInvisibility(colorLabel, colorField)
+                    setInvisibilityLabel(arrayListOf(weightLabel, heightLabel, widthLabel, lengthLabel, materialLabel, colorLabel))
+                    setInvisibilityText(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
+
                     sizeLabel.visibility = View.GONE
                     sizeDropdown.visibility = View.GONE
                 }
 
                 if (typedropdownval == "Decorations") {
-                    setVisibility(materialLabel, materialField)
-                    setVisibility(colorLabel, colorField)
+                    setVisibilityLabel(arrayListOf(materialLabel, colorLabel))
+                    setVisibilityText(arrayListOf(materialField, colorField))
+
+                    setInvisibilityLabel(arrayListOf(weightLabel, heightLabel, widthLabel, lengthLabel, authorLabel, yearLabel, bookTitleLabel))
+                    setInvisibilityText(arrayListOf(weightField, heightField, widthField, lengthField, authorField, yearField, bookTitleField))
+
                     sizeLabel.visibility = View.VISIBLE
                     sizeDropdown.visibility = View.VISIBLE
-
-                    setInvisibility(weightLabel, weightField)
-                    setInvisibility(heightLabel, heightField)
-                    setInvisibility(widthLabel, widthField)
-                    setInvisibility(lengthLabel, lengthField)
-                    setInvisibility(authorLabel, authorField)
-                    setInvisibility(yearLabel, yearField)
-                    setInvisibility(bookTitleLabel, bookTitleField)
                 }
             }
             "delivery" -> {
+                //setting the delivery type value that will be pushed to newOffer()
                 deliverydropdownval = itematpos.toString()
                 Log.i(TAG, deliverydropdownval)
             }
             "wear" -> {
+                //setting the wear type value that will be pushed to newOffer()
                 weardropdownval = itematpos.toString()
                 Log.i(TAG, weardropdownval)
             }
 
             "size" -> {
+                //setting the size type value that will be pushed to newOffer()
                 sizedropdownval = itematpos.toString()
                 Log.i(TAG, sizedropdownval!!)
-            }
-
-            else -> {
-                Log.i(TAG, "owo who dis spinner")
-                Log.i(TAG, parent.toString())
             }
         }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        Log.i(TAG, "aaaaaaaaaaaaaaa")
+        Log.i(TAG, "nothing selected in spinner")
     }
 
     fun uploadFileToStorage(uri: ArrayList<Uri?>){
-        //val file = uri
         val metadata = storageMetadata {
             contentType = "image/jpg"
         }
 
         var count = 0
 
+        //uploading each attached image to Firebase Storage
         for (file in uri) {
+            //setting the filepath and name of file
             val uploadRef = storageRef.child("userproductimages/$currentuserID/${file?.lastPathSegment}")
             val uploadTask = file?.let { uploadRef.putFile(it, metadata) }
 
-            // Register observers to listen for when the download is done or if it fails
+            // register observers to listen for when the download is done or if it fails
             uploadTask?.addOnFailureListener {
                 Log.i(TAG, "File upload unsuccessful, $it")
             }?.addOnSuccessListener { taskSnapshot ->
 
+                //adding the uploaded image uris under the new product in the database
                 uploadRef.downloadUrl.addOnSuccessListener {
-                    Log.i(TAG, "downloadurl: ${it} ")
 
                     val values: HashMap<String, Any> = HashMap()
 
@@ -591,15 +515,15 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                 }.addOnFailureListener{
                     Log.i(TAG, "URL retrieval unsuccessful, $it")
                 }
-
         }
         }
     }
 
+    //method returns list to recyclerview when the value in the viewmodel has changed
     fun fetchList(): ArrayList<Uri?> {
 
         val temp: MutableList<Uri?>? = model.sharedImgUri.value
-
+        //clearing old data
         imageList.clear()
 
         if (temp != null) {
@@ -608,63 +532,140 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
             }
         }
 
-        Log.i(TAG, "fetchlist called")
-
-        for (item in imageList) {
-            Log.i(TAG, item.toString())
-        }
         return imageList
     }
 
-fun parseForm(){
+    //gets the text values from a field id there are any and populates the corresponding
+    // variable that is pushed to newOffer()
+    fun parseForm(){
 
-    weightval = textToString(weightField)?.toInt()
-    heightval = textToString(heightField)?.toInt()
-    widthval = textToString(widthField)?.toInt()
-    lengthval = textToString(lengthField)?.toInt()
-    materialval = textToString(materialField)
-    colorval = textToString(colorField)
-    authorval = textToString(authorField)
-    yearval = textToString(yearField)?.toInt()
-    booktitleval = textToString(bookTitleField)
+        weightval = textToString(weightField)?.toInt()
+        heightval = textToString(heightField)?.toInt()
+        widthval = textToString(widthField)?.toInt()
+        lengthval = textToString(lengthField)?.toInt()
+        materialval = textToString(materialField)
+        colorval = textToString(colorField)
+        authorval = textToString(authorField)
+        yearval = textToString(yearField)?.toInt()
+        booktitleval = textToString(bookTitleField)
 
-}
-
-fun textToString(toparse: EditText): String? {
-    if (!toparse.text.isNullOrBlank()){
-        return toparse.text.toString()
     }
-    else return null
+
+    //if the textfield has a value, returns the value in string format
+    fun textToString(toparse: EditText): String? {
+        if (!toparse.text.isNullOrBlank()){
+            return toparse.text.toString()
+        }
+        else return null
+    }
+
+    //hides type fields on activity startup
+    fun hideTypeFields() {
+
+        setInvisibilityLabel(arrayListOf(weightLabel, heightLabel, widthLabel, lengthLabel, materialLabel, colorLabel, authorLabel, yearLabel, bookTitleLabel))
+        setInvisibilityText(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField, authorField, yearField, bookTitleField))
+
+        sizeLabel.visibility = View.GONE
+        sizeDropdown.visibility = View.GONE
+
+        imageAmountLabel.visibility = View.GONE
+        errorLabel.visibility = View.GONE
+    }
+
+    //visibility changing methods
+    fun setInvisibilityLabel(labels: ArrayList<TextView>){
+        for (item in labels) {
+            item.visibility = View.GONE
+        }
+    }
+
+    fun setInvisibilityText(text: ArrayList<EditText>){
+        for (item in text) {
+            item.visibility = View.GONE
+        }
+    }
+
+    fun setVisibilityLabel(labels: ArrayList<TextView>){
+        for (item in labels) {
+            item.visibility = View.VISIBLE
+        }
+    }
+
+    fun setVisibilityText(text: ArrayList<EditText>){
+        for (item in text) {
+            item.visibility = View.VISIBLE
+        }
+    }
+
+    //storage permission function, excecuted when user tries attaching an image from local storage
+    fun extStoragePerms() {
+        askPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE){
+            //all permissions have been accepted by the user
+            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(gallery, pickImage)
+        }.onDeclined { e ->
+
+            if (e.hasDenied()) {
+                Log.i(TAG, "Denied: ")
+                //the list of denied permissions
+                e.denied.forEach {
+                    Log.i(TAG, e.toString())
+                }
+
+                AlertDialog.Builder(requireContext())
+                        .setMessage("Please accept our permissions")
+                        .setPositiveButton("yes") { dialog, which ->
+                            e.askAgain()
+                        } //ask again
+                        .setNegativeButton("no") { dialog, which ->
+                            dialog.dismiss()
+                        }
+                        .show()
+            }
+
+            if(e.hasForeverDenied()) {
+                e.foreverDenied.forEach {
+                    Log.i(TAG, e.toString())
+                }
+            }
+        }
+    }
+
+    //camera permission function, excecuted when user tries attaching an image from local storage
+    fun cameraPerms() {
+        askPermission(android.Manifest.permission.CAMERA){
+            //all of your permissions have been accepted by the user
+
+            Log.i(TAG, "navcontroller to camera called")
+            findNavController().navigate(R.id.action_makeOfferFragment_to_cameraFragment)
+
+
+        }.onDeclined { e ->
+
+            if (e.hasDenied()) {
+                Log.i(TAG, "Denied: ")
+                //the list of denied permissions
+                e.denied.forEach {
+                    Log.i(TAG, e.toString())
+                }
+
+                AlertDialog.Builder(requireContext())
+                        .setMessage("Please accept our permissions")
+                        .setPositiveButton("yes") { dialog, which ->
+                            e.askAgain()
+                        } //ask again
+                        .setNegativeButton("no") { dialog, which ->
+                            dialog.dismiss()
+                        }
+                        .show()
+            }
+
+            if(e.hasForeverDenied()) {
+                Log.i(TAG, "ForeverDenied : ")
+                e.foreverDenied.forEach {
+                    Log.i(TAG, e.toString())
+                }
+            }
+        }
+    }
 }
-
-fun hideModuleFields() {
-    setInvisibility(weightLabel, weightField)
-    setInvisibility(heightLabel, heightField)
-    setInvisibility(widthLabel, widthField)
-    setInvisibility(lengthLabel, lengthField)
-    setInvisibility(materialLabel, materialField)
-    setInvisibility(colorLabel, colorField)
-    setInvisibility(authorLabel, authorField)
-    setInvisibility(yearLabel, yearField)
-    setInvisibility(bookTitleLabel, bookTitleField)
-    sizeLabel.visibility = View.GONE
-    sizeDropdown.visibility = View.GONE
-
-    //not module field but requires the same functionality
-    imageAmountLabel.visibility = View.GONE
-    errorLabel.visibility = View.GONE
-}
-
-fun setInvisibility(label: TextView, text: EditText){
-    label.visibility = View.GONE
-    text.visibility = View.GONE
-}
-
-fun setVisibility(label: TextView, text: EditText){
-    label.visibility = View.VISIBLE
-    text.visibility = View.VISIBLE
-}
-
-}
-
-

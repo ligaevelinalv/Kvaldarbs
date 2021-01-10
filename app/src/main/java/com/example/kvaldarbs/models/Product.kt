@@ -4,7 +4,9 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
+//product data class, used to recieve and publish product data to and from the database
 data class Product(
+    //required attributes
     var title: String = "",
     var type: String = "",
     var manufacturer: String = "",
@@ -15,21 +17,22 @@ data class Product(
     var description: String = "",
     var isordered: Boolean? = false,
     var key: String? = "",
-    //mēbeles
+    //type specific attributes
+    //furniture type attributes
     var weight: Int? = 0,
     var height: Int? = 0,
     var width: Int? = 0,
     var length: Int? = 0,
-    //mēbeles un dekori
+    //furniture and decoration type attributes
     var material: String? = "",
     var color: String? = "",
-    //books
+    //book type attributes
     var author: String? = "",
     var year: Int? = 0,
     var book_title: String? = "",
-    //dekori
+    //decoration type attributes
     var size: String? = "",
-    //admin
+    //organizational atributes for visibility
     var visible: Boolean? = false,
     var admincritic: String? = ""
 
@@ -37,6 +40,7 @@ data class Product(
 
 
     @Exclude
+    //creates hashmap that cap be pushed to the database
     fun toMap(): Map<String, Any?> {
         return mapOf(
                 "title" to title,

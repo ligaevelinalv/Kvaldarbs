@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.kvaldarbs.R
 
+//DetailActivity recyclerview adapter, takes in context and a list of image Uris
 class ProfileDetailAdapter (private val context: Context,
                             private val list: ArrayList<Uri?>) :
     RecyclerView.Adapter<ProfileDetailAdapter.ViewHolder>() {
 
+    //viewholder class declares elements defined in the list item of the recyclerview
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.detailImageRV)
     }
@@ -23,6 +25,7 @@ class ProfileDetailAdapter (private val context: Context,
         return ViewHolder(view)
     }
 
+    //onbindviewholder populates the recyclerview with images received from the list using the Glide library
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = list[position]
 

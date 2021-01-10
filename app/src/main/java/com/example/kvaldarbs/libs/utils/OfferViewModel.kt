@@ -4,20 +4,19 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.kvaldarbs.dialogs.TAG
 
-
+//viewmodel that shares data between MakeOfferFragment, SelectImageDialog and OfferHostActivity
+// to ensure the attachment and uploading of product images
 class OfferViewModel : ViewModel() {
+    //log tag definition
+    var TAG: String = "droidsays"
 
+    //list of mutable live data to refresh the attached images as they are created
     val sharedImgUri: MutableLiveData<MutableList<Uri?>> by lazy {
         MutableLiveData<MutableList<Uri?>>()
     }
 
-
-    fun getList(): MutableLiveData<MutableList<Uri?>> {
-        return sharedImgUri
-    }
-
+    //method for attaching new images to list
     fun setList(list: MutableList<Uri?>) {
 
         if (sharedImgUri.value!= null) {
@@ -28,19 +27,9 @@ class OfferViewModel : ViewModel() {
         else{
             sharedImgUri.value = list
         }
-
-
     }
 
-    fun getLast(): Uri? {
-        val temp = sharedImgUri.value
-
-        if (temp != null) {
-            return temp.get(temp.size -1)
-        }
-        else return null
-    }
-
+    //returns how many images are attached
     fun getCount(): String {
         val temp = sharedImgUri.value
 
@@ -50,7 +39,4 @@ class OfferViewModel : ViewModel() {
             return "0"
         }
     }
-
-
-
 }

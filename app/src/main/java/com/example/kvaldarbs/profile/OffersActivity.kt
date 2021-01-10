@@ -20,45 +20,53 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_offers.*
 
 class OffersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
-
+    //log tag definition
     val TAG = "droidsays"
-    var userorders = arrayListOf<String>()
+
+    //list that contains all user offers
+    var useroffers = arrayListOf<String>()
+    //list of Product class objects that is passed to the recyclerview adapter
     var productList = arrayListOf<Product>()
 
+    //database variable declaration
     lateinit var database: DatabaseReference
     lateinit var auth: FirebaseAuth
     lateinit var adapter: ProductAdapter
     lateinit var currentuserID: String
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offers)
 
+        //database variable initialising
         database = Firebase.database.reference
         auth = Firebase.auth
         currentuserID = auth.currentUser?.uid.toString()
         getOffers()
 
+        //recyclerview setup
         adapter = ProductAdapter(this, fetchList(), this)
         offerRV.adapter = adapter
         offerRV.layoutManager = GridLayoutManager(this, 2)
 
-
         setSupportActionBar(findViewById(R.id.offer_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "My offers"
     }
 
+    //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
         startActivity(Intent(this, MainScreen::class.java))
         return true
     }
 
+    //menu setup
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.profile_toolbar, menu)
         return true
     }
 
+    //recyclerview oncellclick listener, calls DetailActivity when user clicks on an item in the recyclerview
     override fun onCellClickListener(data: Product) {
 
         val passkey =  data.key
@@ -75,21 +83,21 @@ class OffersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
         startActivity(intent)
     }
 
+    //method returns list to recyclerview
     fun fetchList(): ArrayList<Product> {
         return productList
     }
 
+    //receives list of product keys from database that have been offered by the user
     fun getOffers() {
         val allItemsQuery = database.child("users").child(currentuserID).child("offers")
 
         allItemsQuery.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                userorders.clear()
+                useroffers.clear()
                 for (productSnapshot in dataSnapshot.children) {
-//                    Log.i(TAG, productSnapshot.toString())
-                    userorders.add(productSnapshot.key.toString())
+                    useroffers.add(productSnapshot.key.toString())
                 }
-                Log.i(TAG, userorders.toString())
                 queryValueListener()
             }
 
@@ -99,6 +107,7 @@ class OffersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
         })
     }
 
+    //receives filtered list of products from database that have been offered by the user
     fun queryValueListener() {
 
         val allItemsQuery = database.child("products")
@@ -107,8 +116,7 @@ class OffersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 productList.clear()
                 for (productSnapshot in dataSnapshot.children) {
-                    if (userorders.contains(productSnapshot.key) ) {
-                        Log.i(TAG, "filtered: $productSnapshot")
+                    if (useroffers.contains(productSnapshot.key) ) {
                         productList.add(Product(
                             productSnapshot.child("title").value.toString(),
                             productSnapshot.child("type").value.toString() ,
@@ -133,28 +141,14 @@ class OffersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
                             productSnapshot.child("visible").value.toString().toBoolean(),
                             productSnapshot.child("admincritic").value.toString()
                         ))
-
                     }
                 }
                 adapter.notifyDataSetChanged()
-                //Log.i(TAG, userorders.toString())
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.i(TAG, "query fetching error: " + error.toException().toString())
             }
         })
-
-
-    }
-
-    fun makeDummyList(): ArrayList<Product> {
-        productList.clear()
-        productList.add(Product(
-                "aaa", "aaa", "aaa", "aaa", "aaa",
-                1 , "aaa", "aaa", false,
-                "aaa", 1, 1, 1, 1,"aaa",
-                "aaa", "aaa", 1, "aaa", "aaa"))
-        return productList
     }
 }

@@ -23,97 +23,72 @@ import kotlinx.android.synthetic.main.activity_register.passwordField
 import java.lang.Integer.parseInt
 
 class Register : AppCompatActivity() {
-    //instance declaration
-    lateinit var database: DatabaseReference
-    lateinit var auth: FirebaseAuth
-
     //log tag definition
     val TAG = "droidsays"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    //database variable declaration
+    lateinit var database: DatabaseReference
+    lateinit var auth: FirebaseAuth
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        //database variable initialising
         database = Firebase.database.reference
         auth = Firebase.auth
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-
+        //button onclicklistener declaration
         createAccountButton.setOnClickListener {
             if (validateForm()){
-                Log.i(TAG, "new acc listener called")
                 createAccount(emailField.text.toString(), passwordField.text.toString(), phoneField.text.toString().toInt())
-                Log.i(TAG, "new acc listener executed")
             }
         }
-
-        val bundle: Bundle? = intent.extras
-        if (bundle != null){
-            val id = bundle.get("id_value")
-            val language = bundle.get("language_value")
-            Toast.makeText(applicationContext,id.toString()+" "+language,Toast.LENGTH_LONG).show()
-        }
-
     }
 
     private fun createAccount(email: String, password: String, phone: Int) {
-        Log.i(TAG, "createAccount:$email")
 
+        //firebase task for creating a user account with an email and password
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.i(TAG, "createUserWithEmail:success")
-                    val currentuserID = auth.currentUser?.uid.toString()
+            if (task.isSuccessful) {
+                //write user data to database if account creation was successful
+                Log.i(TAG, "createUserWithEmail:success")
+                val currentuserID = auth.currentUser?.uid.toString()
 
-                    database.child("users").child(currentuserID).setValue(true)
+                database.child("users").child(currentuserID).setValue(true)
 
-                    val user = User(email, phone, "User")
-                    val userValues = user.toMap()
-                    val childUpdates = hashMapOf<String, Any>(
-                            "/users/$currentuserID" to userValues
-                    )
-                    database.updateChildren(childUpdates)
-                    Log.i(TAG, "push user data to db:success")
+                //creating user object to be pushed into the databse through a hash map
+                val user = User(email, phone, "User")
+                val userValues = user.toMap()
+                val childUpdates = hashMapOf<String, Any>(
+                        "/users/$currentuserID" to userValues
+                )
+                database.updateChildren(childUpdates)
 
-                    val intent = Intent(this, MainScreen::class.java)
-                    startActivity(intent)
+                val intent = Intent(this, MainScreen::class.java)
+                startActivity(intent)
 
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.i(TAG, "createUserWithEmail:failure", task.exception)
-
-                    when (task.exception?.message) {
-                        "The email address is badly formatted." -> {
-                            emailField.error = task.exception?.message
-                        }
-                        "The email address is already in use by another account."-> {
-                            emailField.error = task.exception?.message
-                        }
-                        "The given password is invalid. [ Password should be at least 6 characters ]"-> {
-                            passwordField.error = "Password should be at least 6 characters long."
-                        }
-                        else -> {
-                            Toast.makeText(baseContext, "Action failed, please check your internet connection.", LENGTH_LONG).show()
-                        }
+            } else {
+                //error message display through switch case
+                when (task.exception?.message) {
+                    "The email address is badly formatted." -> {
+                        emailField.error = task.exception?.message
                     }
-
-//                    if (task.exception?.message == "The email address is badly formatted.") {
-//                        emailField.error = task.exception?.message
-//                    }
-//                    if (task.exception?.message == "The email address is already in use by another account.") {
-//                        emailField.error = task.exception?.message
-//                    }
-//                    if (task.exception?.message == "The given password is invalid. [ Password should be at least 6 characters ]") {
-//                        passwordField.error = "Password should be at least 6 characters long."
-//                    }
-//                    else {
-//                        Toast.makeText(baseContext, "Action failed, please check internet connection.", Toast.LENGTH_LONG).show()
-//                    }
+                    "The email address is already in use by another account."-> {
+                        emailField.error = task.exception?.message
+                    }
+                    "The given password is invalid. [ Password should be at least 6 characters ]"-> {
+                        passwordField.error = "Password should be at least 6 characters long."
+                    }
+                    else -> {
+                        Toast.makeText(baseContext, "Action failed, please check your internet connection.", LENGTH_LONG).show()
+                    }
                 }
-            }
-
+        }
+        }
     }
 
+    //basic form validation to see if value entry fields are empty
     private fun validateForm(): Boolean {
 
         var isValid = true
@@ -128,7 +103,7 @@ class Register : AppCompatActivity() {
         return isValid
     }
 
-
+    //if a text field is empty, display error indicator
     fun checkForEmpty(fields: ArrayList<EditText>): Boolean{
         var isValid = true
         for (item in fields) {

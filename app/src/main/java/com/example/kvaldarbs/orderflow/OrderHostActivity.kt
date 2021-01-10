@@ -21,6 +21,7 @@ class OrderHostActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.order_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        //casting value that was recieved from FrontpageFragment and setting it as the value of the OrderViewModel
         val model: OrderViewModel by viewModels()
         val value = intent.getStringExtra("key")
         if (value != null) {
@@ -28,11 +29,13 @@ class OrderHostActivity : AppCompatActivity() {
         }
     }
 
+    //menu setup
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.order_toolbar, menu)
         return true
     }
 
+    //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
         startActivity(Intent(this, MainScreen::class.java))
         return true

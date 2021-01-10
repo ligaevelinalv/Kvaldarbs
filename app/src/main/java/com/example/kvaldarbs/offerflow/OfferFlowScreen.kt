@@ -21,19 +21,20 @@ class OfferFlowScreen : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.offertoolbar))
 
-
+        //navigation controller initialising
         val navController = this.findNavController(R.id.offerNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    //menu setup
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.offer_toolbar, menu)
         return true
     }
 
-
+    //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
         startActivity(Intent(this, MainScreen::class.java))
         return true

@@ -26,11 +26,15 @@ import kotlinx.android.synthetic.main.activity_orders.*
 
 
 class OrdersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
-
+    //log tag definition
     val TAG = "droidsays"
+
+    //list that contains all user orders
     var userorders = arrayListOf<String>()
+    //list of Product class objects that is passed to the recyclerview adapter
     var productList = arrayListOf<Product>()
 
+    //database variable declaration
     lateinit var database: DatabaseReference
     lateinit var auth: FirebaseAuth
     lateinit var adapter: ProductAdapter
@@ -40,30 +44,35 @@ class OrdersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_orders)
 
+        //database variable initialising
         database = Firebase.database.reference
         auth = Firebase.auth
         currentuserID = auth.currentUser?.uid.toString()
         getOrders()
 
+        //recyclerview setup
         adapter = ProductAdapter(this, fetchList(), this)
         orderRV.adapter = adapter
         orderRV.layoutManager = GridLayoutManager(this, 2)
 
-
         setSupportActionBar(findViewById(R.id.order_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "My orders"
     }
 
+    //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
         startActivity(Intent(this, MainScreen::class.java))
         return true
     }
 
+    //menu setup
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.profile_toolbar, menu)
         return true
     }
 
+    //recyclerview oncellclick listener, calls DetailActivity when user clicks on an item in the recyclerview
     override fun onCellClickListener(data: Product) {
         val passkey =  data.key
 
@@ -73,10 +82,12 @@ class OrdersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
         startActivity(intent)
     }
 
+    //method returns list to recyclerview
     fun fetchList(): ArrayList<Product> {
         return productList
     }
 
+    //receives list of product keys from database that have been ordered by the user
     fun getOrders() {
         val allItemsQuery = database.child("users").child(currentuserID).child("orders")
 
@@ -87,7 +98,6 @@ class OrdersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
 //                    Log.i(TAG, productSnapshot.toString())
                     userorders.add(productSnapshot.key.toString())
                 }
-                Log.i(TAG, userorders.toString())
                 queryValueListener()
             }
 
@@ -97,6 +107,7 @@ class OrdersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
         })
     }
 
+    //receives filtered list of products from database that have been ordered by the user
     fun queryValueListener() {
         productList.clear()
 
@@ -130,29 +141,15 @@ class OrdersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
                                 null
                         ))
                     }
-
                 }
                 adapter.notifyDataSetChanged()
-                //Log.i(TAG, userorders.toString())
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.i(TAG, "query fetching error: " + error.toException().toString())
             }
         })
-
     }
-
-    fun makeDummyList(): ArrayList<Product> {
-        productList.clear()
-        productList.add(Product(
-                "aaa", "aaa", "aaa", "aaa", "aaa",
-                1 , "aaa", "aaa", false,
-                "aaa", 1, 1, 1, 1,"aaa",
-                "aaa", "aaa", 1, "aaa", "aaa"))
-        return productList
-    }
-
 }
 
 

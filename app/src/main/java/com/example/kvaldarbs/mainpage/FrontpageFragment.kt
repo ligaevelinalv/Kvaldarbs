@@ -21,33 +21,33 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
+//cellclicklistener interface from the recyclerview adapter
 interface CellClickListener {
     fun onCellClickListener(data: Product)
 }
 
-
+//list of Product class objects that is passed to the recyclerview adapter
 var productList = arrayListOf<Product>()
 
 class FrontpageFragment : Fragment(), CellClickListener {
-
-    lateinit var database: DatabaseReference
-    lateinit var auth: FirebaseAuth
-
     //log tag definition
     val TAG = "droidsays"
 
-    lateinit var adapter: Adapter
+    //database variable declaration
+    lateinit var database: DatabaseReference
+    lateinit var auth: FirebaseAuth
 
+    lateinit var adapter: Adapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
+        //database variable initialising
         database = Firebase.database.reference
         auth = Firebase.auth
+
         queryValueListener()
 
-
-
+        //recyclerview setup
         val rootview = inflater.inflate(R.layout.fragment_frontpage, container, false)
         val recyclerView: RecyclerView = rootview.findViewById(R.id.recyclerview)
 
@@ -55,91 +55,65 @@ class FrontpageFragment : Fragment(), CellClickListener {
         adapter = Adapter(this.requireContext(), fetchList(), this)
         recyclerView.adapter = adapter
 
-        // Inflate the layout for this fragment
+        (activity as MainScreen).supportActionBar?.title = "Frontpage"
+
+        //inflate the layout for this fragment
         return rootview
-
-
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//    }
-
+    //method returns list to recyclerview
     fun fetchList(): ArrayList<Product> {
 
-    //        for (item in productList){
-    //            Log.i(TAG, "fetchlist called")
-    //            Log.i(TAG, item.title)
-    //        }
-        return productList
-
-    //        val list = arrayListOf<RVData>()
-    //
-    //
-    //        for (i in 0..20) {
-    //            val model = RVData(R.drawable.furniturebackground, "Title : $i", "Subtitle : $i")
-    //            list.add(model)
-    //        }
-    //        return list
-    }
-
-    fun makeDummyList(): ArrayList<Product> {
-        productList.clear()
-        productList.add(Product(
-                "aaa", "aaa", "aaa", "aaa", "aaa",
-                1 , "aaa", "aaa", false,
-                "aaa", 1, 1, 1, 1,"aaa",
-                "aaa", "aaa", 1, "aaa", "aaa"))
         return productList
     }
 
+    //recyclerview oncellclick listener, calls OrderHostActivity when user clicks on an item in the recyclerview
     override fun onCellClickListener(data: Product) {
-    //        Toast.makeText(this.requireContext(),data.title + " " + data.subtitle, Toast.LENGTH_SHORT).show()
-        //val bundle = bundleOf("entrytext" to data.key)
 
         val intent = Intent(requireContext(), OrderHostActivity::class.java)
         intent.putExtra("key", data.key)
         startActivity(intent)
     }
 
+    //receives list of products from database, refreshes data in recyclerview
     fun queryValueListener() {
         val allItemsQuery = database.child("products")
 
         allItemsQuery.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                //clearing old data
                 productList.clear()
                 for (productSnapshot in dataSnapshot.children) {
-                    Log.i(TAG, productSnapshot.toString())
+                    //casts product from database if it has not been ordered and is visible
                     if ((productSnapshot.child("isordered").value.toString() == "false") && (productSnapshot.child("visible").value.toString() == "true")){
                         productList.add(Product(
-                                productSnapshot.child("title").value.toString(),
-                                productSnapshot.child("type").value.toString() ,
-                                productSnapshot.child("manufacturer").value.toString(),
-                                productSnapshot.child("delivery").value.toString(),
-                                "",
-                                0,
-                                "",
-                                "",
-                                false,
-                                productSnapshot.key.toString(),
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                true,
-                                null
+                            productSnapshot.child("title").value.toString(),
+                            productSnapshot.child("type").value.toString() ,
+                            productSnapshot.child("manufacturer").value.toString(),
+                            productSnapshot.child("delivery").value.toString(),
+                            "",
+                            0,
+                            "",
+                            "",
+                            false,
+                            productSnapshot.key.toString(),
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            true,
+                            null
                         )
                         )
-                        //Log.i(TAG, productList.toString())
                     }
                 }
+                //notifies recyclerview about new data retrieval
                 adapter.notifyDataSetChanged()
             }
 
@@ -148,9 +122,6 @@ class FrontpageFragment : Fragment(), CellClickListener {
             }
         })
     }
-
-
-
 }
 
 

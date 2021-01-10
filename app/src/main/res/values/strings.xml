@@ -114,6 +114,9 @@
     <string name="the_visibility_of_your_product_has_been_changed_by_an_administrator">THE VISIBILITY OF YOUR PRODUCT HAS BEEN CHANGED BY AN ADMINISTRATOR:</string>
     <string name="change_password">Change password</string>
     <string name="reset_password">Reset password</string>
+    <string name="switch_camera_button">Switch camera button</string>
+    <string name="take_picture_button">take picture button</string>
+    <string name="password_reset">PASSWORD RESET</string>
     <string-array name="product_type_array">
         <item>Book</item>
         <item>Furniture</item>

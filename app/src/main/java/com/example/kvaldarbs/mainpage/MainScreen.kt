@@ -18,7 +18,6 @@ import com.example.kvaldarbs.R
 import com.example.kvaldarbs.authentication.Login
 import com.example.kvaldarbs.offerflow.OfferFlowScreen
 import com.example.kvaldarbs.offerflow.currentuserID
-import com.example.kvaldarbs.orderflow.imageList
 import com.example.kvaldarbs.profile.OffersActivity
 import com.example.kvaldarbs.profile.OrdersActivity
 import com.example.kvaldarbs.profile.ProfileHostActivity
@@ -35,18 +34,20 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_mainscreen.*
 import java.io.File
 
+//CameraX library implementation contants
 const val KEY_EVENT_ACTION = "key_event_action"
 const val KEY_EVENT_EXTRA = "key_event_extra"
-private const val IMMERSIVE_FLAG_TIMEOUT = 500L
-
-val TAG = "droidsays"
 
 class MainScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    lateinit var passedval: String
+    //log tag definition
+    val TAG = "droidsays"
+
+    //database reference declaration
     lateinit var database: DatabaseReference
     lateinit var auth: FirebaseAuth
     lateinit var keyref: DatabaseReference
 
+    //toolbar variable declaration
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
     lateinit var role: String
@@ -57,35 +58,40 @@ class MainScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         setContentView(R.layout.activity_mainscreen)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        //database variable initialising
         database = Firebase.database.reference
         auth = Firebase.auth
         currentuserID = auth.currentUser?.uid.toString()
         keyref = database.child("users").child(currentuserID).child("role")
 
-
-
-
-
+        //toolbar initialising
         drawer = findViewById(R.id.drawer_layout)
         toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
 
+        //menu initialising
         nav_Menu = nav_view.getMenu()
+
+        //hiding navigation drawer items until role retrieval
         nav_Menu.findItem(R.id.myoffers).setVisible(false)
         nav_Menu.findItem(R.id.myorders).setVisible(false)
 
+        //navigation drawer initialising
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
+        //toolbar setup
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 
+        //navigation controller initialising
         val navController = this.findNavController(R.id.navHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
 
     }
 
+    //retrieves user role and sets specific toolbar based on role
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
             val roleQuery = keyref
@@ -93,18 +99,19 @@ class MainScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                     role = dataSnapshot.value.toString()
+                    //inflating role specific toolbar
                     if (role == "Administrator"){
                         menuInflater.inflate(R.menu.admin_toolbar, menu)
                     }
                     if (role == "User") {
                         menuInflater.inflate(R.menu.toolbar, menu)
+                        //show navigation drawer items for role
                         nav_Menu.findItem(R.id.myoffers).setVisible(true)
                         nav_Menu.findItem(R.id.myorders).setVisible(true)
                     }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-
                     Log.i(TAG, "role loading failed "+ databaseError.toException())
                 }
             })
@@ -112,7 +119,7 @@ class MainScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         return true
     }
 
-
+    //toolbar icon onclick method handling
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if( (item.itemId == R.id.logout) || (item.itemId == R.id.add) ){
             navigateFromMenu(item)
@@ -125,24 +132,13 @@ class MainScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         }
     }
 
+    //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
         startActivity(Intent(this, MainScreen::class.java))
         return true
     }
 
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = this.findNavController(R.id.navHostFragment)
-//        return navController.navigateUp()
-//    }
-//
-//    override fun onBackPressed() {
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START)
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
-
+    //toolbar menu navigation setup
     fun navigateFromMenu(item: MenuItem){
         if (item.itemId == R.id.logout){
             Firebase.auth.signOut()
@@ -154,6 +150,7 @@ class MainScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         }
     }
 
+    //companion object for saving images taken with camera
     companion object {
 
         /** Use external media if it is available, our app's file directory otherwise */
@@ -166,19 +163,21 @@ class MainScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         }
     }
 
+    //navigation drawer setup
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         toggle.syncState()
     }
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         toggle.onConfigurationChanged(newConfig)
     }
 
+    //navigation drawer navigation setup
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         Log.i(TAG, item.itemId.toString())
 
+        //oclick navigation for menu items
         if (item.itemId == R.id.myorders) {
             Log.i(TAG, "order")
             startActivity(Intent(this, OrdersActivity::class.java))

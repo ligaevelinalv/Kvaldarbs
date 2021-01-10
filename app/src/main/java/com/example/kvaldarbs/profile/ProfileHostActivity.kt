@@ -22,17 +22,21 @@ class ProfileHostActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.profile_toolbar))
 
         auth = Firebase.auth
+
+        //navigation controller initialising
         val navController = this.findNavController(R.id.profileNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
         startActivity(Intent(this, MainScreen::class.java))
         return true
     }
 
+    //menu setup
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.profile_toolbar, menu)
         return true

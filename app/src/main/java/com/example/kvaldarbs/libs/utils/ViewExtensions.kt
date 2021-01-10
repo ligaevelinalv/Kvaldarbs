@@ -24,6 +24,8 @@ import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 
+//Imported file for CameraX library
+
 /** Combination of all flags required to put activity into immersive mode */
 const val FLAGS_FULLSCREEN =
         View.SYSTEM_UI_FLAG_LOW_PROFILE or

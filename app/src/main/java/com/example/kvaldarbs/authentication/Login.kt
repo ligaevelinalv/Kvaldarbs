@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 
 
 class Login : AppCompatActivity() {
-    //instance declaration
+    //database variable declaration
     lateinit var database: DatabaseReference
     lateinit var auth: FirebaseAuth
 
@@ -37,50 +37,40 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        //init
+        //database variable initialising
         database = Firebase.database.reference
         auth = Firebase.auth
 
-        auth.currentUser?.let {
-            onAuthSuccess()
-        }
 
         Log.i(TAG, "init passed:")
 
+        //button onclicklistener declaration
         logInButton.setOnClickListener {
             Log.i(TAG, "Login listener called")
             signIn(emailField.text.toString(), passwordField.text.toString())
         }
-
-
     }
 
-    private fun onAuthSuccess() {
-
-        // Go to MainActivity
-        val intent = Intent(this, MainScreen::class.java)
-        startActivity(intent)
-    }
-
-
+    //method for signing into the app
     private fun signIn(email: String, password: String) {
         Log.d(TAG, "signIn:$email")
         if (!validateForm()) {
             return
         }
 
+        //firebase task for signing in with email and password
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
+                    // navigate to mainscreen if authentication was successful
                     Log.i(TAG, "signInWithEmail:success")
-                    //val user = auth.currentUser
+                    //navigate to main screen activity
                     startActivity(Intent(this@Login, MainScreen::class.java))
 
                 } else {
                     Log.i(TAG, "signIn:failure", task.exception)
-                    val exe = task.exception?.message
 
+                    //error message display through switch case
                     when (task.exception?.message) {
                         "The email address is badly formatted." -> {
                             emailField.error = task.exception?.message
@@ -100,15 +90,15 @@ class Login : AppCompatActivity() {
             }
     }
 
+    //basic form validation to see if value entry fields are empty
     private fun validateForm(): Boolean {
-
         val isValid: Boolean
-
         isValid = checkForEmpty(arrayListOf(emailField, passwordField))
 
         return isValid
     }
 
+    //if a text field is empty, display error indicator
     fun checkForEmpty(fields: ArrayList<EditText>): Boolean{
         var isValid = true
         for (item in fields) {
@@ -121,9 +111,9 @@ class Login : AppCompatActivity() {
         return isValid
     }
 
+    //onclick function to open registration screen
     fun onClick(view: View) {
         Log.i(TAG, "Login listener called")
-
         startActivity(Intent(this@Login, Register::class.java))
     }
 

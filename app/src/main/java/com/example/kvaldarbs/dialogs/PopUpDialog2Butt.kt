@@ -5,29 +5,31 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.kvaldarbs.R
-import com.example.kvaldarbs.offerflow.TAG
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.confirmation_alert_dialog_2_butt.*
-import kotlinx.android.synthetic.main.dialog_critic.*
-
-var TAG:String = "droidsays"
 
 class PopUpDialog2Butt: DialogFragment() {
+    //log tag definition
+    var TAG: String = "droidsays"
+
+    //database variable declaration
     lateinit var database: DatabaseReference
     lateinit var auth: FirebaseAuth
     lateinit var currentuserID: String
 
-    var aaa: () -> Unit = {}
+    //callback to do work in the class that the dialog was initialised in
+    var callback2butt: () -> Unit = {}
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         getDialog()!!.getWindow()?.setBackgroundDrawableResource(R.drawable.dialog)
 
+        //database variable initialising
         database = Firebase.database.reference
         auth = Firebase.auth
         currentuserID = auth.currentUser?.uid.toString()
@@ -39,13 +41,14 @@ class PopUpDialog2Butt: DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
-        //val height = (resources.displayMetrics.heightPixels * 0.40).toInt()
         dialog!!.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
 
+        //casting values passed through a bundle in navigation
         val dialogtype = arguments?.getInt("dialogtype")
         val key = arguments?.getString("key")
         val visibility = arguments?.getBoolean("visibility")
 
+        //setting dialog textfields based on type passed in navigation
         when(dialogtype){
             1 -> {
                 titleFieldRW.text = getString(R.string.confirm_order)
@@ -76,14 +79,14 @@ class PopUpDialog2Butt: DialogFragment() {
             }
         }
 
+        //button onclicklistener declaration
         yesButt.setOnClickListener {
-//            val bundle = bundleOf("entrytext" to enterNameField.text.toString())
-            Log.i(TAG, "on view created dialog closure part")
             dismiss()
+            //executes visibility change code if the visibility variable has a set value
             if (visibility != null) {
                 changeVisibility(key, visibility)
             }
-            aaa()
+            callback2butt()
         }
 
         noButt.setOnClickListener {
@@ -91,13 +94,11 @@ class PopUpDialog2Butt: DialogFragment() {
         }
     }
 
-
+    //user product visibility change function
     fun changeVisibility(key: String?, visibility: Boolean){
         if (key != null) {
             database.child("products").child(key).child("visible").setValue(!visibility).addOnCompleteListener{
-                    Log.i(com.example.kvaldarbs.dialogs.TAG, "successfully changed visibility")
-
-
+                    Log.i(TAG, "successfully changed visibility")
             }
         }
     }

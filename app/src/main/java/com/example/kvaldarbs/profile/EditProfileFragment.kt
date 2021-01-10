@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import com.example.kvaldarbs.R
 import com.example.kvaldarbs.dialogs.ReauthenticateDialog
-import com.example.kvaldarbs.dialogs.TAG
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -23,6 +22,10 @@ import com.google.firebase.quickstart.database.kotlin.models.User
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 
 class EditProfileFragment : Fragment() {
+    //log tag definition
+    var TAG: String = "droidsays"
+
+    //database variable declaration
     lateinit var database: DatabaseReference
     lateinit var auth: FirebaseAuth
     lateinit var currentUser: String
@@ -35,15 +38,15 @@ class EditProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
+        //database variable initialising
         database = Firebase.database.reference
         auth = Firebase.auth
         currentUser = auth.currentUser?.uid.toString()
         keyref = database.child("users").child(currentUser)
 
         val profileQuery = keyref
-
+        //query for loading user data into the layout
         profileQuery.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val product = dataSnapshot.getValue<User>()
@@ -61,19 +64,21 @@ class EditProfileFragment : Fragment() {
             }
         })
 
+        (activity as ProfileHostActivity).supportActionBar?.title = "Edit Profile"
+
         return inflater.inflate(R.layout.fragment_edit_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //button onclicklistener declaration
         editProfileButton.setOnClickListener {
             if (validateForm()) {
                 if (emailValue != emailEditField.text.toString()){
 
                     navigateToEdit()
                 }
-
                 if (phoneValue != phoneEditField.text.toString().toInt()){
                     database.child("users").child(currentUser).child("phone").setValue(phoneEditField.text.toString().toInt())
                 }
@@ -81,6 +86,7 @@ class EditProfileFragment : Fragment() {
         }
     }
 
+    //basic form validation to see if value entry fields are empty
     private fun validateForm(): Boolean {
 
         var isValid = true
@@ -88,7 +94,6 @@ class EditProfileFragment : Fragment() {
         if (!checkForEmpty(arrayListOf(emailEditField, phoneEditField))){
             isValid = false
         }
-
         if (!checkForLength(arrayListOf(phoneEditField))){
             isValid = false
         }
@@ -96,7 +101,7 @@ class EditProfileFragment : Fragment() {
         return isValid
     }
 
-
+    //if a text field is empty, display error indicator
     fun checkForEmpty(fields: ArrayList<EditText>): Boolean{
         var isValid = true
         for (item in fields) {
@@ -119,20 +124,18 @@ class EditProfileFragment : Fragment() {
         return isValid
     }
 
-
-
+    //callback that excecutes when user has reauthenticated to update the user data in the database
     fun navigateToEdit(){
-        val ree = ReauthenticateDialog()
+        val reauthdialog = ReauthenticateDialog()
         val bundle = Bundle()
-        ree.aaa = {
-
+        reauthdialog.callbackreauth = {
             database.child("users").child(currentUser).child("email").setValue(emailEditField.text.toString())
         }
 
         bundle.putInt("dialogtype", 2)
         bundle.putString("newemail", emailEditField.text.toString())
-        ree.arguments = bundle
-        ree.show(parentFragmentManager, "")
+        reauthdialog.arguments = bundle
+        reauthdialog.show(parentFragmentManager, "")
     }
 
 }

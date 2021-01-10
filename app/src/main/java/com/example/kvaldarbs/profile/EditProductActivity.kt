@@ -8,12 +8,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.*
 import com.example.kvaldarbs.R
-import com.example.kvaldarbs.mainpage.MainScreen
-import com.example.kvaldarbs.models.EditProduct
 import com.example.kvaldarbs.models.Product
-import com.example.kvaldarbs.offerflow.amountnumber
-import com.example.kvaldarbs.offerflow.productID
-import com.example.kvaldarbs.offerflow.typedropdownval
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -47,25 +42,26 @@ import kotlinx.android.synthetic.main.activity_edit_product.widthField
 import kotlinx.android.synthetic.main.activity_edit_product.widthLabel
 import kotlinx.android.synthetic.main.activity_edit_product.yearField
 import kotlinx.android.synthetic.main.activity_edit_product.yearLabel
-import kotlinx.android.synthetic.main.fragment_edit_profile.*
-import kotlinx.android.synthetic.main.fragment_makeoffer.*
 import java.time.Year
 
 class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener  {
+    //log tag definition
     val TAG: String = "droidsays"
+
+    //database variable declaration
     lateinit var productKey: String
     lateinit var type: String
     lateinit var database: DatabaseReference
     lateinit var keyref: DatabaseReference
     lateinit var editQuery: DatabaseReference
 
+    //variables for product input fields
     var title: String = ""
     var prodType: String = ""
     var manufacturer: String = ""
     var amount: Int = 0
     var location: String = ""
     var description: String = ""
-
     var weight: Int? = null
     var height: Int? = null
     var width: Int? = null
@@ -76,7 +72,6 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     var year: Int? = null
     var booktitle: String? = null
     var size: String? = null
-
     var deliverydropdownval: String = ""
     var sizedropdownval: String? = null
 
@@ -84,9 +79,9 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_product)
 
+        //database variable initialising
         productKey = intent.getStringExtra("key").toString()
         type = intent.getStringExtra("type").toString()
-
         database = Firebase.database.reference
         keyref = database.child("products").child(productKey)
 
@@ -96,41 +91,36 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         val deliverydropdown: Spinner = findViewById(R.id.deliveryDropdown)
         deliverydropdown.onItemSelectedListener = this
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
+        //dropdown field setup
         ArrayAdapter.createFromResource(
                 this,
                 R.array.delivery_array,
                 android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             deliverydropdown.adapter = adapter
         }
 
-
         val sizedropdown: Spinner = findViewById(R.id.sizeDropdown)
         sizedropdown.onItemSelectedListener = this
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
                 this,
                 R.array.size_array,
                 android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             sizedropdown.adapter = adapter
         }
 
         editQuery = keyref
 
+        //query for loading product data into the layout
         editQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val product = dataSnapshot.getValue<Product>()
 
                 product?.let {
+                    //hiding fields that do not belong to the specific type
                     hideFields(it.type)
                     prodType = it.type
 
@@ -140,6 +130,8 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                     manufacturerField.setText(it.manufacturer)
                     manufacturer = it.manufacturer
 
+                    //setting the dropdown selection based on what the last
+                    // value set in the database is at loadtime
                     if (it.delivery == "Pickup From Location") {
                         deliverydropdown.setSelection(0)
                     }
@@ -156,6 +148,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                     descriptionField.setText(it.description)
                     description = it.description
 
+                    //loading type specific data into the layout
                     if (prodType == "Furniture") {
                         weightField.setText(it.weight.toString())
                         weight = it.weight
@@ -208,10 +201,11 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.i(com.example.kvaldarbs.dialogs.TAG, "query fetching error: " + error.toException().toString())
+                Log.i(TAG, "query fetching error: " + error.toException().toString())
             }
         })
 
+        //button onclicklistener declaration
         finishEditingButton.setOnClickListener {
             if (validateForm()) {
                 Log.i(TAG, "Validation passed")
@@ -238,35 +232,35 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }
     }
 
+    //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
         startActivity(Intent(this, OffersActivity::class.java))
         return true
     }
 
+    //menu setup
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.profile_toolbar, menu)
         return true
     }
 
-    fun hideFields(type: String?){
-        when(type) {
 
+    fun hideFields(type: String?){
+        //controlling visibility based on the value type
+        when(type) {
             "Furniture" -> {
                 hideLabelBasedOnType(
                     arrayListOf(
                         authorLabel, yearLabel, bookTitleLabel, sizeLabel
                     )
                 )
-
                 hideEditTextBasedOnType(
                     arrayListOf(
                         authorField, yearField, bookTitleField
                     )
                 )
-
                 sizeDropdown.visibility = View.GONE
             }
-
             "Book" -> {
                 hideLabelBasedOnType(
                     arrayListOf(
@@ -274,7 +268,6 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                         materialLabel, colorLabel, sizeLabel
                     )
                 )
-
                 hideEditTextBasedOnType(
                     arrayListOf(
                         weightField, heightField, widthField, lengthField,
@@ -284,7 +277,6 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
                 sizeDropdown.visibility = View.GONE
             }
-
             "Decorations" -> {
                 hideLabelBasedOnType(
                     arrayListOf(
@@ -292,7 +284,6 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                         authorLabel, yearLabel, bookTitleLabel, sizeLabel
                     )
                 )
-
                 hideEditTextBasedOnType(
                     arrayListOf(
                         weightField, heightField, widthField, lengthField,
@@ -302,6 +293,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             }
         }
     }
+
 
     fun hideLabelBasedOnType(type: ArrayList<TextView>) {
         for (item in type) {
@@ -315,6 +307,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }
     }
 
+
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
         val itematpos = parent?.getItemAtPosition(position)
@@ -322,18 +315,14 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
 
         when (sub) {
+            //setting the newly selected value in the dropdown to a variable that will be pushed to the database
             "delivery" -> {
                 deliverydropdownval = itematpos.toString()
-                Log.i(com.example.kvaldarbs.offerflow.TAG, deliverydropdownval)
+                Log.i(TAG, deliverydropdownval)
             }
             "size" -> {
                 sizedropdownval = itematpos.toString()
-                Log.i(com.example.kvaldarbs.offerflow.TAG, sizedropdownval!!)
-            }
-
-            else -> {
-                Log.i(com.example.kvaldarbs.offerflow.TAG, "owo who dis spinner")
-                Log.i(com.example.kvaldarbs.offerflow.TAG, parent.toString())
+                Log.i(TAG, sizedropdownval!!)
             }
         }
     }
@@ -342,13 +331,14 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         Log.i(TAG, "Nothing selected in dropdown $parent")
     }
 
+    //form validation, checks required fields and shows error messages in case criteria is not met
     private fun validateForm(): Boolean {
-
         var isValid = true
 
-        //checks if required values are correct, if not, calls the check methods without changing the main function return value while still showing the error label
+        //first checks if required fields for all types pass validation
         if (checkForEmpty(arrayListOf(titleField, manufacturerField, locationField, descriptionField))) {
             when (prodType) {
+                //checks type specific fields and shows error messages if any of them do not pass validation
                 "Furniture" -> {
                     isValid = checkForEmpty(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
                 }
@@ -371,6 +361,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         } else {
             isValid = false
             when (prodType) {
+                //only shows validation error messages
                 "Furniture" -> {
                     checkForEmpty(arrayListOf(weightField, heightField, widthField, lengthField, materialField, colorField))
                 }
@@ -406,6 +397,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         return isValid
     }
 
+    //updates product with new values from the text fields if validation passes
     fun updateProduct(){
         keyref.child("title").setValue(titleField.text.toString())
         keyref.child("manufacturer").setValue(manufacturerField.text.toString())
@@ -430,7 +422,6 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             keyref.child("size").setValue(sizedropdownval)
         }
         if (prodType == "Book") {
-
             keyref.child("author").setValue(authorField.text.toString())
             keyref.child("year").setValue(yearField.text.toString().toInt())
             keyref.child("book_title").setValue(bookTitleField.text.toString())

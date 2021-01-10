@@ -12,22 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CustomTheme">
+        <activity android:name=".authentication.SplashscreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".profile.EditProductActivity" />
         <activity android:name=".profile.DetailActivity" />
-        <activity android:name=".authentication.SplashscreenActivity" />
         <activity android:name=".orderflow.OrderHostActivity" />
         <activity android:name=".profile.ProfileHostActivity" />
         <activity android:name=".profile.OffersActivity" />
         <activity android:name=".profile.OrdersActivity" />
         <activity android:name=".authentication.Register" />
         <activity android:name=".mainpage.MainScreen" />
-        <activity android:name=".authentication.Login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".authentication.Login"/>
         <activity
             android:name=".offerflow.OfferFlowScreen"
             android:parentActivityName=".mainpage.MainScreen" />

@@ -28,9 +28,7 @@ import androidx.camera.view.PreviewView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
-import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.kvaldarbs.R
 import com.example.kvaldarbs.mainpage.KEY_EVENT_EXTRA
@@ -41,9 +39,6 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlinx.android.synthetic.main.fragment_makeoffer.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.nio.ByteBuffer
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -55,24 +50,20 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
-import androidx.core.view.setPadding
 import com.android.example.cameraxbasic.utils.ANIMATION_FAST_MILLIS
 import com.android.example.cameraxbasic.utils.ANIMATION_SLOW_MILLIS
 import com.android.example.cameraxbasic.utils.simulateClick
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.example.kvaldarbs.dialogs.SelectImageDialog
 import com.example.kvaldarbs.mainpage.KEY_EVENT_ACTION
 import com.example.kvaldarbs.mainpage.MainScreen
 
 
-import java.util.ArrayDeque
 import java.util.Locale
 
-
-
-
+/**------------------------------------------------------------------------------------------------------------------------------------------------**/
+/**ALL CODE IN THIS FILE TAKEN FROM OFFICIAL CAMERAX SAMPLE APP GITHUB REPOSITORY: https://github.com/android/camera-samples/tree/main/Camera2Basic**/
+/**------------------------------------------------------------------------------------------------------------------------------------------------**/
 
 class CameraFragment : Fragment() {
     private lateinit var container: ConstraintLayout
@@ -87,11 +78,9 @@ class CameraFragment : Fragment() {
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
-    val imgSelectNavigate = SelectImageFragment()
+    val imgSelectNavigate = SelectImageDialog()
     var bundle = Bundle()
     var savedUri: Uri? = null
-
-    val EXTENSION_WHITELIST = arrayOf("JPG")
 
     private val displayManager by lazy {
         requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
@@ -155,27 +144,11 @@ class CameraFragment : Fragment() {
             savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_camera, container, false)
 
-    private fun setGalleryThumbnail(uri: Uri) {
-        // Reference of the view that holds the gallery thumbnail
-        val thumbnail = container.findViewById<ImageButton>(R.id.photo_view_button)
-
-        // Run the operations in the view's thread
-        thumbnail.post {
-
-            // Remove thumbnail padding
-            thumbnail.setPadding(resources.getDimension(R.dimen.stroke_small).toInt())
-
-            // Load thumbnail into circular button using Glide
-            Glide.with(thumbnail)
-                    .load(uri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(thumbnail)
-        }
-    }
-
     @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
         container = view as ConstraintLayout
         viewFinder = container.findViewById(R.id.view_finder)
@@ -208,8 +181,9 @@ class CameraFragment : Fragment() {
             setUpCamera()
         }
 
+        (activity as OfferFlowScreen).supportActionBar?.hide()
 
-        imgSelectNavigate.callback2 = {
+        imgSelectNavigate.imagecallback = {
 
             findNavController().navigateUp()
         }
@@ -350,15 +324,6 @@ class CameraFragment : Fragment() {
         // Inflate a new view containing all UI for controlling the camera
         val controls = View.inflate(requireContext(), R.layout.camera_ui_container, container)
 
-        // In the background, load latest photo taken (if any) for gallery thumbnail
-        lifecycleScope.launch(Dispatchers.IO) {
-            outputDirectory.listFiles { file ->
-                EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
-            }?.max()?.let {
-                setGalleryThumbnail(Uri.fromFile(it))
-            }
-        }
-
         // Listener for button used to capture photo
         controls.findViewById<ImageButton>(R.id.camera_capture_button).setOnClickListener {
 
@@ -390,12 +355,6 @@ class CameraFragment : Fragment() {
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                         savedUri = output.savedUri ?: Uri.fromFile(photoFile)
                         Log.d(TAG, "Photo capture succeeded: $savedUri")
-
-                        // We can only change the foreground Drawable using API level 23+ API
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            // Update the gallery thumbnail with latest picture taken
-                            savedUri?.let { it1 -> setGalleryThumbnail(it1) }
-                        }
 
                         // Implicit broadcasts will be ignored for devices running API level >= 24
                         // so if you only target API level 24+ you can remove this statement
@@ -435,9 +394,6 @@ class CameraFragment : Fragment() {
                     }, ANIMATION_SLOW_MILLIS)
                 }
             }
-
-
-
         }
 
         // Setup for button used to switch cameras
@@ -457,8 +413,6 @@ class CameraFragment : Fragment() {
                 bindCameraUseCases()
             }
         }
-
-
     }
 
     /** Enabled or disabled a button to switch cameras depending on the available cameras */
@@ -480,7 +434,6 @@ class CameraFragment : Fragment() {
     private fun hasFrontCamera(): Boolean {
         return cameraProvider?.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA) ?: false
     }
-
 
     companion object {
 
