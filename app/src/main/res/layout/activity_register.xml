@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/email"
         android:textColor="@color/darkest_black"
         android:textSize="18sp"
@@ -96,11 +96,13 @@
         android:layout_height="50dp"
         android:layout_marginBottom="32dp"
         android:layout_weight="1"
+        android:background="@drawable/button"
         android:text="@string/create_account"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/button"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

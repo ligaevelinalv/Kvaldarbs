@@ -143,11 +143,12 @@
         <Button
             android:id="@+id/offerButton"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:background="@drawable/button"
             android:text="@string/offer"
-            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -162,7 +163,8 @@
             android:ems="10"
             android:hint="@string/white_dinner_table"
             android:inputType="textPersonName"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/typeDropdown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/titleLabel"
@@ -259,43 +261,52 @@
 
         <Button
             android:id="@+id/plusButton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginEnd="24dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginBottom="16dp"
+            android:background="@drawable/button"
             android:text="@string/plus"
-            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="35sp"
             app:layout_constraintBottom_toTopOf="@+id/locationField"
             app:layout_constraintEnd_toEndOf="@+id/wearDropdown" />
 
         <Button
             android:id="@+id/minusButton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginBottom="16dp"
+            android:background="@drawable/button"
             android:text="@string/minus"
-            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"
             app:layout_constraintBottom_toTopOf="@+id/locationField"
             app:layout_constraintStart_toStartOf="@+id/wearDropdown" />
 
         <Button
             android:id="@+id/browseDeviceButton"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/button"
             android:text="@string/browse_device"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/offerButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/takePictureButton"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@drawable/button"
             android:text="@string/take_picture"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/browseDeviceButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -79,6 +79,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="108dp"
         android:background="@drawable/button"
+        android:textColor="@color/white"
         android:text="@string/log_in"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="@+id/bgcard"

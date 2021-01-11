@@ -201,21 +201,27 @@
 
         <Button
             android:id="@+id/editPlusButton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
+            android:background="@drawable/button"
             android:text="@string/plus"
-            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"
             app:layout_constraintEnd_toEndOf="@+id/deliveryDropdown"
             app:layout_constraintTop_toBottomOf="@+id/deliveryDropdown" />
 
         <Button
             android:id="@+id/editMinusButton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
+            android:background="@drawable/button"
             android:text="@string/minus"
-            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"
             app:layout_constraintStart_toStartOf="@+id/deliveryDropdown"
             app:layout_constraintTop_toBottomOf="@+id/deliveryDropdown" />
 
@@ -464,7 +470,7 @@
             android:background="@drawable/edit_button"
             android:text="@string/finish_editing"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

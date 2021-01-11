@@ -31,27 +31,29 @@
     <Button
         android:id="@+id/yesButt"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/button"
         android:text="@string/ok"
         android:textColor="#FFFFFF"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordReauthField" />
 
     <Button
         android:id="@+id/noButt"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/button"
         android:text="@string/cancel"
         android:textColor="#FFFFFF"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordReauthField" />

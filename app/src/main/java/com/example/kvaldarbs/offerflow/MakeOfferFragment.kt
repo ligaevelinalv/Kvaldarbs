@@ -38,6 +38,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.android.synthetic.main.fragment_makeoffer.*
+import kotlinx.android.synthetic.main.fragment_select_image_dialog.*
 import java.time.Year
 import java.util.*
 import kotlin.collections.HashMap
@@ -82,6 +83,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     private val pickImage = 1
     private var image_uri: Uri? = null
     lateinit var role: String
+    var imageMethod: String = ""
 
     //offerview model declaration
     private val model: OfferViewModel by activityViewModels()
@@ -258,10 +260,14 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         }
 
         browseDeviceButton.setOnClickListener {
+            takePictureButton.visibility = View.GONE
+            imageMethod = "storage"
             extStoragePerms()
         }
 
         takePictureButton.setOnClickListener {
+            browseDeviceButton.visibility = View.GONE
+            imageMethod = "camera"
             cameraPerms()
         }
     }
@@ -269,12 +275,28 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     override fun onResume() {
         super.onResume()
         (activity as OfferFlowScreen).supportActionBar?.show()
+
+        when(imageMethod) {
+            "storage" -> {
+                takePictureButton.visibility = View.GONE
+            }
+            "camera" -> {
+                browseDeviceButton.visibility = View.GONE
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //called when image was captured from camera intent
+        //called when image was selected from storage
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             image_uri = data?.data
+
+            lateinit var list: MutableList<Uri?>
+
+            list = mutableListOf(image_uri)
+            model.setList(list)
+            fetchList()
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -637,7 +659,7 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     //camera permission function, excecuted when user tries attaching an image from local storage
     fun cameraPerms() {
         askPermission(android.Manifest.permission.CAMERA){
-            //all of your permissions have been accepted by the user
+            //all permissions have been accepted by the user
 
             Log.i(TAG, "navcontroller to camera called")
             findNavController().navigate(R.id.action_makeOfferFragment_to_cameraFragment)

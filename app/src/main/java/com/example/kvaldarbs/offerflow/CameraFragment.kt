@@ -376,8 +376,8 @@ class CameraFragment : Fragment() {
                         ) { _, uri ->
                             Log.d(TAG, "Image capture scanned into media store: $uri")
                         }
-                        Log.i(TAG, "navcontroller to select image called")
-                        bundle.putString("imageUri",savedUri.toString() )
+
+                        bundle.putString("imageUri", savedUri.toString() )
                         imgSelectNavigate.arguments = bundle
                         imgSelectNavigate.show(parentFragmentManager, "")
                     }
