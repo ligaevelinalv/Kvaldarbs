@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.kvaldarbs.R
+import com.example.kvaldarbs.authentication.Login
 import com.example.kvaldarbs.authentication.Register
 import com.example.kvaldarbs.mainpage.MainScreen
 import com.google.firebase.auth.FirebaseAuth
@@ -32,7 +33,7 @@ class ProfileHostActivity : AppCompatActivity() {
 
     //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
-        startActivity(Intent(this, MainScreen::class.java))
+        onBackPressed()
         return true
     }
 

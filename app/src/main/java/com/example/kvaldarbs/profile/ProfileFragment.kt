@@ -28,6 +28,7 @@ import com.google.firebase.quickstart.database.kotlin.models.User
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.*
+import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
@@ -80,8 +81,12 @@ class ProfileFragment : Fragment() {
                             val usersnapshot = dataSnapshot.getValue<User>()
                             usersnapshot?.let {
                                 email = it.email
-                                role = it.phone.toString()
-                                phone = it.role
+                                role = it.role
+                                if (role == "Administrator") {
+                                    editProfileLabel.visibility = View.GONE
+                                    editProfileImage.visibility = View.GONE
+                                }
+                                phone = it.phone.toString()
                             }
                             refreshUI()
                         }
@@ -102,9 +107,6 @@ class ProfileFragment : Fragment() {
                 Log.i(TAG, "query fetching error: " + error.toException().toString())
             }
         })
-
-        (activity as ProfileHostActivity).supportActionBar?.title = "Profile"
-
 
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
@@ -166,11 +168,12 @@ class ProfileFragment : Fragment() {
         Log.i(TAG, "Password reset email sent successfully")
     }
 
-    //callback that executes when user orders the product
+    //callback that executes when user deletes profile
     fun navigateToConfirm(){
         val intent = Intent(requireContext(), Login::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+        (activity as ProfileHostActivity).finish()
     }
 
     //resresh layout with updated data

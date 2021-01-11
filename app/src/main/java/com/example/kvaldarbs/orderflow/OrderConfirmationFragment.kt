@@ -36,7 +36,7 @@ class OrderConfirmationFragment : Fragment() {
     }
 
     fun navigateToConfirm(){
-        startActivity(Intent(requireContext(), MainScreen::class.java))
+        (activity as OrderHostActivity).finish()
     }
 
 

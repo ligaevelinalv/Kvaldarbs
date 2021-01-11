@@ -210,9 +210,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             if (validateForm()) {
                 Log.i(TAG, "Validation passed")
                 updateProduct()
-                val intent = Intent(this, OffersActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                finish()
                 Toast.makeText(baseContext, "Product edited successfully.", Toast.LENGTH_LONG).show()
             }
         }
@@ -234,7 +232,7 @@ class EditProductActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
-        startActivity(Intent(this, OffersActivity::class.java))
+        finish()
         return true
     }
 

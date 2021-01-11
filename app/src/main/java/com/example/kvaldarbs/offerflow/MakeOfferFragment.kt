@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kvaldarbs.R
 import com.example.kvaldarbs.dialogs.PopUpDialog2Butt
 import com.example.kvaldarbs.libs.utils.OfferViewModel
+import com.example.kvaldarbs.mainpage.MainScreen
 import com.example.kvaldarbs.models.Product
 import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.google.firebase.auth.FirebaseAuth
@@ -119,6 +120,10 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
             //error text shown if too few or too many images have been attached
             if ((imgAmount.toInt() > 0) and (imgAmount.toInt() < 11)) {
                 errorLabel.visibility = View.GONE
+            }
+
+            if (imgAmount.toInt() > 9) {
+                takePictureButton.visibility = View.GONE
             }
         }
 
@@ -270,13 +275,11 @@ class MakeOfferFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         //called when image was captured from camera intent
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             image_uri = data?.data
-            //attachedImage.setImageURI(image_uri)
         }
     }
 
     fun navigateToConfirm(){
         findNavController().navigate(R.id.action_makeOfferFragment_to_offerConfirmationFragment)
-
     }
 
     //method for creating a new product object

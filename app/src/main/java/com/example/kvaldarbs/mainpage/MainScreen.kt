@@ -134,16 +134,28 @@ class MainScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
 
     //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
-        startActivity(Intent(this, MainScreen::class.java))
+        val intent = Intent(this, MainScreen::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
         return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.i(TAG, "Back pressed")
+
+
     }
 
     //toolbar menu navigation setup
     fun navigateFromMenu(item: MenuItem){
         if (item.itemId == R.id.logout){
             Firebase.auth.signOut()
-            startActivity(Intent(this, Login::class.java))
-
+            val intent = Intent(this, Login::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
         }
         else {
             startActivity(Intent(this, OfferFlowScreen::class.java))

@@ -35,7 +35,7 @@ class OfferConfirmationFragment : Fragment() {
     }
 
     fun navigateToConfirm(){
-        startActivity(Intent(requireContext(), MainScreen::class.java))
+        (activity as OfferFlowScreen).finish()
     }
 
 }

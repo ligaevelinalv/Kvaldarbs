@@ -27,24 +27,6 @@ class SplashscreenActivity : AppCompatActivity() {
         navigateToScreen(auth)
     }
 
-    override fun onResume() {
-        super.onResume()
-        navigateToScreen(auth)
-
-    }
-
-    private fun onAuthSuccess() {
-        // Go to MainActivity
-        val intent = Intent(this, MainScreen::class.java)
-        startActivity(intent)
-    }
-
-    private fun onAuthFailed() {
-        // Go to Login Activity
-        val intent = Intent(this, Login::class.java)
-        startActivity(intent)
-    }
-
     //navigates to main screen if user is authorised, otherwise navigates to login
     fun navigateToScreen(auth: FirebaseAuth) {
         if(auth.currentUser != null){
@@ -52,5 +34,19 @@ class SplashscreenActivity : AppCompatActivity() {
         } else {
             onAuthFailed()
         }
+    }
+
+    private fun onAuthSuccess() {
+        // Go to MainActivity
+        val intent = Intent(this, MainScreen::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun onAuthFailed() {
+        // Go to Login Activity
+        val intent = Intent(this, Login::class.java)
+        startActivity(intent)
+        finish()
     }
 }

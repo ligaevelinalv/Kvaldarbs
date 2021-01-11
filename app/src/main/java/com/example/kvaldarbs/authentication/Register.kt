@@ -66,7 +66,9 @@ class Register : AppCompatActivity() {
                 database.updateChildren(childUpdates)
 
                 val intent = Intent(this, MainScreen::class.java)
+
                 startActivity(intent)
+
 
             } else {
                 //error message display through switch case
@@ -84,7 +86,7 @@ class Register : AppCompatActivity() {
                         Toast.makeText(baseContext, "Action failed, please check your internet connection.", LENGTH_LONG).show()
                     }
                 }
-        }
+            }
         }
     }
 

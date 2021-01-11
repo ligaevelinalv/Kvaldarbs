@@ -200,7 +200,7 @@ class DetailActivity : AppCompatActivity(){
 
     //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
-        this.finish()
+        finish()
         return true
     }
 

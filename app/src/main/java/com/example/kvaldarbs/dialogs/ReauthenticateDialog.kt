@@ -108,15 +108,6 @@ class ReauthenticateDialog: DialogFragment() {
         }
     }
 
-    //if user tries navigating back after deleting account, dialog force navigates user to splashscreen
-    override fun onResume() {
-        super.onResume()
-        if (auth.currentUser == null) {
-            val intent = Intent(requireContext(), SplashscreenActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
     //code executed based on type passed in through navigation
     fun actBasedOnType(type: Int?) {
 

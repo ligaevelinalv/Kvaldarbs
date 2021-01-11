@@ -85,7 +85,7 @@ class FrontpageFragment : Fragment(), CellClickListener {
                 productList.clear()
                 for (productSnapshot in dataSnapshot.children) {
                     //casts product from database if it has not been ordered and is visible
-                    if ((productSnapshot.child("isordered").value.toString() == "false") && (productSnapshot.child("visible").value.toString() == "true")){
+                    if ((productSnapshot.child("isordered").value.toString() == "false") && (productSnapshot.child("visible").value.toString() == "true") && (productSnapshot.child("offerer").value.toString() != auth.currentUser?.uid)){
                         productList.add(Product(
                             productSnapshot.child("title").value.toString(),
                             productSnapshot.child("type").value.toString() ,

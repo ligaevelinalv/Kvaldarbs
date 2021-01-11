@@ -62,7 +62,7 @@ class OrdersActivity : AppCompatActivity(), ProductAdapter.CellClickListener {
 
     //setup for back arrow navigation
     override fun onSupportNavigateUp(): Boolean {
-        startActivity(Intent(this, MainScreen::class.java))
+        finish()
         return true
     }
 
