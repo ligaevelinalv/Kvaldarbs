@@ -160,15 +160,14 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
+            android:autofillHints="title"
             android:ems="10"
             android:hint="@string/white_dinner_table"
             android:inputType="textPersonName"
-            android:textSize="20sp"
-            android:textColor="@color/white"
+            android:textSize="16dp"
             app:layout_constraintBottom_toTopOf="@+id/typeDropdown"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/titleLabel"
-            android:autofillHints="title" />
+            app:layout_constraintStart_toEndOf="@+id/titleLabel" />
 
 
 

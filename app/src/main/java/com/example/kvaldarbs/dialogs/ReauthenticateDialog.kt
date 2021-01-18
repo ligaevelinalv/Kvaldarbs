@@ -220,7 +220,6 @@ class ReauthenticateDialog: DialogFragment() {
                 Log.i(TAG, "Account will be deleted")
 
                 deleteUserData()
-                callbackreauth()
             }
         }
     }
@@ -273,9 +272,12 @@ class ReauthenticateDialog: DialogFragment() {
     //listener function that excecutes when dataDeleted value changes
     //user is deleted from Firebase Authentication
     fun deleteUser(){
-
-        user.delete().addOnCompleteListener{}
         Firebase.auth.signOut()
+        user.delete().addOnCompleteListener{
+//                requireContext().cacheDir.deleteRecursively()
+        }
+        callbackreauth()
+
     }
 
 /**----------------------CODE BLOCK FOR CHANGING EMAIL----------------------**/

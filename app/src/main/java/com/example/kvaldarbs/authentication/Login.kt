@@ -117,5 +117,9 @@ class Login : AppCompatActivity() {
         startActivity(Intent(this@Login, Register::class.java))
     }
 
+    override fun onBackPressed() {
+        
+    }
+
 }
 

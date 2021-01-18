@@ -14,6 +14,7 @@ import com.example.kvaldarbs.authentication.Login
 import com.example.kvaldarbs.authentication.SplashscreenActivity
 import com.example.kvaldarbs.dialogs.PopUpDialog1Butt
 import com.example.kvaldarbs.dialogs.ReauthenticateDialog
+import com.example.kvaldarbs.mainpage.MainScreen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -173,6 +174,7 @@ class ProfileFragment : Fragment() {
         val intent = Intent(requireContext(), Login::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+        (activity as MainScreen).finish()
         (activity as ProfileHostActivity).finish()
     }
 
